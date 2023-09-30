@@ -1,0 +1,36 @@
+name: degust_et_des_couleurs
+description: Appli de dégustation de restaurant.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.18.6 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  go_router: ^9.0.0
+  google_fonts: ^5.1.0
+  path_provider_foundation: ^2.2.3
+  flutter_dotenv: ^5.1.0
+  http: ^1.1.0
+  flutter_typeahead: ^4.6.2
+  jwt_decoder: ^2.0.1
+  flutter_secure_storage: ^8.0.0
+  intl: ^0.18.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - .env
