@@ -72,7 +72,6 @@ class TastingRepository {
           "Authorization": "Bearer ${token.token}",
         }
     );
-    print(clientResponse.body);
 
     final parsed = jsonDecode(clientResponse.body)["hydra:member"].cast<Map<String, dynamic>>();
 

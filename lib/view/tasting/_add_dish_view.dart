@@ -47,7 +47,6 @@ class AddDishViewState extends State<AddDishView> {
   @override
   void dispose() {
     super.dispose();
-    print("passe");
     tastingParticipants = [];
     tasting = widget.tasting;
     dishRatingParticipants = {};
@@ -55,7 +54,6 @@ class AddDishViewState extends State<AddDishView> {
 
   @override
   Widget build(BuildContext context) {
-    print(dishRatingParticipants);
     return Container(
       height: MediaQuery.of(context).size.height * 0.80,
       padding: const EdgeInsets.only(
@@ -328,12 +326,10 @@ class AddDishViewState extends State<AddDishView> {
       dishRatingParticipants,
     ).then((value) {
       Navigator.pop(context);
-      print(dishRatingParticipants);
       setState(() {
         dishRatingParticipants = {};
         nameController.text = "";
       });
-      print(dishRatingParticipants);
     });
   }
 }

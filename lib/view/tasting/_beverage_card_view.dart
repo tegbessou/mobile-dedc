@@ -101,7 +101,6 @@ class BeverageCardView extends StatelessWidget {
                               ],
                             ),
                             onTap: () {
-                              print("Modifier");
                             },
                           ),
                           PopupMenuItem<String>(
@@ -127,7 +126,6 @@ class BeverageCardView extends StatelessWidget {
                               ],
                             ),
                             onTap: () {
-                              print("Supprimer");
                             },
                           ),
                         ],
