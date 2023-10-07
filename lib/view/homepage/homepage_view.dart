@@ -30,7 +30,7 @@ class HomepageView extends StatelessWidget {
           child: Column(
             children: [
               TextFieldCustom(
-                placeholder: "Rechercher une dégistation",
+                placeholder: "Rechercher une dégustation",
                 icon: Icons.search,
               ),
               SizedBox(
