@@ -79,7 +79,7 @@ class TabBeveragesViewState extends State<TabBeveragesView> {
                 children: [
                   SingleChildScrollView(
                     child: SizedBox(
-                      height: 540,
+                      height: MediaQuery.of(context).size.height - 350,
                       child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       itemCount: loadedBeverages.length,
@@ -91,6 +91,7 @@ class TabBeveragesViewState extends State<TabBeveragesView> {
                   ),
                 ),
               ),
+              Spacer(),
               FloatingActionButtonCustom(
                 onPressed: () {
                   Future<

@@ -59,6 +59,7 @@ class AddDishViewState extends State<AddDishView> {
       padding: const EdgeInsets.only(
         left: 27,
         right: 27,
+        bottom: 30,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.max,
@@ -131,7 +132,7 @@ class AddDishViewState extends State<AddDishView> {
               )
           ),
           SizedBox(
-            height: 300,
+            height: MediaQuery.of(context).size.height * 0.35,
             child: ListView.builder(
               scrollDirection: Axis.vertical,
               itemCount: dishParticipants.length,
@@ -209,18 +210,14 @@ class AddDishViewState extends State<AddDishView> {
               },
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(
-              bottom: 30,
-            ),
-          ),
+          const Spacer(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               FloatingActionButtonCustom(
                 onPressed: () {},
                 text: "Plat suivant",
-                width: 180,
+                width: MediaQuery.of(context).size.width / 2.5,
                 height: 55,
                 margin: const EdgeInsets.all(0),
                 backgroundColor: MyColors().lightPrimaryColor,
@@ -231,18 +228,13 @@ class AddDishViewState extends State<AddDishView> {
               FloatingActionButtonCustom(
                 onPressed: createDish,
                 text: "Terminer",
-                width: 180,
+                width: MediaQuery.of(context).size.width / 2.5,
                 height: 55,
                 margin: const EdgeInsets.all(0),
                 elevation: 0,
                 fontWeight: FontWeight.w500,
               ),
             ],
-          ),
-          const Padding(
-            padding: EdgeInsets.only(
-              bottom: 0,
-            )
           ),
         ],
       ),

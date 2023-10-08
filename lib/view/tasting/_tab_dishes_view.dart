@@ -73,7 +73,7 @@ class TabDishesViewState extends State<TabDishesView> {
                 children: [
                   SingleChildScrollView(
                     child: SizedBox(
-                      height: 540,
+                      height: MediaQuery.of(context).size.height - 350,
                       child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       itemCount: loadedDishes.length,
@@ -85,6 +85,7 @@ class TabDishesViewState extends State<TabDishesView> {
                   ),
                 ),
               ),
+              Spacer(),
               FloatingActionButtonCustom(
                   onPressed: () {
                     Future<

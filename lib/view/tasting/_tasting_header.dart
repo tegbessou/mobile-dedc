@@ -35,6 +35,18 @@ class TastingHeader extends StatelessWidget implements PreferredSizeWidget {
                 fontSize: 20,
                 letterSpacing: 0,
               ),
+              const Padding(padding: EdgeInsets.all(6)),
+              Icon(
+                Icons.groups_2_outlined,
+                color: MyColors().greyColor,
+              ),
+              const Padding(padding: EdgeInsets.all(2)),
+              TextDmSans(
+                "${tasting?.participants.length}",
+                fontSize: 12,
+                color: MyColors().greyColor,
+                letterSpacing: 0,
+              ),
             ],
           ),
           Row(
@@ -46,18 +58,6 @@ class TastingHeader extends StatelessWidget implements PreferredSizeWidget {
               const Padding(padding: EdgeInsets.all(2)),
               TextDmSans(
                 tasting?.restaurant.city ?? "",
-                fontSize: 12,
-                color: MyColors().greyColor,
-                letterSpacing: 0,
-              ),
-              const Padding(padding: EdgeInsets.all(6)),
-              Icon(
-                Icons.groups_2_outlined,
-                color: MyColors().greyColor,
-              ),
-              const Padding(padding: EdgeInsets.all(2)),
-              TextDmSans(
-                "${tasting?.participants.length}",
                 fontSize: 12,
                 color: MyColors().greyColor,
                 letterSpacing: 0,

@@ -37,7 +37,7 @@ class DishCardView extends StatelessWidget {
           children: [
             const Padding(padding: EdgeInsets.only(right: 15)),
             Container(
-              width: 330,
+              width: MediaQuery.of(context).size.width - 100,
               padding: const EdgeInsets.only(
                 top: 5,
                 bottom: 5,

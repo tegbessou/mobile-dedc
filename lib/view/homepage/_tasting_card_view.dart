@@ -61,6 +61,7 @@ class TastingCardView extends StatelessWidget {
                 top: 7,
                 bottom: 7,
               ),
+              width: MediaQuery.of(context).size.width - 190,
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,12 +90,10 @@ class TastingCardView extends StatelessWidget {
                           color: Colors.grey,
                         ),
                       ),
+                      Spacer(),
                       Container(
                         height: 25,
                         width: 85,
-                        margin: const EdgeInsets.only(
-                          left: 80,
-                        ),
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(

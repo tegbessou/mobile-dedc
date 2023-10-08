@@ -1,19 +1,12 @@
-import 'package:degust_et_des_couleurs/controller/homepage_controller.dart';
-import 'package:degust_et_des_couleurs/model/dish.dart';
-import 'package:degust_et_des_couleurs/model/dish_rating.dart';
-import 'package:degust_et_des_couleurs/model/participant.dart';
 import 'package:degust_et_des_couleurs/model/restaurant.dart';
 import 'package:degust_et_des_couleurs/model/tasting.dart';
 import 'package:degust_et_des_couleurs/repository/tasting_repository.dart';
 import 'package:degust_et_des_couleurs/view/_my_colors.dart';
-import 'package:degust_et_des_couleurs/view/_text_dm_sans.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_app_bar_view.dart';
-import 'package:degust_et_des_couleurs/view/tasting/_dish_card_view.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_tab_beverages_view.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_tab_dishes_view.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_tasting_header.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class TastingController extends StatefulWidget {
   final int? id;
@@ -105,12 +98,13 @@ class TastingControllerState extends State<TastingController> {
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height - 255,
                         decoration: BoxDecoration(
                           color: MyColors().darkSecondaryColor,
                         ),
                         child: SingleChildScrollView(
                           child: SizedBox(
-                            height: 620,
+                            height: MediaQuery.of(context).size.height - 260,
                             child: TabBarView(
                               children: [
                                 TabDishesView(
