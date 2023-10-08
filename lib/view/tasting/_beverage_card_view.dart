@@ -152,7 +152,7 @@ class BeverageCardView extends StatelessWidget {
                                   letterSpacing: 0
                                 ),
                                 TextDmSans(
-                                  "Pedro",
+                                  beverageRating?.comment ?? "",
                                   fontSize: 14,
                                   letterSpacing: 0,
                                   color: MyColors().greyColor,

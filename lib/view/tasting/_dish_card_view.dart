@@ -152,7 +152,7 @@ class DishCardView extends StatelessWidget {
                                   letterSpacing: 0
                                 ),
                                 TextDmSans(
-                                  "Pedro",
+                                  dishRating?.comment ?? "",
                                   fontSize: 14,
                                   letterSpacing: 0,
                                   color: MyColors().greyColor,
