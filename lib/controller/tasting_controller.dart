@@ -1,10 +1,17 @@
+import 'package:degust_et_des_couleurs/model/general_rating.dart';
+import 'package:degust_et_des_couleurs/model/participant.dart';
 import 'package:degust_et_des_couleurs/model/restaurant.dart';
+import 'package:degust_et_des_couleurs/model/service_rating.dart';
+import 'package:degust_et_des_couleurs/model/sommelier_rating.dart';
 import 'package:degust_et_des_couleurs/model/tasting.dart';
 import 'package:degust_et_des_couleurs/repository/tasting_repository.dart';
 import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_app_bar_view.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_tab_beverages_view.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_tab_dishes_view.dart';
+import 'package:degust_et_des_couleurs/view/tasting/_tab_general_view.dart';
+import 'package:degust_et_des_couleurs/view/tasting/_tab_service_view.dart';
+import 'package:degust_et_des_couleurs/view/tasting/_tab_sommelier_view.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_tasting_header.dart';
 import 'package:flutter/material.dart';
 
@@ -117,9 +124,21 @@ class TastingControllerState extends State<TastingController> {
                                   participants: loadedTasting.participants,
                                   beverageRatings: {}
                                 ),
-                                Icon(Icons.directions_car),
-                                Icon(Icons.directions_car),
-                                Icon(Icons.directions_car),
+                                TabServiceView(
+                                  tasting: loadedTasting,
+                                  participants: loadedTasting.participants,
+                                  serviceRatings: initializeServiceRatings(loadedTasting)
+                                ),
+                                TabSommelierView(
+                                  tasting: loadedTasting,
+                                  participants: loadedTasting.participants,
+                                  sommelierRatings: initializeSommelierRatings(loadedTasting)
+                                ),
+                                TabGeneralView(
+                                  tasting: loadedTasting,
+                                  participants: loadedTasting.participants,
+                                  generalRatings: initializeGeneralRatings(loadedTasting)
+                                ),
                               ],
                             ),
                           ),
@@ -136,5 +155,53 @@ class TastingControllerState extends State<TastingController> {
         );
       }
     );
+  }
+
+  Map<Participant, ServiceRating> initializeServiceRatings(Tasting tasting) {
+    if (tasting.serviceRatings.isEmpty) {
+      return {};
+    }
+
+    Map<Participant, ServiceRating> serviceRatings = {};
+
+    for (var element in tasting.serviceRatings) {
+      Participant participant = tasting.participants.firstWhere((participant) => participant.id == element.participant.id);
+
+      serviceRatings[participant] = element;
+    }
+
+    return serviceRatings;
+  }
+
+  Map<Participant, SommelierRating> initializeSommelierRatings(Tasting tasting) {
+    if (tasting.sommelierRatings.isEmpty) {
+      return {};
+    }
+
+    Map<Participant, SommelierRating> sommelierRatings = {};
+
+    for (var element in tasting.sommelierRatings) {
+      Participant participant = tasting.participants.firstWhere((participant) => participant.id == element.participant.id);
+
+      sommelierRatings[participant] = element;
+    }
+
+    return sommelierRatings;
+  }
+
+  Map<Participant, GeneralRating> initializeGeneralRatings(Tasting tasting) {
+    if (tasting.generalRatings.isEmpty) {
+      return {};
+    }
+
+    Map<Participant, GeneralRating> generalRatings = {};
+
+    for (var element in tasting.generalRatings) {
+      Participant participant = tasting.participants.firstWhere((participant) => participant.id == element.participant.id);
+
+      generalRatings[participant] = element;
+    }
+
+    return generalRatings;
   }
 }

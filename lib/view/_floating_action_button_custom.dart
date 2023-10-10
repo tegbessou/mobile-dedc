@@ -1,6 +1,7 @@
 import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:degust_et_des_couleurs/view/_text_dm_sans.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class FloatingActionButtonCustom extends StatelessWidget {
   void Function() onPressed;
@@ -13,6 +14,7 @@ class FloatingActionButtonCustom extends StatelessWidget {
   double fontSize;
   FontWeight? fontWeight;
   EdgeInsets? margin;
+  bool isLoading;
 
   FloatingActionButtonCustom({
     super.key,
@@ -26,6 +28,7 @@ class FloatingActionButtonCustom extends StatelessWidget {
     this.fontSize = 18,
     this.fontWeight,
     this.margin,
+    this.isLoading = false,
   });
 
   @override
@@ -43,15 +46,26 @@ class FloatingActionButtonCustom extends StatelessWidget {
           elevation: elevation,
         ),
         onPressed: onPressed,
-        child: Center(
-          child: TextDmSans(
-            text,
-            fontSize: fontSize,
-            fontWeight: fontWeight ?? FontWeight.w700,
-            letterSpacing: 0,
-            color: textColor ?? MyColors().whiteColor,
-          ),
-        ),
+        child: getButtonContent(),
+      ),
+    );
+  }
+
+  Widget getButtonContent() {
+    if (isLoading) {
+      return LoadingAnimationWidget.inkDrop(
+        color: MyColors().whiteColor,
+        size: 20,
+      );
+    }
+
+    return Center(
+      child: TextDmSans(
+        text,
+        fontSize: fontSize,
+        fontWeight: fontWeight ?? FontWeight.w700,
+        letterSpacing: 0,
+        color: textColor ?? MyColors().whiteColor,
       ),
     );
   }

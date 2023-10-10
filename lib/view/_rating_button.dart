@@ -17,7 +17,8 @@ class RatingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 55,
+      width: MediaQuery.of(context).size.width / 8,
+      height: MediaQuery.of(context).size.width / 8,
       decoration: BoxDecoration(
         border: Border.all(width: 1, color: isActive ? MyColors().primaryColor : MyColors().secondaryColor),
         shape: BoxShape.rectangle,
