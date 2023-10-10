@@ -9,10 +9,12 @@ class DishCardView extends StatelessWidget {
     'Modifier',
     'Supprimer',
   ];
+  void Function(Dish? dish) remove;
 
   DishCardView({
     super.key,
     required this.dish,
+    required this.remove,
   });
 
   Dish? dish;
@@ -62,7 +64,7 @@ class DishCardView extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                         letterSpacing: 0,
                       ),
-                      Spacer(),
+                      const Spacer(),
                       PopupMenuButton<String>(
                         padding: const EdgeInsets.only(
                           left: 15,
@@ -71,7 +73,7 @@ class DishCardView extends StatelessWidget {
                         position: PopupMenuPosition.under,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                          borderRadius: const BorderRadius.all(Radius.circular(15.0)),
                           side: BorderSide(
                             width: 1,
                             color: MyColors().secondaryColor,
@@ -105,6 +107,7 @@ class DishCardView extends StatelessWidget {
                           ),
                           PopupMenuItem<String>(
                             value: "Supprimer",
+                            onTap: () => remove(dish),
                             child: Row(
                               children: [
                                 Icon(
@@ -125,8 +128,6 @@ class DishCardView extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            onTap: () {
-                            },
                           ),
                         ],
                       )
@@ -159,7 +160,7 @@ class DishCardView extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            Spacer(),
+                            const Spacer(),
                             Container(
                               width: 30,
                               height: 30,

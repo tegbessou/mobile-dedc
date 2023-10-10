@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:degust_et_des_couleurs/model/dish.dart';
 import 'package:degust_et_des_couleurs/model/dish_rating.dart';
 import 'package:degust_et_des_couleurs/model/participant.dart';
@@ -68,47 +66,46 @@ class TabDishesViewState extends State<TabDishesView> {
             );
           }
 
-           return Container(
-              child: Column(
-                children: [
-                  SingleChildScrollView(
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height - 350,
-                      child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: loadedDishes.length,
-                      itemBuilder: (context, index) {
-                        return DishCardView(
-                          dish: loadedDishes?.elementAt(index),
-                        );
-                      }
-                  ),
-                ),
-              ),
-              Spacer(),
-              FloatingActionButtonCustom(
-                  onPressed: () {
-                    Future<
-                        void> futureShowModalBottomSheet = showModalBottomSheet(
-                        isScrollControlled: true,
-                        context: context,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        builder: (context) {
-                          return AddDishView(tasting: tasting,
-                              tastingParticipants: participants,
-                              dishRatingParticipants: {});
-                        }
-                    );
+           return Column(
+             children: [
+               SingleChildScrollView(
+                 child: SizedBox(
+                   height: MediaQuery.of(context).size.height - 350,
+                   child: ListView.builder(
+                   scrollDirection: Axis.vertical,
+                   itemCount: loadedDishes.length,
+                   itemBuilder: (context, index) {
+                     return DishCardView(
+                       dish: loadedDishes?.elementAt(index),
+                       remove: removeDish,
+                     );
+                   }
+               ),
+             ),
+           ),
+           const Spacer(),
+           FloatingActionButtonCustom(
+               onPressed: () {
+                 Future<
+                     void> futureShowModalBottomSheet = showModalBottomSheet(
+                     isScrollControlled: true,
+                     context: context,
+                     shape: RoundedRectangleBorder(
+                       borderRadius: BorderRadius.circular(30),
+                     ),
+                     builder: (context) {
+                       return AddDishView(tasting: tasting,
+                           tastingParticipants: participants,
+                           dishRatingParticipants: {});
+                     }
+                 );
 
-                    futureShowModalBottomSheet.then((void value) => loadDishes());
-                  },
-                  text: "Nouveau plat"
-              ),
+                 futureShowModalBottomSheet.then((void value) => loadDishes());
+               },
+               text: "Nouveau plat"
+           ),
             ],
-          ),
-        );
+          );
       }
     );
   }
@@ -117,5 +114,15 @@ class TabDishesViewState extends State<TabDishesView> {
     setState(() {
       dishes = DishRepository().findByTasting(tasting);
     });
+  }
+
+  void removeDish(Dish? dish) {
+    if (dish == null) {
+      return;
+    }
+
+    String iri = dish.iri;
+
+    DishRepository().delete(iri).then((value) => loadDishes());
   }
 }

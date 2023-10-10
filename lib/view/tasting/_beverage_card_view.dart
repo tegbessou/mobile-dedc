@@ -9,10 +9,12 @@ class BeverageCardView extends StatelessWidget {
     'Modifier',
     'Supprimer',
   ];
+  void Function(Beverage? beverage) remove;
 
   BeverageCardView({
     super.key,
     required this.beverage,
+    required this.remove,
   });
 
   Beverage? beverage;
@@ -62,7 +64,7 @@ class BeverageCardView extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                         letterSpacing: 0,
                       ),
-                      Spacer(),
+                      const Spacer(),
                       PopupMenuButton<String>(
                         padding: const EdgeInsets.only(
                           left: 15,
@@ -71,7 +73,7 @@ class BeverageCardView extends StatelessWidget {
                         position: PopupMenuPosition.under,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                          borderRadius: const BorderRadius.all(Radius.circular(15.0)),
                           side: BorderSide(
                             width: 1,
                             color: MyColors().secondaryColor,
@@ -125,8 +127,7 @@ class BeverageCardView extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            onTap: () {
-                            },
+                            onTap: () => remove(beverage),
                           ),
                         ],
                       )
@@ -159,7 +160,7 @@ class BeverageCardView extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            Spacer(),
+                            const Spacer(),
                             Container(
                               width: 30,
                               height: 30,

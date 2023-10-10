@@ -86,6 +86,7 @@ class TabBeveragesViewState extends State<TabBeveragesView> {
                       itemBuilder: (context, index) {
                         return BeverageCardView(
                           beverage: loadedBeverages?.elementAt(index),
+                          remove: removeBeverage,
                         );
                       }
                   ),
@@ -125,5 +126,15 @@ class TabBeveragesViewState extends State<TabBeveragesView> {
     setState(() {
       beverages = BeverageRepository().findByTasting(tasting);
     });
+  }
+
+  void removeBeverage(Beverage? beverage) {
+    if (beverage == null) {
+      return;
+    }
+
+    String iri = beverage.iri;
+
+    BeverageRepository().delete(iri).then((value) => loadBeverage());
   }
 }

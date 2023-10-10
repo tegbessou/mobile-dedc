@@ -90,4 +90,30 @@ class DishRepository {
 
     return parsed.map<Dish>((json) => Dish.fromJson(json)).toList();
   }
+
+  Future<void> delete(
+    String iri,
+  ) async {
+    String? apiUrl = dotenv.env['API_URL'];
+
+    if (apiUrl == null) {
+      throw Exception();
+    }
+
+    Token token = await TokenRepository().getToken(
+        'hugues.gobet@gmail.com',
+        'root'
+    );
+
+    Uri url = Uri.https(apiUrl, iri);
+    Client client = Client();
+
+    await client.delete(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer ${token.token}",
+      },
+    );
+  }
 }
