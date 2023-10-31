@@ -74,50 +74,48 @@ class TabBeveragesViewState extends State<TabBeveragesView> {
             );
           }
 
-           return Container(
-              child: Column(
-                children: [
-                  SingleChildScrollView(
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height - 350,
-                      child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: loadedBeverages.length,
-                      itemBuilder: (context, index) {
-                        return BeverageCardView(
-                          beverage: loadedBeverages?.elementAt(index),
-                          remove: removeBeverage,
-                        );
-                      }
-                  ),
-                ),
-              ),
-              Spacer(),
-              FloatingActionButtonCustom(
-                onPressed: () {
-                  Future<
-                    void> futureShowModalBottomSheet = showModalBottomSheet(
-                    isScrollControlled: true,
-                    context: context,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    builder: (context) {
-                      return AddBeverageView(
-                        tasting: tasting,
-                        tastingParticipants: participants,
-                        beverageRatingParticipants: {}
-                      );
-                    }
-                  );
+           return Column(
+             children: [
+               SingleChildScrollView(
+                 child: SizedBox(
+                   height: MediaQuery.of(context).size.height - 350,
+                   child: ListView.builder(
+                   scrollDirection: Axis.vertical,
+                   itemCount: loadedBeverages.length,
+                   itemBuilder: (context, index) {
+                     return BeverageCardView(
+                       beverage: loadedBeverages?.elementAt(index),
+                       remove: removeBeverage,
+                     );
+                   }
+               ),
+             ),
+           ),
+           const Spacer(),
+           FloatingActionButtonCustom(
+             onPressed: () {
+               Future<
+                 void> futureShowModalBottomSheet = showModalBottomSheet(
+                 isScrollControlled: true,
+                 context: context,
+                 shape: RoundedRectangleBorder(
+                   borderRadius: BorderRadius.circular(30),
+                 ),
+                 builder: (context) {
+                   return AddBeverageView(
+                     tasting: tasting,
+                     tastingParticipants: participants,
+                     beverageRatingParticipants: {}
+                   );
+                 }
+               );
 
-                  futureShowModalBottomSheet.then((void value) => loadBeverage());
-                },
-                text: "Nouvelle boisson"
-              ),
+               futureShowModalBottomSheet.then((void value) => loadBeverage());
+             },
+             text: "Nouvelle boisson"
+           ),
             ],
-          ),
-        );
+          );
       }
     );
   }

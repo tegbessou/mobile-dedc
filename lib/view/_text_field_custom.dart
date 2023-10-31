@@ -5,6 +5,7 @@ class TextFieldCustom extends StatelessWidget {
   String placeholder;
   IconData icon;
   Color? iconColor;
+  bool obscureText;
   TextEditingController? controller;
   void Function(String value)? onChanged;
 
@@ -15,6 +16,7 @@ class TextFieldCustom extends StatelessWidget {
     this.iconColor,
     this.controller,
     this.onChanged,
+    this.obscureText = false,
   });
 
   @override
@@ -22,6 +24,7 @@ class TextFieldCustom extends StatelessWidget {
     return TextField(
       controller: controller,
       onChanged: onChanged ?? (value) => {},
+      obscureText: obscureText,
       decoration: InputDecoration(
         filled: true,
         fillColor: MyColors().whiteColor,

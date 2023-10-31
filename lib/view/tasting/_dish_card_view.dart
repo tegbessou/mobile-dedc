@@ -10,11 +10,13 @@ class DishCardView extends StatelessWidget {
     'Supprimer',
   ];
   void Function(Dish? dish) remove;
+  void Function(Dish? dish) update;
 
   DishCardView({
     super.key,
     required this.dish,
     required this.remove,
+    required this.update,
   });
 
   Dish? dish;
@@ -102,8 +104,7 @@ class DishCardView extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            onTap: () {
-                            },
+                            onTap: () => update(dish),
                           ),
                           PopupMenuItem<String>(
                             value: "Supprimer",

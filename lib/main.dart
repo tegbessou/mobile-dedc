@@ -1,12 +1,19 @@
 import 'package:degust_et_des_couleurs/controller/homepage_controller.dart';
+import 'package:degust_et_des_couleurs/controller/login_controller.dart';
 import 'package:degust_et_des_couleurs/controller/profile_controller.dart';
-import 'package:degust_et_des_couleurs/controller/tasting_controller.dart';
+import 'package:degust_et_des_couleurs/core/auth.dart';
+import 'package:degust_et_des_couleurs/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 
 Future<void> main() async {
   await dotenv.load();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(MyApp());
 }
@@ -41,8 +48,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: _router,
+    return StreamBuilder(
+      stream: Auth().authStateChanges,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return MaterialApp.router(
+            routerConfig: _router,
+          );
+        } else {
+          return MaterialApp(
+            home: LoginController(),
+          );
+        }
+      }
     );
   }
 }

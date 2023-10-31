@@ -6,6 +6,7 @@ import 'package:degust_et_des_couleurs/repository/dish_repository.dart';
 import 'package:degust_et_des_couleurs/view/_floating_action_button_custom.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_add_dish_view.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_dish_card_view.dart';
+import 'package:degust_et_des_couleurs/view/tasting/_update_dish_view.dart';
 import 'package:flutter/material.dart';
 
 class TabDishesView extends StatefulWidget {
@@ -78,6 +79,7 @@ class TabDishesViewState extends State<TabDishesView> {
                      return DishCardView(
                        dish: loadedDishes?.elementAt(index),
                        remove: removeDish,
+                       update: updateDish,
                      );
                    }
                ),
@@ -95,8 +97,9 @@ class TabDishesViewState extends State<TabDishesView> {
                      ),
                      builder: (context) {
                        return AddDishView(tasting: tasting,
-                           tastingParticipants: participants,
-                           dishRatingParticipants: {});
+                         tastingParticipants: participants,
+                         dishRatingParticipants: {}
+                       );
                      }
                  );
 
@@ -124,5 +127,27 @@ class TabDishesViewState extends State<TabDishesView> {
     String iri = dish.iri;
 
     DishRepository().delete(iri).then((value) => loadDishes());
+  }
+
+  void updateDish(Dish? dish) {
+    if (dish == null) {
+      return;
+    }
+
+    Future<
+        void> futureShowModalBottomSheet = showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        builder: (context) {
+          return UpdateDishView(
+              dish: dish,
+          );
+        }
+    );
+
+    futureShowModalBottomSheet.then((void value) => loadDishes());
   }
 }
