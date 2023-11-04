@@ -27,4 +27,18 @@ class DishRating {
       comment: json['comment'],
     );
   }
+
+  Map toMap() {
+    final Map dishRatingMap = {
+      "participant": participant.iri,
+      "rate": rate,
+      "comment": comment,
+    };
+
+    if (id != null) {
+      dishRatingMap["id"] = id;
+    }
+
+    return dishRatingMap;
+  }
 }

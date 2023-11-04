@@ -1,5 +1,6 @@
 import 'package:degust_et_des_couleurs/model/dish.dart';
 import 'package:degust_et_des_couleurs/model/dish_rating.dart';
+import 'package:degust_et_des_couleurs/model/tasting.dart';
 import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:degust_et_des_couleurs/view/_text_dm_sans.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +10,13 @@ class DishCardView extends StatelessWidget {
     'Modifier',
     'Supprimer',
   ];
+  Tasting tasting;
   void Function(Dish? dish) remove;
-  void Function(Dish? dish) update;
+  void Function(Tasting tasting, Dish? dish) update;
 
   DishCardView({
     super.key,
+    required this.tasting,
     required this.dish,
     required this.remove,
     required this.update,
@@ -104,7 +107,7 @@ class DishCardView extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            onTap: () => update(dish),
+                            onTap: () => update(tasting, dish),
                           ),
                           PopupMenuItem<String>(
                             value: "Supprimer",

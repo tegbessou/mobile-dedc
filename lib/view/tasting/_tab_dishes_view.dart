@@ -77,6 +77,7 @@ class TabDishesViewState extends State<TabDishesView> {
                    itemCount: loadedDishes.length,
                    itemBuilder: (context, index) {
                      return DishCardView(
+                       tasting: tasting,
                        dish: loadedDishes?.elementAt(index),
                        remove: removeDish,
                        update: updateDish,
@@ -129,7 +130,7 @@ class TabDishesViewState extends State<TabDishesView> {
     DishRepository().delete(iri).then((value) => loadDishes());
   }
 
-  void updateDish(Dish? dish) {
+  void updateDish(Tasting tasting, Dish? dish) {
     if (dish == null) {
       return;
     }
@@ -144,6 +145,7 @@ class TabDishesViewState extends State<TabDishesView> {
         builder: (context) {
           return UpdateDishView(
               dish: dish,
+              tastingParticipants: tasting.participants,
           );
         }
     );

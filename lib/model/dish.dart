@@ -31,4 +31,23 @@ class Dish {
       dishRatings: dishRatings,
     );
   }
+
+  Map toMap() {
+    List participantsToMap = [];
+    List dishRatingsToMap = [];
+
+    participants.forEach((Participant participant) {
+      participantsToMap.add(participant.iri);
+    });
+
+    dishRatings.forEach((DishRating dishRating) {
+      dishRatingsToMap.add(dishRating.toMap());
+    });
+    
+    return {
+      "name": name,
+      "participants": participantsToMap,
+      "dishRatings": dishRatingsToMap,
+    };
+  }
 }

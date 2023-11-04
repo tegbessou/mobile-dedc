@@ -124,8 +124,15 @@ class AddDishViewState extends State<AddBeverageView> {
               top: 5,
             )
           ),
-          Wrap(
-            children: getParticipants(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 23,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: getParticipants().length,
+              itemBuilder: (context, index) {
+                return getParticipants()[index];
+              }
+            ),
           ),
           const Padding(
               padding: EdgeInsets.only(
@@ -216,7 +223,7 @@ class AddDishViewState extends State<AddBeverageView> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               FloatingActionButtonCustom(
-                onPressed: () {},
+                onPressed: () => createDish(false),
                 text: "Plat suivant",
                 width: MediaQuery.of(context).size.width / 2.5,
                 height: 55,
@@ -225,9 +232,10 @@ class AddDishViewState extends State<AddBeverageView> {
                 textColor: MyColors().primaryColor,
                 elevation: 0,
                 fontWeight: FontWeight.w500,
+                isLoading: isLoading,
               ),
               FloatingActionButtonCustom(
-                onPressed: createDish,
+                onPressed: () => createDish(true),
                 text: "Terminer",
                 width: MediaQuery.of(context).size.width / 2.5,
                 height: 55,
@@ -313,7 +321,9 @@ class AddDishViewState extends State<AddBeverageView> {
     });
   }
 
-  void createDish() async {
+  void createDish(
+    bool withRedirection,
+  ) async {
     setState(() {
       isLoading = true;
     });
@@ -323,9 +333,13 @@ class AddDishViewState extends State<AddBeverageView> {
       tasting,
       beverageRatingParticipants,
     ).then((value) {
-      Navigator.pop(context);
+      if (withRedirection) {
+        Navigator.pop(context);
+      }
+
       setState(() {
         beverageRatingParticipants = {};
+        beverageParticipants = [];
         nameController.text = "";
         isLoading = false;
       });
