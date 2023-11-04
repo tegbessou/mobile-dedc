@@ -34,6 +34,7 @@ class AddDishViewState extends State<AddBeverageView> {
   TextEditingController nameController = TextEditingController();
   List<Participant> beverageParticipants = [];
   Map<Participant, BeverageRating> beverageRatingParticipants = {};
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -233,6 +234,7 @@ class AddDishViewState extends State<AddBeverageView> {
                 margin: const EdgeInsets.all(0),
                 elevation: 0,
                 fontWeight: FontWeight.w500,
+                isLoading: isLoading,
               ),
             ],
           ),
@@ -312,6 +314,10 @@ class AddDishViewState extends State<AddBeverageView> {
   }
 
   void createDish() async {
+    setState(() {
+      isLoading = true;
+    });
+
     await BeverageRepository().post(
       nameController.text,
       tasting,
@@ -321,6 +327,7 @@ class AddDishViewState extends State<AddBeverageView> {
       setState(() {
         beverageRatingParticipants = {};
         nameController.text = "";
+        isLoading = false;
       });
     });
   }
