@@ -1,5 +1,5 @@
 class Token {
-  String token;
+  String? token;
   late DateTime expiredAt;
 
   Token({

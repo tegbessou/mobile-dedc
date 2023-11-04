@@ -1,27 +1,29 @@
 import 'dart:async';
-import 'package:degust_et_des_couleurs/controller/register_controller.dart';
+
+import 'package:degust_et_des_couleurs/controller/login_controller.dart';
 import 'package:degust_et_des_couleurs/core/auth.dart';
 import 'package:degust_et_des_couleurs/exception/bad_credential_exception.dart';
-import 'package:degust_et_des_couleurs/model/user.dart';
 import 'package:degust_et_des_couleurs/repository/token_repository.dart';
 import 'package:degust_et_des_couleurs/repository/user_repository.dart';
+import 'package:degust_et_des_couleurs/view/_floating_action_button_custom.dart';
+import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:degust_et_des_couleurs/view/public/_public_footer.dart';
 import 'package:degust_et_des_couleurs/view/public/_public_header.dart';
+import 'package:degust_et_des_couleurs/view/_text_dm_sans.dart';
+import 'package:degust_et_des_couleurs/view/_text_field_custom.dart';
 import 'package:degust_et_des_couleurs/view/public/_public_login_register_form.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:go_router/go_router.dart';
 
-class LoginController extends StatefulWidget {
+class RegisterController extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return LoginControllerState();
+    return RegisterControllerState();
   }
+
 }
 
-class LoginControllerState extends State<LoginController> {
+class RegisterControllerState extends State<RegisterController> {
   String errorMessage = '';
-  bool isLogin = true;
 
   final TextEditingController controllerEmail = TextEditingController();
   final TextEditingController controllerPassword = TextEditingController();
@@ -38,17 +40,17 @@ class LoginControllerState extends State<LoginController> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const PublicHeader(
-                pageName: "Connexion",
+                pageName: "Inscription",
               ),
               PublicLoginRegisterForm(
-                buttonLabel: "Connexion",
-                handleSubmit: signWithCustomToken,
+                buttonLabel: "Inscription",
+                handleSubmit: register,
               ),
               Spacer(),
               PublicFooter(
-                firstSentence: "Pas encore de compte ? ",
-                secondSentence: "Inscription",
-                redirectTo: redirectToRegister,
+                firstSentence: "Vous avez déjà un compte ? ",
+                secondSentence: "Connexion",
+                redirectTo: redirectToLogin,
               ),
             ],
           ),
@@ -57,37 +59,19 @@ class LoginControllerState extends State<LoginController> {
     );
   }
 
-  Future<void> signWithCustomToken(TextEditingValue email, TextEditingValue password) async {
+  Future<void> register(TextEditingValue email, TextEditingValue password) async {
     try {
-      await TokenRepository().createToken(email.text, password.text).then((value) {
-        String? token = value.token;
-
-        if (token == null) {
-          throw BadCredentialException();
-        }
-
-        Auth().signInWitCustomToken(token: token).then((value) {
-          UserRepository().getByUsername(email.text).then((User value) async {
-            const storage = FlutterSecureStorage();
-
-            await storage.write(key: "user_id", value: value.id.toString());
-
-            context.goNamed("homepage");
-          });
-        }).catchError((error) {
-          setState(() {
-            errorMessage = error.message ?? "";
-          });
-        });
+      await UserRepository().post(email.text, password.text).then((value) {
+        redirectToLogin();
       });
     } catch (exception) {
       rethrow;
     }
   }
 
-  void redirectToRegister() {
+  void redirectToLogin() {
     MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) {
-      return RegisterController();
+      return LoginController();
     });
 
     Navigator.of(context).push(materialPageRoute);

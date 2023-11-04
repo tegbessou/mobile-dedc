@@ -7,6 +7,7 @@ import 'package:degust_et_des_couleurs/model/tasting.dart';
 import 'package:degust_et_des_couleurs/model/token.dart';
 import 'package:degust_et_des_couleurs/repository/token_repository.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 
 class TastingRepository {
@@ -16,14 +17,18 @@ class TastingRepository {
   ) async {
     String? apiUrl = dotenv.env['API_URL'];
 
+    const storage = FlutterSecureStorage();
+    String? userId = await storage.read(key: "user_id");
+
     if (apiUrl == null || restaurant == null) {
       throw Exception();
     }
 
-    Token token = await TokenRepository().getToken(
-      'hugues.gobet@gmail.com',
-      'root'
-    );
+    Token? token = await TokenRepository().getToken();
+
+    if (token == null) {
+      throw Exception();
+    }
 
     Uri url = Uri.https(apiUrl, 'tastings');
     Client client = Client();
@@ -31,7 +36,7 @@ class TastingRepository {
     final Map data = {
       "name": name,
       "restaurant": restaurant.iri,
-      "user": "/users/1",
+      "user": "/users/$userId",
     };
 
     final clientResponse = await client.post(
@@ -52,17 +57,22 @@ class TastingRepository {
     List<Tasting> tastings = [];
     String? apiUrl = dotenv.env['API_URL'];
 
+    const storage = FlutterSecureStorage();
+    String? userId = await storage.read(key: "user_id");
+
     if (apiUrl == null) {
       return tastings;
     }
 
-    Token token = await TokenRepository().getToken(
-        'hugues.gobet@gmail.com',
-        'root'
-    );
+    Token? token = await TokenRepository().getToken();
+
+    if (token == null) {
+      throw Exception();
+    }
 
     Uri url = Uri.https(apiUrl, 'tastings', {
       "name": name,
+      "user": "/users/$userId",
     });
     Client client = Client();
 
@@ -88,10 +98,11 @@ class TastingRepository {
       throw Exception();
     }
 
-    Token token = await TokenRepository().getToken(
-        'hugues.gobet@gmail.com',
-        'root'
-    );
+    Token? token = await TokenRepository().getToken();
+
+    if (token == null) {
+      throw Exception();
+    }
 
     Uri url = Uri.https(apiUrl, 'tastings/${tasting.id}');
     Client client = Client();
@@ -125,10 +136,11 @@ class TastingRepository {
       throw Exception();
     }
 
-    Token token = await TokenRepository().getToken(
-        'hugues.gobet@gmail.com',
-        'root'
-    );
+    Token? token = await TokenRepository().getToken();
+
+    if (token == null) {
+      throw Exception();
+    }
 
     Uri url = Uri.https(apiUrl, 'tastings/$id');
     Client client = Client();

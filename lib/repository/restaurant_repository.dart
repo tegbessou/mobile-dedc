@@ -16,10 +16,11 @@ class RestaurantRepository {
       return restaurants;
     }
 
-    Token token = await TokenRepository().getToken(
-      'hugues.gobet@gmail.com',
-      'root'
-    );
+    Token? token = await TokenRepository().getToken();
+
+    if (token == null) {
+      throw Exception();
+    }
 
     Uri url = Uri.https(apiUrl, 'restaurants', {
       "name": name,

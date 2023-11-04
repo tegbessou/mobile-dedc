@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 
+import 'package:degust_et_des_couleurs/core/auth.dart';
 import 'package:degust_et_des_couleurs/model/token.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -8,23 +9,15 @@ import 'package:http/http.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class TokenRepository {
-  Future<Token> getToken(
-    String username,
-    String password,
-  ) async {
+  Future<Token?> getToken() async {
     const storage = FlutterSecureStorage();
 
-    String? value = await storage.read(key: username);
+    String? value = await storage.read(key: "token");
 
     if (value == null) {
-      Token token = await createToken(
-        username,
-        password,
-      );
+      Auth().signOut();
 
-      await storage.write(key: username, value: token.token);
-
-      return token;
+      return null;
     }
 
     Map<String, dynamic> decodedToken = JwtDecoder.decode(value);
@@ -33,14 +26,9 @@ class TokenRepository {
     DateTime now  = DateTime.now();
 
     if (now.compareTo(expiredAt) > 0) {
-      Token token = await createToken(
-        username,
-        password,
-      );
+      Auth().signOut();
 
-      await storage.write(key: username, value: token.token);
-
-      return token;
+      return null;
     }
 
     return Token(
@@ -52,6 +40,7 @@ class TokenRepository {
     String username,
     String password,
   ) async {
+    const storage = FlutterSecureStorage();
     String? apiUrl = dotenv.env['API_URL'];
 
     if (apiUrl == null) {
@@ -76,6 +65,11 @@ class TokenRepository {
 
     final parsed = jsonDecode(clientResponse.body);
 
-    return Token.fromJson(parsed);
+    Token token = Token.fromJson(parsed);
+
+    await storage.write(key: "token", value: token.token);
+    await storage.write(key: "username", value: username);
+
+    return token;
   }
 }

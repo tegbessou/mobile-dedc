@@ -1,0 +1,3 @@
+class UsernameAlreadyUsedException implements Exception {
+
+}

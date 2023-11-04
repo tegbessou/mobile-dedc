@@ -20,10 +20,11 @@ class GeneralRatingRepository {
       throw Exception();
     }
 
-    Token token = await TokenRepository().getToken(
-      'hugues.gobet@gmail.com',
-      'root'
-    );
+    Token? token = await TokenRepository().getToken();
+
+    if (token == null) {
+      throw Exception();
+    }
 
     Uri url = Uri.https(apiUrl, 'general_ratings');
     Client client = Client();
@@ -60,10 +61,11 @@ class GeneralRatingRepository {
       throw Exception();
     }
 
-    Token token = await TokenRepository().getToken(
-      'hugues.gobet@gmail.com',
-      'root'
-    );
+    Token? token = await TokenRepository().getToken();
+
+    if (token == null) {
+      throw Exception();
+    }
 
     Uri url = Uri.https(apiUrl, iri);
     Client client = Client();

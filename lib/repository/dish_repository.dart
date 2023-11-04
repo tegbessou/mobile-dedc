@@ -21,10 +21,11 @@ class DishRepository {
       throw Exception();
     }
 
-    Token token = await TokenRepository().getToken(
-      'hugues.gobet@gmail.com',
-      'root'
-    );
+    Token? token = await TokenRepository().getToken();
+
+    if (token == null) {
+      throw Exception();
+    }
 
     Uri url = Uri.https(apiUrl, 'dishes');
     Client client = Client();
@@ -69,10 +70,11 @@ class DishRepository {
       return dish;
     }
 
-    Token token = await TokenRepository().getToken(
-        'hugues.gobet@gmail.com',
-        'root'
-    );
+    Token? token = await TokenRepository().getToken();
+
+    if (token == null) {
+      throw Exception();
+    }
 
     Uri url = Uri.https(apiUrl, 'dishes', {
       "tasting.id": tasting.id.toString(),
@@ -100,10 +102,11 @@ class DishRepository {
       throw Exception();
     }
 
-    Token token = await TokenRepository().getToken(
-        'hugues.gobet@gmail.com',
-        'root'
-    );
+    Token? token = await TokenRepository().getToken();
+
+    if (token == null) {
+      throw Exception();
+    }
 
     Uri url = Uri.https(apiUrl, iri);
     Client client = Client();

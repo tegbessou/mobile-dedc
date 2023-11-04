@@ -22,6 +22,15 @@ class MyApp extends StatelessWidget {
   int primaryColor = const Color.fromRGBO(180, 20, 20, 1).value;
 
   final _router = GoRouter(
+    redirect: (BuildContext context, GoRouterState state) {
+      final isAuthenticated = Auth().currentUser != null;
+
+      if (!isAuthenticated) {
+        return '/login';
+      } else {
+        return null;
+      }
+    },
     routes: [
       GoRoute(
         name: 'homepage',
@@ -30,6 +39,15 @@ class MyApp extends StatelessWidget {
         pageBuilder: (context, state) => const MaterialPage<void>(
           child: HomepageController(),
           name: 'homepage',
+        ),
+      ),
+      GoRoute(
+        name: 'login',
+        path: '/login',
+        builder: (context, state) => LoginController(),
+        pageBuilder: (context, state) => MaterialPage<void>(
+          child: LoginController(),
+          name: 'login',
         ),
       ),
       GoRoute(
@@ -51,15 +69,9 @@ class MyApp extends StatelessWidget {
     return StreamBuilder(
       stream: Auth().authStateChanges,
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return MaterialApp.router(
-            routerConfig: _router,
-          );
-        } else {
-          return MaterialApp(
-            home: LoginController(),
-          );
-        }
+        return MaterialApp.router(
+          routerConfig: _router,
+        );
       }
     );
   }

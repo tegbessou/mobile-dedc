@@ -1,7 +1,4 @@
-
 import 'dart:convert';
-import 'package:degust_et_des_couleurs/model/dish.dart';
-import 'package:degust_et_des_couleurs/model/dish_rating.dart';
 import 'package:degust_et_des_couleurs/model/participant.dart';
 import 'package:degust_et_des_couleurs/model/service_rating.dart';
 import 'package:degust_et_des_couleurs/model/tasting.dart';
@@ -23,10 +20,11 @@ class ServiceRatingRepository {
       throw Exception();
     }
 
-    Token token = await TokenRepository().getToken(
-      'hugues.gobet@gmail.com',
-      'root'
-    );
+    Token? token = await TokenRepository().getToken();
+
+    if (token == null) {
+      throw Exception();
+    }
 
     Uri url = Uri.https(apiUrl, 'service_ratings');
     Client client = Client();
@@ -65,10 +63,11 @@ class ServiceRatingRepository {
       throw Exception();
     }
 
-    Token token = await TokenRepository().getToken(
-      'hugues.gobet@gmail.com',
-      'root'
-    );
+    Token? token = await TokenRepository().getToken();
+
+    if (token == null) {
+      throw Exception();
+    }
 
     Uri url = Uri.https(apiUrl, iri);
     Client client = Client();
