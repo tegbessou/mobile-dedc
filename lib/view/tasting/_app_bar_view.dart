@@ -14,6 +14,8 @@ class AppBarView extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isClosed = tasting?.closed ?? false;
+
     return AppBar(
       leading: IconButton(
         icon: Icon(Icons.arrow_back, color: MyColors().blackColor),
@@ -26,10 +28,18 @@ class AppBarView extends StatelessWidget implements PreferredSizeWidget {
           Navigator.of(context).push(materialPageRoute);
         },
       ),
-      backgroundColor: Colors.white,
-      title: TextDmSans(
+      titleSpacing: 0,
+      backgroundColor: !isClosed ? MyColors().whiteColor : MyColors().lightGreyColor,
+      title: !isClosed ? TextDmSans(
         "Dégustation ${tasting?.name}",
-        fontSize: 25
+        fontSize: 22,
+        letterSpacing: 0,
+        fontWeight: FontWeight.bold,
+      ) : TextDmSans(
+        "Résumé de la dégustation",
+        fontSize: 22,
+        letterSpacing: 0,
+        fontWeight: FontWeight.bold,
       ),
       centerTitle: false,
       titleTextStyle: const TextStyle(

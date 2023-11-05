@@ -7,7 +7,7 @@ import 'package:degust_et_des_couleurs/view/_text_dm_sans.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class TastingCardView extends StatelessWidget {
+class TastingResumeCardView extends StatelessWidget {
   List<String> pictures = [
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTn0zPNJyKNwEkrd7jyPkwOC5JCZftn481CDCe0FCH0ywCW0gBCnDNqkVNn0MNXn8dZHMQ&usqp=CAU",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd44KAI5Y4fpWHvYo82UzjeuXpo0GhKUlg_ExSdZlYZKiR3eJ5J2_bYsTW4bt-q7OCNXY&usqp=CAU",
@@ -15,7 +15,7 @@ class TastingCardView extends StatelessWidget {
     "https://www.materiel-horeca.com/guide/wp-content/uploads/2020/12/dressage-table.jpeg",
   ];
 
-  TastingCardView({
+  TastingResumeCardView({
     super.key,
     required this.tasting,
   });
@@ -35,7 +35,7 @@ class TastingCardView extends StatelessWidget {
         Navigator.of(context).push(materialPageRoute);
       },
       child: Container(
-        height: 110,
+        height: 95,
         padding: const EdgeInsets.all(10),
         margin: const EdgeInsets.only(
           top: 20,
@@ -51,8 +51,8 @@ class TastingCardView extends StatelessWidget {
               child: Image.network(
                 pictures[random.nextInt(3) + 1],
                 fit: BoxFit.cover,
-                width: 92,
-                height: 92,
+                width: 72,
+                height: 72,
               ),
             ),
             const Padding(padding: EdgeInsets.only(right: 15)),

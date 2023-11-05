@@ -1,24 +1,14 @@
-import 'dart:ffi';
-import 'dart:io';
-
-import 'package:degust_et_des_couleurs/model/dish.dart';
-import 'package:degust_et_des_couleurs/model/dish_rating.dart';
+import 'package:degust_et_des_couleurs/controller/homepage_controller.dart';
 import 'package:degust_et_des_couleurs/model/participant.dart';
-import 'package:degust_et_des_couleurs/model/service_rating.dart';
 import 'package:degust_et_des_couleurs/model/sommelier_rating.dart';
 import 'package:degust_et_des_couleurs/model/tasting.dart';
-import 'package:degust_et_des_couleurs/repository/dish_repository.dart';
-import 'package:degust_et_des_couleurs/repository/service_rating_repository.dart';
 import 'package:degust_et_des_couleurs/repository/sommelier_rating_repository.dart';
 import 'package:degust_et_des_couleurs/view/_floating_action_button_custom.dart';
 import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:degust_et_des_couleurs/view/_rating_button.dart';
 import 'package:degust_et_des_couleurs/view/_text_dm_sans.dart';
 import 'package:degust_et_des_couleurs/view/_text_field_custom.dart';
-import 'package:degust_et_des_couleurs/view/tasting/_add_dish_view.dart';
-import 'package:degust_et_des_couleurs/view/tasting/_dish_card_view.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class TabSommelierView extends StatefulWidget {
   Tasting tasting;
@@ -80,109 +70,108 @@ class TabSommelierViewState extends State<TabSommelierView> {
   Widget build(BuildContext context) {
      return Column(
          children: [
-           SingleChildScrollView(
-             child: SizedBox(
-               height: MediaQuery.of(context).size.height - 400,
-               child: ListView.builder(
-               scrollDirection: Axis.vertical,
-               itemCount: sommelierRatings.length,
-               itemBuilder: (context, index) {
-                 var participant = participants[index];
-                 final sommelierRating = sommelierRatings[participant];
+           SizedBox(
+             height: MediaQuery.of(context).size.height - 400,
+             child: ListView.builder(
+             scrollDirection: Axis.vertical,
+             itemCount: sommelierRatings.length,
+             itemBuilder: (context, index) {
+               var participant = participants[index];
+               final sommelierRating = sommelierRatings[participant];
 
-                 return InkWell(
-                   child: Container(
-                     margin: const EdgeInsets.only(
-                       top: 20,
-                       left: 27,
-                       right: 27,
-                     ),
-                     padding: const EdgeInsets.all(20),
-                     decoration: BoxDecoration(
-                       color: Colors.white,
-                       borderRadius: BorderRadius.circular(10),
-                     ),
-                     child: Column(
-                       crossAxisAlignment: CrossAxisAlignment.start,
-                       children: [
-                         TextDmSans(
-                           "Note de ${participant.name}",
-                           fontSize: 14,
-                           fontWeight: FontWeight.w500,
-                           letterSpacing: 0,
-                         ),
-                         const Padding(
-                             padding: EdgeInsets.only(
-                               top: 15,
-                             )
-                         ),
-                         Row(
-                           mainAxisSize: MainAxisSize.max,
-                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                           children: [
-                             RatingButton(
-                               onPress: () => setRating("--", participant),
-                               text: "--",
-                               isActive: sommelierRating?.rate == "--",
-                             ),
-                             RatingButton(
-                               onPress: () => setRating("-", participant),
-                               text: "-",
-                               isActive: sommelierRating?.rate == "-",
-                             ),
-                             RatingButton(
-                               onPress: () => setRating("=", participant),
-                               text: "=",
-                               isActive: sommelierRating?.rate == "=",
-                             ),
-                             RatingButton(
-                               onPress: () => setRating("+", participant),
-                               text: "+",
-                               isActive: sommelierRating?.rate == "+",
-                             ),
-                             RatingButton(
-                               onPress: () => setRating("++", participant),
-                               text: "++",
-                               isActive: sommelierRating?.rate == "++",
-                             ),
-                             RatingButton(
-                               onPress: () => setRating("xs", participant),
-                               text: "XS",
-                               isActive: sommelierRating?.rate == "xs",
-                             ),
-                           ],
-                         ),
-                         const Padding(
-                             padding: EdgeInsets.only(
-                               bottom: 20,
-                             )
-                         ),
-                         TextFieldCustom(
-                           placeholder: "Commentaire (optionnel)",
-                           controller: commentsByParticipants[participant],
-                           icon: Icons.mode_comment_outlined,
-                           iconColor: MyColors().primaryColor,
-                           onChanged: (value) => setComment(value, participant),
-                         ),
-                         Padding(
-                             padding: EdgeInsets.only(
-                               bottom: index + 1 == participants.length ? 0 : 20,
-                             )
-                         ),
-                       ],
-                     ),
-                 ),
-               );
-               }
-           ),
+               return InkWell(
+                 child: Container(
+                   margin: const EdgeInsets.only(
+                     top: 20,
+                     left: 27,
+                     right: 27,
+                   ),
+                   padding: const EdgeInsets.all(20),
+                   decoration: BoxDecoration(
+                     color: Colors.white,
+                     borderRadius: BorderRadius.circular(10),
+                   ),
+                   child: Column(
+                     crossAxisAlignment: CrossAxisAlignment.start,
+                     children: [
+                       TextDmSans(
+                         "Note de ${participant.name}",
+                         fontSize: 14,
+                         fontWeight: FontWeight.w500,
+                         letterSpacing: 0,
+                       ),
+                       const Padding(
+                           padding: EdgeInsets.only(
+                             top: 15,
+                           )
+                       ),
+                       Row(
+                         mainAxisSize: MainAxisSize.max,
+                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                         children: [
+                           RatingButton(
+                             onPress: () => setRating("--", participant),
+                             text: "--",
+                             isActive: sommelierRating?.rate == "--",
+                           ),
+                           RatingButton(
+                             onPress: () => setRating("-", participant),
+                             text: "-",
+                             isActive: sommelierRating?.rate == "-",
+                           ),
+                           RatingButton(
+                             onPress: () => setRating("=", participant),
+                             text: "=",
+                             isActive: sommelierRating?.rate == "=",
+                           ),
+                           RatingButton(
+                             onPress: () => setRating("+", participant),
+                             text: "+",
+                             isActive: sommelierRating?.rate == "+",
+                           ),
+                           RatingButton(
+                             onPress: () => setRating("++", participant),
+                             text: "++",
+                             isActive: sommelierRating?.rate == "++",
+                           ),
+                           RatingButton(
+                             onPress: () => setRating("xs", participant),
+                             text: "XS",
+                             isActive: sommelierRating?.rate == "xs",
+                           ),
+                         ],
+                       ),
+                       const Padding(
+                           padding: EdgeInsets.only(
+                             bottom: 20,
+                           )
+                       ),
+                       TextFieldCustom(
+                         placeholder: "Commentaire (optionnel)",
+                         controller: commentsByParticipants[participant],
+                         icon: Icons.mode_comment_outlined,
+                         iconColor: MyColors().primaryColor,
+                         onChanged: (value) => setComment(value, participant),
+                       ),
+                       Padding(
+                           padding: EdgeInsets.only(
+                             bottom: index + 1 == participants.length ? 0 : 20,
+                           )
+                       ),
+                     ],
+                   ),
+               ),
+             );
+             }
          ),
        ),
-       const Spacer(),
+       !tasting.closed ? const Spacer() : Container(),
        FloatingActionButtonCustom(
-         onPressed: () {
-           saveSommelierRating();
-         },
-         text: "Enregistrer",
+         backgroundColor: !tasting.closed ? MyColors().primaryColor : MyColors().lightPrimaryColor,
+         textColor: !tasting.closed ? MyColors().whiteColor : MyColors().primaryColor,
+         elevation: 0,
+         onPressed: !tasting.closed ? saveSommelierRating : goToHome,
+         text: !tasting.closed ? "Enregistrer" : "Fermer",
          isLoading: isLoading,
        ),
      ],
@@ -264,5 +253,13 @@ class TabSommelierViewState extends State<TabSommelierView> {
     setState(() {
       sommelierRatings.update(participant, (rating) => sommelierRatingParticipant);
     });
+  }
+
+  void goToHome() {
+    MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) {
+      return HomepageController();
+    });
+
+    Navigator.of(context).push(materialPageRoute);
   }
 }

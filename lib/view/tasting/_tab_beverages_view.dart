@@ -1,9 +1,11 @@
+import 'package:degust_et_des_couleurs/controller/homepage_controller.dart';
 import 'package:degust_et_des_couleurs/model/beverage.dart';
 import 'package:degust_et_des_couleurs/model/beverage_rating.dart';
 import 'package:degust_et_des_couleurs/model/participant.dart';
 import 'package:degust_et_des_couleurs/model/tasting.dart';
 import 'package:degust_et_des_couleurs/repository/beverage_repository.dart';
 import 'package:degust_et_des_couleurs/view/_floating_action_button_custom.dart';
+import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_add_beverage_view.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_beverage_card_view.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_update_beverage_view.dart';
@@ -69,45 +71,27 @@ class TabBeveragesViewState extends State<TabBeveragesView> {
 
            return Column(
              children: [
-               SingleChildScrollView(
-                 child: SizedBox(
-                   height: MediaQuery.of(context).size.height - 350,
-                   child: ListView.builder(
-                   scrollDirection: Axis.vertical,
-                   itemCount: loadedBeverages.length,
-                   itemBuilder: (context, index) {
-                     return BeverageCardView(
-                       tasting: tasting,
-                       beverage: loadedBeverages?.elementAt(index),
-                       remove: removeBeverage,
-                       update: updateBeverage,
-                     );
-                   }
-               ),
-             ),
-           ),
-           const Spacer(),
-           FloatingActionButtonCustom(
-             onPressed: () {
-               Future<
-                 void> futureShowModalBottomSheet = showModalBottomSheet(
-                 isScrollControlled: true,
-                 context: context,
-                 shape: RoundedRectangleBorder(
-                   borderRadius: BorderRadius.circular(30),
-                 ),
-                 builder: (context) {
-                   return AddBeverageView(
+               SizedBox(
+                 height: !tasting.closed ? MediaQuery.of(context).size.height - 350: MediaQuery.of(context).size.height - 400,
+                 child: ListView.builder(
+                 scrollDirection: Axis.vertical,
+                 itemCount: loadedBeverages.length,
+                 itemBuilder: (context, index) {
+                   return BeverageCardView(
                      tasting: tasting,
-                     tastingParticipants: participants,
-                     beverageRatingParticipants: {}
+                     beverage: loadedBeverages?.elementAt(index),
+                     remove: removeBeverage,
+                     update: updateBeverage,
                    );
                  }
-               );
-
-               futureShowModalBottomSheet.then((void value) => loadBeverage());
-             },
-             text: "Nouvelle boisson"
+             ),
+           ),
+           FloatingActionButtonCustom(
+             backgroundColor: !tasting.closed ? MyColors().primaryColor : MyColors().lightPrimaryColor,
+             textColor: !tasting.closed ? MyColors().whiteColor : MyColors().primaryColor,
+             elevation: 0,
+             onPressed: !tasting.closed ? newBeverage : goToHome,
+             text: !tasting.closed ? "Nouvelle boisson" : "Fermer"
            ),
             ],
           );
@@ -152,5 +136,33 @@ class TabBeveragesViewState extends State<TabBeveragesView> {
     );
 
     futureShowModalBottomSheet.then((void value) => loadBeverage());
+  }
+
+  void newBeverage() {
+    Future<
+        void> futureShowModalBottomSheet = showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        builder: (context) {
+          return AddBeverageView(
+              tasting: tasting,
+              tastingParticipants: participants,
+              beverageRatingParticipants: {}
+          );
+        }
+    );
+
+    futureShowModalBottomSheet.then((void value) => loadBeverage());
+  }
+
+  void goToHome() {
+    MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) {
+      return HomepageController();
+    });
+
+    Navigator.of(context).push(materialPageRoute);
   }
 }

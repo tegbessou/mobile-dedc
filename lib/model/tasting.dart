@@ -19,6 +19,7 @@ class Tasting {
   List<SommelierRating> sommelierRatings;
   List<GeneralRating> generalRatings;
   DateTime createdAt;
+  bool closed;
 
   Tasting({
     required this.iri,
@@ -32,6 +33,7 @@ class Tasting {
     required this.generalRatings,
     required this.dishes,
     required this.beverages,
+    required this.closed,
   });
 
   factory Tasting.fromJson(Map<String, dynamic> json) {
@@ -47,6 +49,7 @@ class Tasting {
       generalRatings: json['generalRatings'].map<GeneralRating>((json) => GeneralRating.fromJson(json)).toList(),
       dishes: json['dishes'].map<Dish>((json) => Dish.fromJson(json)).toList(),
       beverages: json['beverages'].map<Beverage>((json) => Beverage.fromJson(json)).toList(),
+      closed: json['closed'],
     );
   }
 

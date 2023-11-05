@@ -72,7 +72,7 @@ class TastingRepository {
 
     Uri url = Uri.https(apiUrl, 'tastings', {
       "name": name,
-      "user": "/users/$userId",
+      "user.id": userId,
     });
     Client client = Client();
 
@@ -155,5 +155,35 @@ class TastingRepository {
     final parsed = jsonDecode(clientResponse.body);
 
     return Tasting.fromJson(parsed);
+  }
+
+  Future<void> closed(String iri) async {
+    String? apiUrl = dotenv.env['API_URL'];
+
+    if (apiUrl == null) {
+      throw Exception();
+    }
+
+    Token? token = await TokenRepository().getToken();
+
+    if (token == null) {
+      throw Exception();
+    }
+
+    Uri url = Uri.https(apiUrl, iri);
+    Client client = Client();
+
+    final Map data = {
+      "closed": true,
+    };
+
+    await client.put(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer ${token.token}",
+      },
+      body: json.encode(data),
+    );
   }
 }

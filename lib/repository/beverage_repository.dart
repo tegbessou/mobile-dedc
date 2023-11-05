@@ -146,8 +146,6 @@ class BeverageRepository {
       },
       body: json.encode(beverage.toMap()),
     );
-    print(beverage.toMap());
-    print(iri);
 
     final parsed = jsonDecode(clientResponse.body);
 

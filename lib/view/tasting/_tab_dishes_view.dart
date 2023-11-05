@@ -1,9 +1,11 @@
+import 'package:degust_et_des_couleurs/controller/homepage_controller.dart';
 import 'package:degust_et_des_couleurs/model/dish.dart';
 import 'package:degust_et_des_couleurs/model/dish_rating.dart';
 import 'package:degust_et_des_couleurs/model/participant.dart';
 import 'package:degust_et_des_couleurs/model/tasting.dart';
 import 'package:degust_et_des_couleurs/repository/dish_repository.dart';
 import 'package:degust_et_des_couleurs/view/_floating_action_button_custom.dart';
+import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_add_dish_view.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_dish_card_view.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_update_dish_view.dart';
@@ -69,44 +71,27 @@ class TabDishesViewState extends State<TabDishesView> {
 
            return Column(
              children: [
-               SingleChildScrollView(
-                 child: SizedBox(
-                   height: MediaQuery.of(context).size.height - 350,
-                   child: ListView.builder(
-                   scrollDirection: Axis.vertical,
-                   itemCount: loadedDishes.length,
-                   itemBuilder: (context, index) {
-                     return DishCardView(
-                       tasting: tasting,
-                       dish: loadedDishes?.elementAt(index),
-                       remove: removeDish,
-                       update: updateDish,
-                     );
-                   }
-               ),
+               SizedBox(
+                 height: !tasting.closed ? MediaQuery.of(context).size.height - 350: MediaQuery.of(context).size.height - 400,
+                 child: ListView.builder(
+                 scrollDirection: Axis.vertical,
+                 itemCount: loadedDishes.length,
+                 itemBuilder: (context, index) {
+                   return DishCardView(
+                     tasting: tasting,
+                     dish: loadedDishes?.elementAt(index),
+                     remove: removeDish,
+                     update: updateDish,
+                   );
+                 }
              ),
            ),
-           const Spacer(),
            FloatingActionButtonCustom(
-               onPressed: () {
-                 Future<
-                     void> futureShowModalBottomSheet = showModalBottomSheet(
-                     isScrollControlled: true,
-                     context: context,
-                     shape: RoundedRectangleBorder(
-                       borderRadius: BorderRadius.circular(30),
-                     ),
-                     builder: (context) {
-                       return AddDishView(tasting: tasting,
-                         tastingParticipants: participants,
-                         dishRatingParticipants: {}
-                       );
-                     }
-                 );
-
-                 futureShowModalBottomSheet.then((void value) => loadDishes());
-               },
-               text: "Nouveau plat"
+             backgroundColor: !tasting.closed ? MyColors().primaryColor : MyColors().lightPrimaryColor,
+             textColor: !tasting.closed ? MyColors().whiteColor : MyColors().primaryColor,
+             elevation: 0,
+             onPressed: !tasting.closed ? newDish : goToHome,
+             text: !tasting.closed ? "Nouveau plat" : "Fermer"
            ),
             ],
           );
@@ -136,20 +121,47 @@ class TabDishesViewState extends State<TabDishesView> {
     }
 
     Future<
-        void> futureShowModalBottomSheet = showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
-        builder: (context) {
-          return UpdateDishView(
-              dish: dish,
-              tastingParticipants: tasting.participants,
-          );
-        }
+      void> futureShowModalBottomSheet = showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
+      builder: (context) {
+        return UpdateDishView(
+            dish: dish,
+            tastingParticipants: tasting.participants,
+        );
+      }
     );
 
     futureShowModalBottomSheet.then((void value) => loadDishes());
+  }
+
+  void newDish() {
+    Future<
+      void> futureShowModalBottomSheet = showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
+      builder: (context) {
+        return AddDishView(tasting: tasting,
+            tastingParticipants: participants,
+            dishRatingParticipants: {}
+        );
+      }
+    );
+
+    futureShowModalBottomSheet.then((void value) => loadDishes());
+  }
+
+  void goToHome() {
+    MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) {
+      return HomepageController();
+    });
+
+    Navigator.of(context).push(materialPageRoute);
   }
 }

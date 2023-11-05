@@ -1,3 +1,4 @@
+import 'package:degust_et_des_couleurs/controller/homepage_controller.dart';
 import 'package:degust_et_des_couleurs/model/general_rating.dart';
 import 'package:degust_et_des_couleurs/model/participant.dart';
 import 'package:degust_et_des_couleurs/model/tasting.dart';
@@ -69,109 +70,108 @@ class TabGeneralViewState extends State<TabGeneralView> {
   Widget build(BuildContext context) {
      return Column(
          children: [
-           SingleChildScrollView(
-             child: SizedBox(
-               height: MediaQuery.of(context).size.height - 400,
-               child: ListView.builder(
-               scrollDirection: Axis.vertical,
-               itemCount: generalRatings.length,
-               itemBuilder: (context, index) {
-                 var participant = participants[index];
-                 final generalRating = generalRatings[participant];
+           SizedBox(
+             height: MediaQuery.of(context).size.height - 400,
+             child: ListView.builder(
+             scrollDirection: Axis.vertical,
+             itemCount: generalRatings.length,
+             itemBuilder: (context, index) {
+               var participant = participants[index];
+               final generalRating = generalRatings[participant];
 
-                 return InkWell(
-                   child: Container(
-                     margin: const EdgeInsets.only(
-                       top: 20,
-                       left: 27,
-                       right: 27,
-                     ),
-                     padding: const EdgeInsets.all(20),
-                     decoration: BoxDecoration(
-                       color: Colors.white,
-                       borderRadius: BorderRadius.circular(10),
-                     ),
-                     child: Column(
-                       crossAxisAlignment: CrossAxisAlignment.start,
-                       children: [
-                         TextDmSans(
-                           "Note de ${participant.name}",
-                           fontSize: 14,
-                           fontWeight: FontWeight.w500,
-                           letterSpacing: 0,
-                         ),
-                         const Padding(
-                             padding: EdgeInsets.only(
-                               top: 15,
-                             )
-                         ),
-                         Row(
-                           mainAxisSize: MainAxisSize.max,
-                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                           children: [
-                             RatingButton(
-                               onPress: () => setRating("--", participant),
-                               text: "--",
-                               isActive: generalRating?.rate == "--",
-                             ),
-                             RatingButton(
-                               onPress: () => setRating("-", participant),
-                               text: "-",
-                               isActive: generalRating?.rate == "-",
-                             ),
-                             RatingButton(
-                               onPress: () => setRating("=", participant),
-                               text: "=",
-                               isActive: generalRating?.rate == "=",
-                             ),
-                             RatingButton(
-                               onPress: () => setRating("+", participant),
-                               text: "+",
-                               isActive: generalRating?.rate == "+",
-                             ),
-                             RatingButton(
-                               onPress: () => setRating("++", participant),
-                               text: "++",
-                               isActive: generalRating?.rate == "++",
-                             ),
-                             RatingButton(
-                               onPress: () => setRating("xs", participant),
-                               text: "XS",
-                               isActive: generalRating?.rate == "xs",
-                             ),
-                           ],
-                         ),
-                         const Padding(
-                             padding: EdgeInsets.only(
-                               bottom: 20,
-                             )
-                         ),
-                         TextFieldCustom(
-                           placeholder: "Commentaire (optionnel)",
-                           controller: commentsByParticipants[participant],
-                           icon: Icons.mode_comment_outlined,
-                           iconColor: MyColors().primaryColor,
-                           onChanged: (value) => setComment(value, participant),
-                         ),
-                         Padding(
-                             padding: EdgeInsets.only(
-                               bottom: index + 1 == participants.length ? 0 : 20,
-                             )
-                         ),
-                       ],
-                     ),
-                 ),
-               );
-               }
-           ),
+               return InkWell(
+                 child: Container(
+                   margin: const EdgeInsets.only(
+                     top: 20,
+                     left: 27,
+                     right: 27,
+                   ),
+                   padding: const EdgeInsets.all(20),
+                   decoration: BoxDecoration(
+                     color: Colors.white,
+                     borderRadius: BorderRadius.circular(10),
+                   ),
+                   child: Column(
+                     crossAxisAlignment: CrossAxisAlignment.start,
+                     children: [
+                       TextDmSans(
+                         "Note de ${participant.name}",
+                         fontSize: 14,
+                         fontWeight: FontWeight.w500,
+                         letterSpacing: 0,
+                       ),
+                       const Padding(
+                           padding: EdgeInsets.only(
+                             top: 15,
+                           )
+                       ),
+                       Row(
+                         mainAxisSize: MainAxisSize.max,
+                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                         children: [
+                           RatingButton(
+                             onPress: () => setRating("--", participant),
+                             text: "--",
+                             isActive: generalRating?.rate == "--",
+                           ),
+                           RatingButton(
+                             onPress: () => setRating("-", participant),
+                             text: "-",
+                             isActive: generalRating?.rate == "-",
+                           ),
+                           RatingButton(
+                             onPress: () => setRating("=", participant),
+                             text: "=",
+                             isActive: generalRating?.rate == "=",
+                           ),
+                           RatingButton(
+                             onPress: () => setRating("+", participant),
+                             text: "+",
+                             isActive: generalRating?.rate == "+",
+                           ),
+                           RatingButton(
+                             onPress: () => setRating("++", participant),
+                             text: "++",
+                             isActive: generalRating?.rate == "++",
+                           ),
+                           RatingButton(
+                             onPress: () => setRating("xs", participant),
+                             text: "XS",
+                             isActive: generalRating?.rate == "xs",
+                           ),
+                         ],
+                       ),
+                       const Padding(
+                           padding: EdgeInsets.only(
+                             bottom: 20,
+                           )
+                       ),
+                       TextFieldCustom(
+                         placeholder: "Commentaire (optionnel)",
+                         controller: commentsByParticipants[participant],
+                         icon: Icons.mode_comment_outlined,
+                         iconColor: MyColors().primaryColor,
+                         onChanged: (value) => setComment(value, participant),
+                       ),
+                       Padding(
+                           padding: EdgeInsets.only(
+                             bottom: index + 1 == participants.length ? 0 : 20,
+                           )
+                       ),
+                     ],
+                   ),
+               ),
+             );
+             }
          ),
        ),
-       const Spacer(),
+       !tasting.closed ? const Spacer() : Container(),
        FloatingActionButtonCustom(
-         onPressed: () {
-           saveGeneralRating();
-         },
-         text: "Enregistrer",
+         backgroundColor: !tasting.closed ? MyColors().primaryColor : MyColors().lightPrimaryColor,
+         textColor: !tasting.closed ? MyColors().whiteColor : MyColors().primaryColor,
+         elevation: 0,
+         onPressed: !tasting.closed ? saveGeneralRating : goToHome,
+         text: !tasting.closed ? "Enregistrer" : "Fermer",
          isLoading: isLoading,
        ),
      ],
@@ -253,5 +253,13 @@ class TabGeneralViewState extends State<TabGeneralView> {
     setState(() {
       generalRatings.update(participant, (rating) => generalRatingParticipant);
     });
+  }
+
+  void goToHome() {
+    MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) {
+      return HomepageController();
+    });
+
+    Navigator.of(context).push(materialPageRoute);
   }
 }

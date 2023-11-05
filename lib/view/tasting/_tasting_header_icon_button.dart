@@ -1,14 +1,17 @@
 import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class TastingHeaderIconButton extends StatelessWidget {
   void Function() onPress;
   IconData icon;
+  bool isLoading;
 
   TastingHeaderIconButton({
     super.key,
     required this.onPress,
     required this.icon,
+    required this.isLoading,
   });
 
   @override
@@ -19,11 +22,21 @@ class TastingHeaderIconButton extends StatelessWidget {
         shape: BoxShape.rectangle,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
-      child: IconButton(
-        onPressed: onPress,
-        icon: Icon(icon),
-      ),
+      child: getButtonContent(),
     );
   }
 
+  Widget getButtonContent() {
+    if (isLoading) {
+      return LoadingAnimationWidget.inkDrop(
+        color: MyColors().whiteColor,
+        size: 20,
+      );
+    }
+
+    return IconButton(
+      onPressed: onPress,
+      icon: Icon(icon),
+    );
+  }
 }

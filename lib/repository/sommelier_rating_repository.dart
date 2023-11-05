@@ -70,8 +70,6 @@ class SommelierRatingRepository {
     Uri url = Uri.https(apiUrl, iri);
     Client client = Client();
 
-    print(comment);
-
     final Map data = {
       "rate": rate,
       "comment": comment ?? "",

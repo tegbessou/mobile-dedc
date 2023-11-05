@@ -31,7 +31,7 @@ class ParticipantRepository {
 
     final Map data = {
       "name": name,
-      "user": "/users/$userId",
+      "user.id": userId,
     };
 
     final clientResponse = await client.post(
@@ -67,7 +67,7 @@ class ParticipantRepository {
 
     Uri url = Uri.https(apiUrl, 'participants', {
       "name": name,
-      "user": "/users/$userId",
+      "user.id": userId,
     });
     Client client = Client();
 

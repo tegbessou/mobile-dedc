@@ -70,8 +70,10 @@ class TastingControllerState extends State<TastingController> {
             tasting: loadedTasting,
           ),
           body: Container(
-            padding: const EdgeInsets.only(
+            padding: !loadedTasting.closed ? const EdgeInsets.only(
               top: 15,
+            ): const EdgeInsets.only(
+              top: 0,
             ),
             child: Column(
               children: [
@@ -85,69 +87,71 @@ class TastingControllerState extends State<TastingController> {
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                      TabBar(
-                        indicatorColor: MyColors().primaryColor,
-                        unselectedLabelColor: MyColors().greyColor,
-                        labelColor: MyColors().primaryColor,
-                        isScrollable: true,
-                        dividerColor: MyColors().blackColor,
-                        padding: const EdgeInsets.only(
-                          left: 27,
-                          right: 27,
-                        ),
-                        tabs: const [
-                          Tab(text: "Plats"),
-                          Tab(text: "Boisson"),
-                          Tab(text: "Service"),
-                          Tab(text: "Sommelier"),
-                          Tab(text: "Général"),
-                        ],
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height - 255,
-                        decoration: BoxDecoration(
-                          color: MyColors().darkSecondaryColor,
-                        ),
-                        child: SingleChildScrollView(
-                          child: SizedBox(
-                            height: MediaQuery.of(context).size.height - 260,
-                            child: TabBarView(
-                              children: [
-                                TabDishesView(
-                                  tasting: loadedTasting,
-                                  participants: loadedTasting.participants,
-                                  dishRatings: {},
-                                ),
-                                TabBeveragesView(
-                                  tasting: loadedTasting,
-                                  participants: loadedTasting.participants,
-                                  beverageRatings: {}
-                                ),
-                                TabServiceView(
-                                  tasting: loadedTasting,
-                                  participants: loadedTasting.participants,
-                                  serviceRatings: initializeServiceRatings(loadedTasting)
-                                ),
-                                TabSommelierView(
-                                  tasting: loadedTasting,
-                                  participants: loadedTasting.participants,
-                                  sommelierRatings: initializeSommelierRatings(loadedTasting)
-                                ),
-                                TabGeneralView(
-                                  tasting: loadedTasting,
-                                  participants: loadedTasting.participants,
-                                  generalRatings: initializeGeneralRatings(loadedTasting)
-                                ),
-                              ],
+                        Material(
+                          color: !loadedTasting.closed ? MyColors().whiteColor: MyColors().lightGreyColor,
+                          child: TabBar(
+                            indicatorColor: MyColors().primaryColor,
+                            unselectedLabelColor: MyColors().greyColor,
+                            labelColor: MyColors().primaryColor,
+                            isScrollable: true,
+                            padding: const EdgeInsets.only(
+                              left: 27,
+                              right: 27,
                             ),
+                            tabs: const [
+                              Tab(text: "Plats"),
+                              Tab(text: "Boisson"),
+                              Tab(text: "Service"),
+                              Tab(text: "Sommelier"),
+                              Tab(text: "Général"),
+                            ],
                           ),
                         ),
-                      )
-                    ],
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: !loadedTasting.closed ? MediaQuery.of(context).size.height - 255 : MediaQuery.of(context).size.height - 280,
+                          decoration: BoxDecoration(
+                            color: !loadedTasting.closed ? MyColors().darkSecondaryColor : MyColors().lightGreyColor,
+                          ),
+                          child: SingleChildScrollView(
+                            child: SizedBox(
+                              height: MediaQuery.of(context).size.height - 260,
+                              child: TabBarView(
+                                children: [
+                                  TabDishesView(
+                                    tasting: loadedTasting,
+                                    participants: loadedTasting.participants,
+                                    dishRatings: {},
+                                  ),
+                                  TabBeveragesView(
+                                    tasting: loadedTasting,
+                                    participants: loadedTasting.participants,
+                                    beverageRatings: {}
+                                  ),
+                                  TabServiceView(
+                                    tasting: loadedTasting,
+                                    participants: loadedTasting.participants,
+                                    serviceRatings: initializeServiceRatings(loadedTasting)
+                                  ),
+                                  TabSommelierView(
+                                    tasting: loadedTasting,
+                                    participants: loadedTasting.participants,
+                                    sommelierRatings: initializeSommelierRatings(loadedTasting)
+                                  ),
+                                  TabGeneralView(
+                                    tasting: loadedTasting,
+                                    participants: loadedTasting.participants,
+                                    generalRatings: initializeGeneralRatings(loadedTasting)
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
               ],
             ),
           ),

@@ -70,7 +70,7 @@ class BeverageCardView extends StatelessWidget {
                         letterSpacing: 0,
                       ),
                       const Spacer(),
-                      PopupMenuButton<String>(
+                      !tasting.closed ? PopupMenuButton<String>(
                         padding: const EdgeInsets.only(
                           left: 15,
                         ),
@@ -134,7 +134,7 @@ class BeverageCardView extends StatelessWidget {
                             onTap: () => remove(beverage),
                           ),
                         ],
-                      )
+                      ) : Container(),
                     ],
                   ),
                   SizedBox(

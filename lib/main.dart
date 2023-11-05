@@ -3,6 +3,7 @@ import 'package:degust_et_des_couleurs/controller/login_controller.dart';
 import 'package:degust_et_des_couleurs/controller/profile_controller.dart';
 import 'package:degust_et_des_couleurs/core/auth.dart';
 import 'package:degust_et_des_couleurs/firebase_options.dart';
+import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

@@ -29,8 +29,6 @@ class ServiceRatingRepository {
     Uri url = Uri.https(apiUrl, 'service_ratings');
     Client client = Client();
 
-    print(comment);
-
     final Map data = {
       "tasting": tasting.iri,
       "participant": participant.iri,
