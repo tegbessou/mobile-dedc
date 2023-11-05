@@ -1,7 +1,7 @@
-import 'package:degust_et_des_couleurs/model/dish.dart';
-import 'package:degust_et_des_couleurs/model/dish_rating.dart';
+import 'package:degust_et_des_couleurs/model/beverage.dart';
+import 'package:degust_et_des_couleurs/model/beverage_rating.dart';
 import 'package:degust_et_des_couleurs/model/participant.dart';
-import 'package:degust_et_des_couleurs/repository/dish_repository.dart';
+import 'package:degust_et_des_couleurs/repository/beverage_repository.dart';
 import 'package:degust_et_des_couleurs/view/_floating_action_button_custom.dart';
 import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:degust_et_des_couleurs/view/_rating_button.dart';
@@ -10,25 +10,25 @@ import 'package:degust_et_des_couleurs/view/_text_dm_sans.dart';
 import 'package:degust_et_des_couleurs/view/_text_field_custom.dart';
 import 'package:flutter/material.dart';
 
-class UpdateDishView extends StatefulWidget {
+class UpdateBeverageView extends StatefulWidget {
   List<Participant> tastingParticipants;
-  Dish dish;
+  Beverage beverage;
 
-  UpdateDishView({
+  UpdateBeverageView({
     super.key,
     required this.tastingParticipants,
-    required this.dish,
+    required this.beverage,
   });
 
   @override
   State<StatefulWidget> createState() {
-    return UpdateDishViewState();
+    return UpdateBeverageViewState();
   }
 }
 
-class UpdateDishViewState extends State<UpdateDishView> {
+class UpdateBeverageViewState extends State<UpdateBeverageView> {
   late List<Participant> tastingParticipants;
-  late Dish dish;
+  late Beverage beverage;
   late TextEditingController nameController;
   bool isLoading = false;
 
@@ -36,8 +36,8 @@ class UpdateDishViewState extends State<UpdateDishView> {
   void initState() {
     super.initState();
 
-    dish = widget.dish;
-    nameController = TextEditingController(text: dish.name);
+    beverage = widget.beverage;
+    nameController = TextEditingController(text: beverage.name);
     tastingParticipants = widget.tastingParticipants;
   }
 
@@ -131,15 +131,15 @@ class UpdateDishViewState extends State<UpdateDishView> {
             height: MediaQuery.of(context).size.height * 0.35,
             child: ListView.builder(
               scrollDirection: Axis.vertical,
-              itemCount: dish.dishRatings.length,
+              itemCount: beverage.beverageRatings.length,
               itemBuilder: (context, index) {
-                final DishRating dishRating = dish.dishRatings[index];
+                final BeverageRating beverageRating = beverage.beverageRatings[index];
 
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextDmSans(
-                      "Note de ${dishRating.participant.name}",
+                      "Note de ${beverageRating.participant.name}",
                       fontSize: 18,
                       letterSpacing: 1,
                       fontWeight: FontWeight.w600,
@@ -153,34 +153,34 @@ class UpdateDishViewState extends State<UpdateDishView> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         RatingButton(
-                          onPress: () => setRating("--", dishRating.participant),
+                          onPress: () => setRating("--", beverageRating.participant),
                           text: "--",
-                          isActive: dishRating.rate == "--",
+                          isActive: beverageRating.rate == "--",
                         ),
                         RatingButton(
-                          onPress: () => setRating("-", dishRating.participant),
+                          onPress: () => setRating("-", beverageRating.participant),
                           text: "-",
-                          isActive: dishRating.rate == "-",
+                          isActive: beverageRating.rate == "-",
                         ),
                         RatingButton(
-                          onPress: () => setRating("=", dishRating.participant),
+                          onPress: () => setRating("=", beverageRating.participant),
                           text: "=",
-                          isActive: dishRating.rate == "=",
+                          isActive: beverageRating.rate == "=",
                         ),
                         RatingButton(
-                          onPress: () => setRating("+", dishRating.participant),
+                          onPress: () => setRating("+", beverageRating.participant),
                           text: "+",
-                          isActive: dishRating.rate == "+",
+                          isActive: beverageRating.rate == "+",
                         ),
                         RatingButton(
-                          onPress: () => setRating("++", dishRating.participant),
+                          onPress: () => setRating("++", beverageRating.participant),
                           text: "++",
-                          isActive: dishRating.rate == "++",
+                          isActive: beverageRating.rate == "++",
                         ),
                         RatingButton(
-                          onPress: () => setRating("xs", dishRating.participant),
+                          onPress: () => setRating("xs", beverageRating.participant),
                           text: "XS",
-                          isActive: dishRating.rate == "xs",
+                          isActive: beverageRating.rate == "xs",
                         ),
                       ],
                     ),
@@ -193,11 +193,11 @@ class UpdateDishViewState extends State<UpdateDishView> {
                       placeholder: "Commentaire (optionnel)",
                       icon: Icons.mode_comment_outlined,
                       iconColor: MyColors().primaryColor,
-                      onChanged: (value) => setComment(value, dishRating.participant),
+                      onChanged: (value) => setComment(value, beverageRating.participant),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                        bottom: index == dish.participants.length ? 0 : 20,
+                        bottom: index == beverage.participants.length ? 0 : 20,
                       )
                     ),
                   ],
@@ -210,7 +210,7 @@ class UpdateDishViewState extends State<UpdateDishView> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               FloatingActionButtonCustom(
-                onPressed: updateDish,
+                onPressed: updateBeverage,
                 text: "Terminer",
                 width: MediaQuery.of(context).size.width / 1.18,
                 height: 55,
@@ -237,24 +237,24 @@ class UpdateDishViewState extends State<UpdateDishView> {
         onPress: () {
           setState(() {
             if (!isAlreadySelectParticipant(participant)) {
-              dish.participants.add(participant);
-              dish.dishRatings.add(
-                DishRating(participant: participant),
+              beverage.participants.add(participant);
+              beverage.beverageRatings.add(
+                BeverageRating(participant: participant),
               );
             } else {
-              dish.participants.removeWhere((Participant participantToBeRemove) {
+              beverage.participants.removeWhere((Participant participantToBeRemove) {
                 return participant.id == participantToBeRemove.id;
               });
 
-              final int index = dish.dishRatings.indexWhere((DishRating dishRating) {
-                return dishRating.participant.id == participant.id;
+              final int index = beverage.beverageRatings.indexWhere((BeverageRating beverageRating) {
+                return beverageRating.participant.id == participant.id;
               });
 
               if (index == -1) {
                 return;
               }
 
-              dish.dishRatings.remove(dish.dishRatings.elementAt(index));
+              beverage.beverageRatings.remove(beverage.beverageRatings.elementAt(index));
             }
           });
         },
@@ -276,58 +276,58 @@ class UpdateDishViewState extends State<UpdateDishView> {
   }
 
   bool isAlreadySelectParticipant(Participant participant) {
-    return dish.participants.map((item) => item.id).contains(participant.id);
+    return beverage.participants.map((item) => item.id).contains(participant.id);
   }
 
   void setRating(String rating, Participant participant) {
-    final int index = dish.dishRatings.indexWhere((DishRating dishRating) {
-      return dishRating.participant.id == participant.id;
+    final int index = beverage.beverageRatings.indexWhere((BeverageRating beverageRating) {
+      return beverageRating.participant.id == participant.id;
     });
 
     if (index == -1) {
       return;
     }
 
-    final DishRating dishRating = dish.dishRatings.elementAt(index);
+    final BeverageRating beverageRating = beverage.beverageRatings.elementAt(index);
 
-    dishRating.rate = rating;
+    beverageRating.rate = rating;
 
     setState(() {
-      dish.dishRatings[index] = dishRating;
+      beverage.beverageRatings[index] = beverageRating;
     });
   }
 
   void setComment(String value, Participant participant) {
-    final int index = dish.dishRatings.indexWhere((DishRating dishRating) {
-      return dishRating.participant.id == participant.id;
+    final int index = beverage.beverageRatings.indexWhere((BeverageRating beverageRating) {
+      return beverageRating.participant.id == participant.id;
     });
 
     if (index == -1) {
       return;
     }
 
-    final DishRating dishRating = dish.dishRatings.elementAt(index);
+    final BeverageRating beverageRating = beverage.beverageRatings.elementAt(index);
 
     setState(() {
-      dish.dishRatings[index] = dishRating;
+      beverage.beverageRatings[index] = beverageRating;
     });
 
-    dishRating.comment = value;
+    beverageRating.comment = value;
 
     setState(() {
-      dish.dishRatings[index] = dishRating;
+      beverage.beverageRatings[index] = beverageRating;
     });
   }
 
-  void updateDish() async {
+  void updateBeverage() async {
     setState(() {
       isLoading = true;
-      dish.name = nameController.text;
+      beverage.name = nameController.text;
     });
 
-    await DishRepository().put(
-      dish.iri,
-      dish,
+    await BeverageRepository().put(
+      beverage.iri,
+      beverage,
     ).then((value) {
       Navigator.pop(context);
       setState(() {

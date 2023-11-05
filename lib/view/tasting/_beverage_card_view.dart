@@ -1,5 +1,6 @@
 import 'package:degust_et_des_couleurs/model/beverage.dart';
 import 'package:degust_et_des_couleurs/model/beverage_rating.dart';
+import 'package:degust_et_des_couleurs/model/tasting.dart';
 import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:degust_et_des_couleurs/view/_text_dm_sans.dart';
 import 'package:flutter/material.dart';
@@ -9,12 +10,16 @@ class BeverageCardView extends StatelessWidget {
     'Modifier',
     'Supprimer',
   ];
+  Tasting tasting;
   void Function(Beverage? beverage) remove;
+  void Function(Tasting tasting, Beverage? beverage) update;
 
   BeverageCardView({
     super.key,
+    required this.tasting,
     required this.beverage,
     required this.remove,
+    required this.update,
   });
 
   Beverage? beverage;
@@ -102,8 +107,7 @@ class BeverageCardView extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            onTap: () {
-                            },
+                            onTap: () => update(tasting, beverage),
                           ),
                           PopupMenuItem<String>(
                             value: "Supprimer",

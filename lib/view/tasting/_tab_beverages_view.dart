@@ -1,19 +1,12 @@
-import 'dart:ffi';
-
 import 'package:degust_et_des_couleurs/model/beverage.dart';
 import 'package:degust_et_des_couleurs/model/beverage_rating.dart';
-import 'package:degust_et_des_couleurs/model/dish.dart';
-import 'package:degust_et_des_couleurs/model/dish_rating.dart';
 import 'package:degust_et_des_couleurs/model/participant.dart';
 import 'package:degust_et_des_couleurs/model/tasting.dart';
 import 'package:degust_et_des_couleurs/repository/beverage_repository.dart';
-import 'package:degust_et_des_couleurs/repository/dish_repository.dart';
 import 'package:degust_et_des_couleurs/view/_floating_action_button_custom.dart';
-import 'package:degust_et_des_couleurs/view/create_tasting/_app_bar_view.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_add_beverage_view.dart';
-import 'package:degust_et_des_couleurs/view/tasting/_add_dish_view.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_beverage_card_view.dart';
-import 'package:degust_et_des_couleurs/view/tasting/_dish_card_view.dart';
+import 'package:degust_et_des_couleurs/view/tasting/_update_beverage_view.dart';
 import 'package:flutter/material.dart';
 
 class TabBeveragesView extends StatefulWidget {
@@ -84,8 +77,10 @@ class TabBeveragesViewState extends State<TabBeveragesView> {
                    itemCount: loadedBeverages.length,
                    itemBuilder: (context, index) {
                      return BeverageCardView(
+                       tasting: tasting,
                        beverage: loadedBeverages?.elementAt(index),
                        remove: removeBeverage,
+                       update: updateBeverage,
                      );
                    }
                ),
@@ -134,5 +129,28 @@ class TabBeveragesViewState extends State<TabBeveragesView> {
     String iri = beverage.iri;
 
     BeverageRepository().delete(iri).then((value) => loadBeverage());
+  }
+
+  void updateBeverage(Tasting tasting, Beverage? beverage) {
+    if (beverage == null) {
+      return;
+    }
+
+    Future<
+        void> futureShowModalBottomSheet = showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        builder: (context) {
+          return UpdateBeverageView(
+            beverage: beverage,
+            tastingParticipants: tasting.participants,
+          );
+        }
+    );
+
+    futureShowModalBottomSheet.then((void value) => loadBeverage());
   }
 }

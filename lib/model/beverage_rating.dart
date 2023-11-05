@@ -27,4 +27,18 @@ class BeverageRating {
       comment: json['comment'],
     );
   }
+
+  Map toMap() {
+    final Map beverageRatingMap = {
+      "participant": participant.iri,
+      "rate": rate,
+      "comment": comment,
+    };
+
+    if (id != null) {
+      beverageRatingMap["id"] = id;
+    }
+
+    return beverageRatingMap;
+  }
 }

@@ -32,4 +32,23 @@ class Beverage {
       beverageRatings: beverageRatings,
     );
   }
+
+  Map toMap() {
+    List participantsToMap = [];
+    List beverageRatingsToMap = [];
+
+    participants.forEach((Participant participant) {
+      participantsToMap.add(participant.iri);
+    });
+
+    beverageRatings.forEach((BeverageRating beverageRating) {
+      beverageRatingsToMap.add(beverageRating.toMap());
+    });
+
+    return {
+      "name": name,
+      "participants": participantsToMap,
+      "beverageRatings": beverageRatingsToMap,
+    };
+  }
 }

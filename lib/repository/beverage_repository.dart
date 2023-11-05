@@ -118,4 +118,39 @@ class BeverageRepository {
       },
     );
   }
+
+  Future<Beverage> put(
+    String iri,
+    Beverage beverage,
+  ) async {
+    String? apiUrl = dotenv.env['API_URL'];
+
+    if (apiUrl == null) {
+      throw Exception();
+    }
+
+    Token? token = await TokenRepository().getToken();
+
+    if (token == null) {
+      throw Exception();
+    }
+
+    Uri url = Uri.https(apiUrl, iri);
+    Client client = Client();
+
+    final clientResponse = await client.put(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer ${token.token}",
+      },
+      body: json.encode(beverage.toMap()),
+    );
+    print(beverage.toMap());
+    print(iri);
+
+    final parsed = jsonDecode(clientResponse.body);
+
+    return Beverage.fromJson(parsed);
+  }
 }
