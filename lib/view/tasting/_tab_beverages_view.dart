@@ -10,6 +10,7 @@ import 'package:degust_et_des_couleurs/view/tasting/_add_beverage_view.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_beverage_card_view.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_update_beverage_view.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class TabBeveragesView extends StatefulWidget {
   Tasting tasting;
@@ -50,7 +51,8 @@ class TabBeveragesViewState extends State<TabBeveragesView> {
 
     return FutureBuilder(
         future: beverages,
-        builder: (BuildContext context, AsyncSnapshot<List<Beverage>> snapshot) {
+        builder:
+            (BuildContext context, AsyncSnapshot<List<Beverage>> snapshot) {
           List<Beverage>? loadedBeverages = [];
 
           if (snapshot.hasData) {
@@ -58,7 +60,18 @@ class TabBeveragesViewState extends State<TabBeveragesView> {
           } else {
             //Put a loader here
             return Scaffold(
-              body: Container(),
+              body: SizedBox(
+                height: MediaQuery.of(context).size.height - 150,
+                child: Container(
+                  color: MyColors().lightGreyColor,
+                  child: Center(
+                    child: LoadingAnimationWidget.inkDrop(
+                      color: MyColors().primaryColor,
+                      size: 50,
+                    ),
+                  ),
+                ),
+              ),
             );
           }
 
@@ -69,34 +82,37 @@ class TabBeveragesViewState extends State<TabBeveragesView> {
             );
           }
 
-           return Column(
-             children: [
-               SizedBox(
-                 height: !tasting.closed ? MediaQuery.of(context).size.height - 350: MediaQuery.of(context).size.height - 400,
-                 child: ListView.builder(
-                 scrollDirection: Axis.vertical,
-                 itemCount: loadedBeverages.length,
-                 itemBuilder: (context, index) {
-                   return BeverageCardView(
-                     tasting: tasting,
-                     beverage: loadedBeverages?.elementAt(index),
-                     remove: removeBeverage,
-                     update: updateBeverage,
-                   );
-                 }
-             ),
-           ),
-           FloatingActionButtonCustom(
-             backgroundColor: !tasting.closed ? MyColors().primaryColor : MyColors().lightPrimaryColor,
-             textColor: !tasting.closed ? MyColors().whiteColor : MyColors().primaryColor,
-             elevation: 0,
-             onPressed: !tasting.closed ? newBeverage : goToHome,
-             text: !tasting.closed ? "Nouvelle boisson" : "Fermer"
-           ),
+          return Column(
+            children: [
+              SizedBox(
+                height: !tasting.closed
+                    ? MediaQuery.of(context).size.height - 350
+                    : MediaQuery.of(context).size.height - 400,
+                child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: loadedBeverages.length,
+                    itemBuilder: (context, index) {
+                      return BeverageCardView(
+                        tasting: tasting,
+                        beverage: loadedBeverages?.elementAt(index),
+                        remove: removeBeverage,
+                        update: updateBeverage,
+                      );
+                    }),
+              ),
+              FloatingActionButtonCustom(
+                  backgroundColor: !tasting.closed
+                      ? MyColors().primaryColor
+                      : MyColors().lightPrimaryColor,
+                  textColor: !tasting.closed
+                      ? MyColors().whiteColor
+                      : MyColors().primaryColor,
+                  elevation: 0,
+                  onPressed: !tasting.closed ? newBeverage : goToHome,
+                  text: !tasting.closed ? "Nouvelle boisson" : "Fermer"),
             ],
           );
-      }
-    );
+        });
   }
 
   void loadBeverage() async {
@@ -120,8 +136,7 @@ class TabBeveragesViewState extends State<TabBeveragesView> {
       return;
     }
 
-    Future<
-        void> futureShowModalBottomSheet = showModalBottomSheet(
+    Future<void> futureShowModalBottomSheet = showModalBottomSheet(
         isScrollControlled: true,
         context: context,
         shape: RoundedRectangleBorder(
@@ -132,15 +147,13 @@ class TabBeveragesViewState extends State<TabBeveragesView> {
             beverage: beverage,
             tastingParticipants: tasting.participants,
           );
-        }
-    );
+        });
 
     futureShowModalBottomSheet.then((void value) => loadBeverage());
   }
 
   void newBeverage() {
-    Future<
-        void> futureShowModalBottomSheet = showModalBottomSheet(
+    Future<void> futureShowModalBottomSheet = showModalBottomSheet(
         isScrollControlled: true,
         context: context,
         shape: RoundedRectangleBorder(
@@ -150,16 +163,15 @@ class TabBeveragesViewState extends State<TabBeveragesView> {
           return AddBeverageView(
               tasting: tasting,
               tastingParticipants: participants,
-              beverageRatingParticipants: {}
-          );
-        }
-    );
+              beverageRatingParticipants: {});
+        });
 
     futureShowModalBottomSheet.then((void value) => loadBeverage());
   }
 
   void goToHome() {
-    MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) {
+    MaterialPageRoute materialPageRoute =
+        MaterialPageRoute(builder: (BuildContext context) {
       return HomepageController();
     });
 

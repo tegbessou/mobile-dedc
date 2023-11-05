@@ -10,6 +10,7 @@ import 'package:degust_et_des_couleurs/view/tasting/_add_dish_view.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_dish_card_view.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_update_dish_view.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class TabDishesView extends StatefulWidget {
   Tasting tasting;
@@ -58,7 +59,18 @@ class TabDishesViewState extends State<TabDishesView> {
           } else {
             //Put a loader here
             return Scaffold(
-              body: Container(),
+              body: SizedBox(
+                height: MediaQuery.of(context).size.height - 150,
+                child: Container(
+                  color: MyColors().lightGreyColor,
+                  child: Center(
+                    child: LoadingAnimationWidget.inkDrop(
+                      color: MyColors().primaryColor,
+                      size: 50,
+                    ),
+                  ),
+                ),
+              ),
             );
           }
 
@@ -69,34 +81,37 @@ class TabDishesViewState extends State<TabDishesView> {
             );
           }
 
-           return Column(
-             children: [
-               SizedBox(
-                 height: !tasting.closed ? MediaQuery.of(context).size.height - 350: MediaQuery.of(context).size.height - 400,
-                 child: ListView.builder(
-                 scrollDirection: Axis.vertical,
-                 itemCount: loadedDishes.length,
-                 itemBuilder: (context, index) {
-                   return DishCardView(
-                     tasting: tasting,
-                     dish: loadedDishes?.elementAt(index),
-                     remove: removeDish,
-                     update: updateDish,
-                   );
-                 }
-             ),
-           ),
-           FloatingActionButtonCustom(
-             backgroundColor: !tasting.closed ? MyColors().primaryColor : MyColors().lightPrimaryColor,
-             textColor: !tasting.closed ? MyColors().whiteColor : MyColors().primaryColor,
-             elevation: 0,
-             onPressed: !tasting.closed ? newDish : goToHome,
-             text: !tasting.closed ? "Nouveau plat" : "Fermer"
-           ),
+          return Column(
+            children: [
+              SizedBox(
+                height: !tasting.closed
+                    ? MediaQuery.of(context).size.height - 350
+                    : MediaQuery.of(context).size.height - 400,
+                child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: loadedDishes.length,
+                    itemBuilder: (context, index) {
+                      return DishCardView(
+                        tasting: tasting,
+                        dish: loadedDishes?.elementAt(index),
+                        remove: removeDish,
+                        update: updateDish,
+                      );
+                    }),
+              ),
+              FloatingActionButtonCustom(
+                  backgroundColor: !tasting.closed
+                      ? MyColors().primaryColor
+                      : MyColors().lightPrimaryColor,
+                  textColor: !tasting.closed
+                      ? MyColors().whiteColor
+                      : MyColors().primaryColor,
+                  elevation: 0,
+                  onPressed: !tasting.closed ? newDish : goToHome,
+                  text: !tasting.closed ? "Nouveau plat" : "Fermer"),
             ],
           );
-      }
-    );
+        });
   }
 
   void loadDishes() async {
@@ -120,45 +135,42 @@ class TabDishesViewState extends State<TabDishesView> {
       return;
     }
 
-    Future<
-      void> futureShowModalBottomSheet = showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30),
-      ),
-      builder: (context) {
-        return UpdateDishView(
+    Future<void> futureShowModalBottomSheet = showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        builder: (context) {
+          return UpdateDishView(
             dish: dish,
             tastingParticipants: tasting.participants,
-        );
-      }
-    );
+          );
+        });
 
     futureShowModalBottomSheet.then((void value) => loadDishes());
   }
 
   void newDish() {
-    Future<
-      void> futureShowModalBottomSheet = showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30),
-      ),
-      builder: (context) {
-        return AddDishView(tasting: tasting,
-            tastingParticipants: participants,
-            dishRatingParticipants: {}
-        );
-      }
-    );
+    Future<void> futureShowModalBottomSheet = showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        builder: (context) {
+          return AddDishView(
+              tasting: tasting,
+              tastingParticipants: participants,
+              dishRatingParticipants: {});
+        });
 
     futureShowModalBottomSheet.then((void value) => loadDishes());
   }
 
   void goToHome() {
-    MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) {
+    MaterialPageRoute materialPageRoute =
+        MaterialPageRoute(builder: (BuildContext context) {
       return HomepageController();
     });
 

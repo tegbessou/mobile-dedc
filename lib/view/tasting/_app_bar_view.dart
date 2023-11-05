@@ -31,7 +31,7 @@ class AppBarView extends StatelessWidget implements PreferredSizeWidget {
       titleSpacing: 0,
       backgroundColor: !isClosed ? MyColors().whiteColor : MyColors().lightGreyColor,
       title: !isClosed ? TextDmSans(
-        "Dégustation ${tasting?.name}",
+        tasting?.name == null ? "Dégustation" : "Dégustation ${tasting?.name}",
         fontSize: 22,
         letterSpacing: 0,
         fontWeight: FontWeight.bold,

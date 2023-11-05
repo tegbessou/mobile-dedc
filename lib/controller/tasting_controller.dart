@@ -14,6 +14,7 @@ import 'package:degust_et_des_couleurs/view/tasting/_tab_service_view.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_tab_sommelier_view.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_tasting_header.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class TastingController extends StatefulWidget {
   final int? id;
@@ -50,9 +51,18 @@ class TastingControllerState extends State<TastingController> {
         } else {
           //Put a loader here
           return Scaffold(
-              appBar: AppBarView(
-                tasting: loadedTasting,
+            body: SizedBox(
+              height: MediaQuery.of(context).size.height - 150,
+              child: Container(
+                color: MyColors().lightGreyColor,
+                child: Center(
+                  child: LoadingAnimationWidget.inkDrop(
+                    color: MyColors().primaryColor,
+                    size: 50,
+                  ),
+                ),
               ),
+            ),
           );
         }
 
