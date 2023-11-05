@@ -31,7 +31,7 @@ class TextFormFieldCustom extends StatelessWidget {
       controller: controller,
       onChanged: onChanged ?? (value) => {},
       obscureText: obscureText,
-      validator: onValidate ?? (value) { return "Pedro"; },
+      validator: onValidate ?? (value) { return null; },
       autocorrect: autocorrect,
       keyboardType: keyboardType,
       decoration: InputDecoration(

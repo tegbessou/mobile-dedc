@@ -1,5 +1,6 @@
 import 'package:degust_et_des_couleurs/controller/create_tasting_controller.dart';
 import 'package:degust_et_des_couleurs/model/tasting.dart';
+import 'package:degust_et_des_couleurs/repository/tasting_repository.dart';
 import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:degust_et_des_couleurs/view/_navigation_bar_bottom.dart';
 import 'package:degust_et_des_couleurs/view/_text_dm_sans.dart';
@@ -7,14 +8,32 @@ import 'package:degust_et_des_couleurs/view/_text_field_custom.dart';
 import 'package:degust_et_des_couleurs/view/homepage/_app_bar_view.dart';
 import 'package:degust_et_des_couleurs/view/homepage/_tasting_card_view.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-class HomepageView extends StatelessWidget {
+class HomepageView extends StatefulWidget {
+  List<Tasting>? tastings;
+
   HomepageView({
     super.key,
     required this.tastings,
   });
 
-  List<Tasting> tastings;
+  @override
+  State<StatefulWidget> createState() {
+    return HomepageViewState();
+  }
+}
+
+class HomepageViewState extends State<HomepageView> {
+  late List<Tasting> tastings;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    tastings = widget.tastings ?? [];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +41,7 @@ class HomepageView extends StatelessWidget {
       appBar: AppBarView(),
       body: SingleChildScrollView(
         child: Container(
+          height: MediaQuery.of(context).size.height - 200,
           padding: const EdgeInsets.only(
             top: 15,
             left: 27,
@@ -32,9 +52,10 @@ class HomepageView extends StatelessWidget {
               TextFieldCustom(
                 placeholder: "Rechercher une dégustation",
                 icon: Icons.search,
+                onChanged: (value) => searchTastingByName(value),
               ),
-              SizedBox(
-                height: 600,
+              !isLoading ? SizedBox(
+                height: 570,
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   itemCount: tastings.length,
@@ -43,6 +64,11 @@ class HomepageView extends StatelessWidget {
                       tasting: tastings[index],
                     );
                   }
+                ),
+              ): Expanded(
+                child: LoadingAnimationWidget.inkDrop(
+                  color: MyColors().primaryColor,
+                  size: 50,
                 ),
               ),
             ]),
@@ -72,5 +98,25 @@ class HomepageView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> searchTastingByName(String value) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    if (value.length <= 3) {
+      value = "";
+    }
+
+    TastingRepository().findByName(value).then((value) {
+      setState(() {
+        tastings = value;
+      });
+    }).whenComplete(() {
+      setState(() {
+        isLoading = false;
+      });
+    });
   }
 }

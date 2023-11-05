@@ -8,6 +8,7 @@ import 'package:degust_et_des_couleurs/view/_rating_button.dart';
 import 'package:degust_et_des_couleurs/view/_small_elevated_button.dart';
 import 'package:degust_et_des_couleurs/view/_text_dm_sans.dart';
 import 'package:degust_et_des_couleurs/view/_text_field_custom.dart';
+import 'package:degust_et_des_couleurs/view/_text_form_field_custom.dart';
 import 'package:flutter/material.dart';
 
 class AddBeverageView extends StatefulWidget {
@@ -32,6 +33,7 @@ class AddDishViewState extends State<AddBeverageView> {
   late List<Participant> tastingParticipants;
   late Tasting tasting;
   TextEditingController nameController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   List<Participant> beverageParticipants = [];
   Map<Participant, BeverageRating> beverageRatingParticipants = {};
   bool isLoading = false;
@@ -62,191 +64,195 @@ class AddDishViewState extends State<AddBeverageView> {
         right: 27,
         bottom: 30,
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(
+      child: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+                padding: EdgeInsets.only(
               top: 40,
-            )
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              TextDmSans(
-                "Nouvelle boisson",
-                fontSize: 28,
-                letterSpacing: 0,
-                fontWeight: FontWeight.w800,
-              ),
-              CircleAvatar(
-                backgroundColor: MyColors().secondaryColor,
-                radius: 16,
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: Icon(
-                    Icons.close,
-                    size: 16,
-                    color: MyColors().blackColor,
+            )),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextDmSans(
+                  "Nouvelle boisson",
+                  fontSize: 28,
+                  letterSpacing: 0,
+                  fontWeight: FontWeight.w800,
+                ),
+                CircleAvatar(
+                  backgroundColor: MyColors().secondaryColor,
+                  radius: 16,
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: Icon(
+                      Icons.close,
+                      size: 16,
+                      color: MyColors().blackColor,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          const Padding(
-            padding: EdgeInsets.only(
-              top: 20,
+              ],
             ),
-          ),
-          TextFieldCustom(
-            placeholder: "Nom de la boisson",
-            icon: Icons.room_service_outlined,
-            iconColor: MyColors().primaryColor,
-            controller: nameController,
-          ),
-          const Padding(
-            padding: EdgeInsets.only(
-              top: 20,
-            )
-          ),
-          TextDmSans(
-            "Goûté par",
-            fontSize: 18,
-            letterSpacing: 0,
-            fontWeight: FontWeight.w600,
-          ),
-          const Padding(
-            padding: EdgeInsets.only(
-              top: 5,
-            )
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 23,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: getParticipants().length,
-              itemBuilder: (context, index) {
-                return getParticipants()[index];
-              }
-            ),
-          ),
-          const Padding(
+            const Padding(
               padding: EdgeInsets.only(
                 top: 20,
-              )
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.35,
-            child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: beverageParticipants.length,
-              itemBuilder: (context, index) {
-                final participant = beverageParticipants[index];
-                final beverageRating = beverageRatingParticipants[participant];
+              ),
+            ),
+            TextFormFieldCustom(
+              placeholder: "Nom de la boisson",
+              icon: Icons.room_service_outlined,
+              iconColor: MyColors().primaryColor,
+              controller: nameController,
+              onValidate: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Le nom de la boisson est obligatoire';
+                }
 
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextDmSans(
-                      "Note de ${participant.name}",
-                      fontSize: 18,
-                      letterSpacing: 1,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(
-                        top: 15,
-                      )
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        RatingButton(
-                          onPress: () => setRating("--", participant),
-                          text: "--",
-                          isActive: beverageRating?.rate == "--",
-                        ),
-                        RatingButton(
-                          onPress: () => setRating("-", participant),
-                          text: "-",
-                          isActive: beverageRating?.rate == "-",
-                        ),
-                        RatingButton(
-                          onPress: () => setRating("=", participant),
-                          text: "=",
-                          isActive: beverageRating?.rate == "=",
-                        ),
-                        RatingButton(
-                          onPress: () => setRating("+", participant),
-                          text: "+",
-                          isActive: beverageRating?.rate == "+",
-                        ),
-                        RatingButton(
-                          onPress: () => setRating("++", participant),
-                          text: "++",
-                          isActive: beverageRating?.rate == "++",
-                        ),
-                        RatingButton(
-                          onPress: () => setRating("xs", participant),
-                          text: "XS",
-                          isActive: beverageRating?.rate == "xs",
-                        ),
-                      ],
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(
-                        bottom: 20,
-                      )
-                    ),
-                    TextFieldCustom(
-                      placeholder: "Commentaire (optionnel)",
-                      icon: Icons.mode_comment_outlined,
-                      iconColor: MyColors().primaryColor,
-                      onChanged: (value) => setComment(value, participant),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        bottom: index + 1 == beverageParticipants.length ? 0 : 20,
-                      )
-                    ),
-                  ],
-                );
+                return null;
               },
             ),
-          ),
-          const Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              FloatingActionButtonCustom(
-                onPressed: () => createDish(false),
-                text: "Plat suivant",
-                width: MediaQuery.of(context).size.width / 2.5,
-                height: 55,
-                margin: const EdgeInsets.all(0),
-                backgroundColor: MyColors().lightPrimaryColor,
-                textColor: MyColors().primaryColor,
-                elevation: 0,
-                fontWeight: FontWeight.w500,
-                isLoading: isLoading,
+            const Padding(
+                padding: EdgeInsets.only(
+              top: 20,
+            )),
+            TextDmSans(
+              "Goûté par",
+              fontSize: 18,
+              letterSpacing: 0,
+              fontWeight: FontWeight.w600,
+            ),
+            const Padding(
+                padding: EdgeInsets.only(
+              top: 5,
+            )),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 23,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: getParticipants().length,
+                  itemBuilder: (context, index) {
+                    return getParticipants()[index];
+                  }),
+            ),
+            const Padding(
+                padding: EdgeInsets.only(
+              top: 20,
+            )),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.35,
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: beverageParticipants.length,
+                itemBuilder: (context, index) {
+                  final participant = beverageParticipants[index];
+                  final beverageRating =
+                      beverageRatingParticipants[participant];
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextDmSans(
+                        "Note de ${participant.name}",
+                        fontSize: 18,
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      const Padding(
+                          padding: EdgeInsets.only(
+                        top: 15,
+                      )),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          RatingButton(
+                            onPress: () => setRating("--", participant),
+                            text: "--",
+                            isActive: beverageRating?.rate == "--",
+                          ),
+                          RatingButton(
+                            onPress: () => setRating("-", participant),
+                            text: "-",
+                            isActive: beverageRating?.rate == "-",
+                          ),
+                          RatingButton(
+                            onPress: () => setRating("=", participant),
+                            text: "=",
+                            isActive: beverageRating?.rate == "=",
+                          ),
+                          RatingButton(
+                            onPress: () => setRating("+", participant),
+                            text: "+",
+                            isActive: beverageRating?.rate == "+",
+                          ),
+                          RatingButton(
+                            onPress: () => setRating("++", participant),
+                            text: "++",
+                            isActive: beverageRating?.rate == "++",
+                          ),
+                          RatingButton(
+                            onPress: () => setRating("xs", participant),
+                            text: "XS",
+                            isActive: beverageRating?.rate == "xs",
+                          ),
+                        ],
+                      ),
+                      const Padding(
+                          padding: EdgeInsets.only(
+                        bottom: 20,
+                      )),
+                      TextFieldCustom(
+                        placeholder: "Commentaire (optionnel)",
+                        icon: Icons.mode_comment_outlined,
+                        iconColor: MyColors().primaryColor,
+                        onChanged: (value) => setComment(value, participant),
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(
+                        bottom:
+                            index + 1 == beverageParticipants.length ? 0 : 20,
+                      )),
+                    ],
+                  );
+                },
               ),
-              FloatingActionButtonCustom(
-                onPressed: () => createDish(true),
-                text: "Terminer",
-                width: MediaQuery.of(context).size.width / 2.5,
-                height: 55,
-                margin: const EdgeInsets.all(0),
-                elevation: 0,
-                fontWeight: FontWeight.w500,
-                isLoading: isLoading,
-              ),
-            ],
-          ),
-        ],
+            ),
+            const Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                FloatingActionButtonCustom(
+                  onPressed: () => createDish(false),
+                  text: "Plat suivant",
+                  width: MediaQuery.of(context).size.width / 2.5,
+                  height: 55,
+                  margin: const EdgeInsets.all(0),
+                  backgroundColor: MyColors().lightPrimaryColor,
+                  textColor: MyColors().primaryColor,
+                  elevation: 0,
+                  fontWeight: FontWeight.w500,
+                  isLoading: isLoading,
+                ),
+                FloatingActionButtonCustom(
+                  onPressed: () => createDish(true),
+                  text: "Terminer",
+                  width: MediaQuery.of(context).size.width / 2.5,
+                  height: 55,
+                  margin: const EdgeInsets.all(0),
+                  elevation: 0,
+                  fontWeight: FontWeight.w500,
+                  isLoading: isLoading,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -257,14 +263,19 @@ class AddDishViewState extends State<AddBeverageView> {
     tastingParticipants.forEach((Participant participant) {
       SmallElevatedButton smallElevatedButtonParticipant = SmallElevatedButton(
         text: participant.name,
-        backgroundColor: isAlreadySelectParticipant(participant) ? MyColors().primaryColor : MyColors().lightPrimaryColor,
-        color: isAlreadySelectParticipant(participant) ? MyColors().whiteColor : MyColors().primaryColor,
+        backgroundColor: isAlreadySelectParticipant(participant)
+            ? MyColors().primaryColor
+            : MyColors().lightPrimaryColor,
+        color: isAlreadySelectParticipant(participant)
+            ? MyColors().whiteColor
+            : MyColors().primaryColor,
         onPress: () {
           setState(() {
             if (!beverageRatingParticipants.containsKey(participant)) {
               beverageParticipants.add(participant);
               beverageRatingParticipants.putIfAbsent(
-                participant, () => BeverageRating(participant: participant),
+                participant,
+                () => BeverageRating(participant: participant),
               );
             } else {
               beverageParticipants.remove(participant);
@@ -294,7 +305,8 @@ class AddDishViewState extends State<AddBeverageView> {
   }
 
   void setRating(String rating, Participant participant) {
-    BeverageRating? beverageRatingParticipant = beverageRatingParticipants[participant];
+    BeverageRating? beverageRatingParticipant =
+        beverageRatingParticipants[participant];
 
     if (beverageRatingParticipant == null) {
       return;
@@ -303,12 +315,14 @@ class AddDishViewState extends State<AddBeverageView> {
     beverageRatingParticipant.rate = rating;
 
     setState(() {
-      beverageRatingParticipants.update(participant, (rating) => beverageRatingParticipant);
+      beverageRatingParticipants.update(
+          participant, (rating) => beverageRatingParticipant);
     });
   }
 
   void setComment(String value, Participant participant) {
-    BeverageRating? beverageRatingParticipant = beverageRatingParticipants[participant];
+    BeverageRating? beverageRatingParticipant =
+        beverageRatingParticipants[participant];
 
     if (beverageRatingParticipant == null) {
       return;
@@ -317,22 +331,29 @@ class AddDishViewState extends State<AddBeverageView> {
     beverageRatingParticipant.comment = value;
 
     setState(() {
-      beverageRatingParticipants.update(participant, (rating) => beverageRatingParticipant);
+      beverageRatingParticipants.update(
+          participant, (rating) => beverageRatingParticipant);
     });
   }
 
   void createDish(
     bool withRedirection,
   ) async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
     setState(() {
       isLoading = true;
     });
 
-    await BeverageRepository().post(
+    await BeverageRepository()
+        .post(
       nameController.text,
       tasting,
       beverageRatingParticipants,
-    ).then((value) {
+    )
+        .then((value) {
       if (withRedirection) {
         Navigator.pop(context);
       }

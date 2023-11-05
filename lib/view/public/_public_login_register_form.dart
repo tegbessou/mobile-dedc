@@ -119,7 +119,7 @@ class PublicLoginRegisterFormState extends State<PublicLoginRegisterForm> {
         await handleSubmit(
             controllerEmail.value,
             controllerPassword.value
-        ).then((value) {
+        ).whenComplete(() {
           setState(() {
             isLoading = false;
           });

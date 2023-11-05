@@ -16,7 +16,9 @@ import 'package:flutter/material.dart';
 
 class CreateTastingAddParticipantController extends StatefulWidget {
   final Tasting? tasting;
-  const CreateTastingAddParticipantController({super.key, required this.tasting});
+
+  const CreateTastingAddParticipantController(
+      {super.key, required this.tasting});
 
   @override
   State<StatefulWidget> createState() {
@@ -24,12 +26,15 @@ class CreateTastingAddParticipantController extends StatefulWidget {
   }
 }
 
-class CreateTastingAddParticipantControllerState extends State<CreateTastingAddParticipantController> {
+class CreateTastingAddParticipantControllerState
+    extends State<CreateTastingAddParticipantController> {
   late Tasting? tasting;
   List<Participant> participants = [];
   Restaurant? restaurantSelected;
   final TextEditingController participantController = TextEditingController();
-  final TextEditingController createParticipantNameController = TextEditingController();
+  final TextEditingController createParticipantNameController =
+      TextEditingController();
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -61,8 +66,7 @@ class CreateTastingAddParticipantControllerState extends State<CreateTastingAddP
                     itemBuilder: (context, suggestion) {
                       return ListTile(
                         title: Text(suggestion.name),
-                        trailing:
-                        SmallElevatedButton(
+                        trailing: SmallElevatedButton(
                           text: "Ajouter",
                           onPress: null,
                           backgroundColor: MyColors().primaryColor,
@@ -72,7 +76,9 @@ class CreateTastingAddParticipantControllerState extends State<CreateTastingAddP
                     },
                     onSuggestionSelected: (selection) {
                       setState(() {
-                        if (!participants.map((item) => item.id).contains(selection.id)) {
+                        if (!participants
+                            .map((item) => item.id)
+                            .contains(selection.id)) {
                           participants.add(selection);
                         }
                       });
@@ -83,19 +89,16 @@ class CreateTastingAddParticipantControllerState extends State<CreateTastingAddP
                     prefixIconColor: MyColors().greyColor,
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 10)
-                ),
+                const Padding(padding: EdgeInsets.only(left: 10)),
                 AddParticipantButton(
                   displayAddParticipant: displayAddParticipant,
                 ),
               ],
             ),
             const Padding(
-              padding: EdgeInsets.only(
-                top: 20,
-              )
-            ),
+                padding: EdgeInsets.only(
+              top: 20,
+            )),
             SizedBox(
               height: 300,
               child: ListView.separated(
@@ -114,15 +117,14 @@ class CreateTastingAddParticipantControllerState extends State<CreateTastingAddP
                         letterSpacing: 1,
                       ),
                       SmallElevatedButton(
-                        onPress: () {
-                          setState(() {
-                            participants.remove(participant);
-                          });
-                        },
-                        text: "Retirer",
-                        backgroundColor: MyColors().secondaryColor,
-                        color: MyColors().blackColor
-                      ),
+                          onPress: () {
+                            setState(() {
+                              participants.remove(participant);
+                            });
+                          },
+                          text: "Retirer",
+                          backgroundColor: MyColors().secondaryColor,
+                          color: MyColors().blackColor),
                     ],
                   );
                 },
@@ -136,6 +138,7 @@ class CreateTastingAddParticipantControllerState extends State<CreateTastingAddP
       floatingActionButton: FloatingActionButtonCustom(
         onPressed: addParticipants,
         text: "Ajouter ${participants.length} participants",
+        isLoading: isLoading,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
@@ -143,23 +146,30 @@ class CreateTastingAddParticipantControllerState extends State<CreateTastingAddP
 
   void displayAddParticipant() async {
     return showDialog(
-      context: context,
-      builder: (context)
-    {
-      return CreateParticipantAlertDialog(
-        createParticipantNameController: createParticipantNameController,
-        createParticipant: createParticipant,
-      );
-    });
+        context: context,
+        builder: (context) {
+          return CreateParticipantAlertDialog(
+            createParticipantNameController: createParticipantNameController,
+            createParticipant: createParticipant,
+          );
+        });
   }
 
   void addParticipants() async {
-    Tasting updatedTasting = await TastingRepository().addParticipants(
-        tasting,
-        participants
-    );
+    setState(() {
+      isLoading = true;
+    });
 
-    MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) {
+    Tasting updatedTasting = await TastingRepository()
+        .addParticipants(tasting, participants)
+        .whenComplete(() {
+      setState(() {
+        isLoading = false;
+      });
+    });
+
+    MaterialPageRoute materialPageRoute =
+        MaterialPageRoute(builder: (BuildContext context) {
       return TastingController(id: updatedTasting.id);
     });
 

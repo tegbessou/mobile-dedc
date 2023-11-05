@@ -1,7 +1,11 @@
 import 'package:degust_et_des_couleurs/model/tasting.dart';
 import 'package:degust_et_des_couleurs/repository/tasting_repository.dart';
+import 'package:degust_et_des_couleurs/view/_my_colors.dart';
+import 'package:degust_et_des_couleurs/view/_navigation_bar_bottom.dart';
+import 'package:degust_et_des_couleurs/view/homepage/_app_bar_view.dart';
 import 'package:degust_et_des_couleurs/view/homepage/homepage_view.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class HomepageController extends StatefulWidget {
   const HomepageController({super.key});
@@ -18,7 +22,29 @@ class HomepageState extends State<HomepageController> {
     return FutureBuilder<List<Tasting>>(
       future: TastingRepository().findByName(""),
       builder: (context, snapshot) {
-        List<Tasting> tastings = snapshot.data ?? [];
+        List<Tasting>? tastings;
+
+        if (snapshot.hasData) {
+          tastings = snapshot.data;
+        } else {
+          //Put a loader here
+          return Scaffold(
+            appBar: AppBarView(),
+            body: SizedBox(
+              height: MediaQuery.of(context).size.height - 150,
+              child: Container(
+                color: MyColors().lightGreyColor,
+                child: Center(
+                  child: LoadingAnimationWidget.inkDrop(
+                    color: MyColors().primaryColor,
+                    size: 50,
+                  ),
+                ),
+              ),
+            ),
+            bottomNavigationBar: const NavigationBarBottom(),
+          );
+        }
 
         return HomepageView(tastings: tastings);
       },

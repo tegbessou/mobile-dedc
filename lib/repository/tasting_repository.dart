@@ -70,10 +70,15 @@ class TastingRepository {
       throw Exception();
     }
 
-    Uri url = Uri.https(apiUrl, 'tastings', {
-      "name": name,
+    final Map<String, dynamic> queryParam = {
       "user.id": userId,
-    });
+    };
+
+    if (name != "" ) {
+      queryParam["name"] = name;
+    }
+
+    Uri url = Uri.https(apiUrl, 'tastings', queryParam);
     Client client = Client();
 
     final clientResponse = await client.get(

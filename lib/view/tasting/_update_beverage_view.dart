@@ -8,6 +8,7 @@ import 'package:degust_et_des_couleurs/view/_rating_button.dart';
 import 'package:degust_et_des_couleurs/view/_small_elevated_button.dart';
 import 'package:degust_et_des_couleurs/view/_text_dm_sans.dart';
 import 'package:degust_et_des_couleurs/view/_text_field_custom.dart';
+import 'package:degust_et_des_couleurs/view/_text_form_field_custom.dart';
 import 'package:flutter/material.dart';
 
 class UpdateBeverageView extends StatefulWidget {
@@ -30,6 +31,7 @@ class UpdateBeverageViewState extends State<UpdateBeverageView> {
   late List<Participant> tastingParticipants;
   late Beverage beverage;
   late TextEditingController nameController;
+  final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
   @override
@@ -50,178 +52,187 @@ class UpdateBeverageViewState extends State<UpdateBeverageView> {
         right: 27,
         bottom: 30,
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(
+      child: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+                padding: EdgeInsets.only(
               top: 40,
-            )
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              TextDmSans(
-                "Modification",
-                fontSize: 28,
-                letterSpacing: 0,
-                fontWeight: FontWeight.w800,
-              ),
-              CircleAvatar(
-                backgroundColor: MyColors().secondaryColor,
-                radius: 16,
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: Icon(
-                    Icons.close,
-                    size: 16,
-                    color: MyColors().blackColor,
+            )),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextDmSans(
+                  "Modification",
+                  fontSize: 28,
+                  letterSpacing: 0,
+                  fontWeight: FontWeight.w800,
+                ),
+                CircleAvatar(
+                  backgroundColor: MyColors().secondaryColor,
+                  radius: 16,
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: Icon(
+                      Icons.close,
+                      size: 16,
+                      color: MyColors().blackColor,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          const Padding(
-            padding: EdgeInsets.only(
-              top: 20,
+              ],
             ),
-          ),
-          TextFieldCustom(
-            placeholder: "Nom du plat",
-            icon: Icons.room_service_outlined,
-            iconColor: MyColors().primaryColor,
-            controller: nameController,
-          ),
-          const Padding(
-            padding: EdgeInsets.only(
-              top: 20,
-            )
-          ),
-          TextDmSans(
-            "Goûté par",
-            fontSize: 18,
-            letterSpacing: 0,
-            fontWeight: FontWeight.w600,
-          ),
-          const Padding(
-            padding: EdgeInsets.only(
-              top: 5,
-            )
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 23,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: getParticipants().length,
-              itemBuilder: (context, index) {
-                return getParticipants()[index];
-              }
-            ),
-          ),
-          const Padding(
+            const Padding(
               padding: EdgeInsets.only(
                 top: 20,
-              )
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.35,
-            child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: beverage.beverageRatings.length,
-              itemBuilder: (context, index) {
-                final BeverageRating beverageRating = beverage.beverageRatings[index];
+              ),
+            ),
+            TextFormFieldCustom(
+              placeholder: "Nom du plat",
+              icon: Icons.room_service_outlined,
+              iconColor: MyColors().primaryColor,
+              controller: nameController,
+              onValidate: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Le nom du plat est obligatoire';
+                }
 
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextDmSans(
-                      "Note de ${beverageRating.participant.name}",
-                      fontSize: 18,
-                      letterSpacing: 1,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(
-                        top: 15,
-                      )
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        RatingButton(
-                          onPress: () => setRating("--", beverageRating.participant),
-                          text: "--",
-                          isActive: beverageRating.rate == "--",
-                        ),
-                        RatingButton(
-                          onPress: () => setRating("-", beverageRating.participant),
-                          text: "-",
-                          isActive: beverageRating.rate == "-",
-                        ),
-                        RatingButton(
-                          onPress: () => setRating("=", beverageRating.participant),
-                          text: "=",
-                          isActive: beverageRating.rate == "=",
-                        ),
-                        RatingButton(
-                          onPress: () => setRating("+", beverageRating.participant),
-                          text: "+",
-                          isActive: beverageRating.rate == "+",
-                        ),
-                        RatingButton(
-                          onPress: () => setRating("++", beverageRating.participant),
-                          text: "++",
-                          isActive: beverageRating.rate == "++",
-                        ),
-                        RatingButton(
-                          onPress: () => setRating("xs", beverageRating.participant),
-                          text: "XS",
-                          isActive: beverageRating.rate == "xs",
-                        ),
-                      ],
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(
-                        bottom: 20,
-                      )
-                    ),
-                    TextFieldCustom(
-                      placeholder: "Commentaire (optionnel)",
-                      icon: Icons.mode_comment_outlined,
-                      iconColor: MyColors().primaryColor,
-                      onChanged: (value) => setComment(value, beverageRating.participant),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        bottom: index == beverage.participants.length ? 0 : 20,
-                      )
-                    ),
-                  ],
-                );
+                return null;
               },
             ),
-          ),
-          const Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              FloatingActionButtonCustom(
-                onPressed: updateBeverage,
-                text: "Terminer",
-                width: MediaQuery.of(context).size.width / 1.18,
-                height: 55,
-                margin: const EdgeInsets.all(0),
-                elevation: 0,
-                fontWeight: FontWeight.w500,
-                isLoading: isLoading
+            const Padding(
+                padding: EdgeInsets.only(
+              top: 20,
+            )),
+            TextDmSans(
+              "Goûté par",
+              fontSize: 18,
+              letterSpacing: 0,
+              fontWeight: FontWeight.w600,
+            ),
+            const Padding(
+                padding: EdgeInsets.only(
+              top: 5,
+            )),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 23,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: getParticipants().length,
+                  itemBuilder: (context, index) {
+                    return getParticipants()[index];
+                  }),
+            ),
+            const Padding(
+                padding: EdgeInsets.only(
+              top: 20,
+            )),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.35,
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: beverage.beverageRatings.length,
+                itemBuilder: (context, index) {
+                  final BeverageRating beverageRating =
+                      beverage.beverageRatings[index];
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextDmSans(
+                        "Note de ${beverageRating.participant.name}",
+                        fontSize: 18,
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      const Padding(
+                          padding: EdgeInsets.only(
+                        top: 15,
+                      )),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          RatingButton(
+                            onPress: () =>
+                                setRating("--", beverageRating.participant),
+                            text: "--",
+                            isActive: beverageRating.rate == "--",
+                          ),
+                          RatingButton(
+                            onPress: () =>
+                                setRating("-", beverageRating.participant),
+                            text: "-",
+                            isActive: beverageRating.rate == "-",
+                          ),
+                          RatingButton(
+                            onPress: () =>
+                                setRating("=", beverageRating.participant),
+                            text: "=",
+                            isActive: beverageRating.rate == "=",
+                          ),
+                          RatingButton(
+                            onPress: () =>
+                                setRating("+", beverageRating.participant),
+                            text: "+",
+                            isActive: beverageRating.rate == "+",
+                          ),
+                          RatingButton(
+                            onPress: () =>
+                                setRating("++", beverageRating.participant),
+                            text: "++",
+                            isActive: beverageRating.rate == "++",
+                          ),
+                          RatingButton(
+                            onPress: () =>
+                                setRating("xs", beverageRating.participant),
+                            text: "XS",
+                            isActive: beverageRating.rate == "xs",
+                          ),
+                        ],
+                      ),
+                      const Padding(
+                          padding: EdgeInsets.only(
+                        bottom: 20,
+                      )),
+                      TextFieldCustom(
+                        placeholder: "Commentaire (optionnel)",
+                        icon: Icons.mode_comment_outlined,
+                        iconColor: MyColors().primaryColor,
+                        onChanged: (value) =>
+                            setComment(value, beverageRating.participant),
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(
+                        bottom: index == beverage.participants.length ? 0 : 20,
+                      )),
+                    ],
+                  );
+                },
               ),
-            ],
-          ),
-        ],
+            ),
+            const Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                FloatingActionButtonCustom(
+                    onPressed: updateBeverage,
+                    text: "Terminer",
+                    width: MediaQuery.of(context).size.width / 1.18,
+                    height: 55,
+                    margin: const EdgeInsets.all(0),
+                    elevation: 0,
+                    fontWeight: FontWeight.w500,
+                    isLoading: isLoading),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -232,8 +243,12 @@ class UpdateBeverageViewState extends State<UpdateBeverageView> {
     tastingParticipants.forEach((Participant participant) {
       SmallElevatedButton smallElevatedButtonParticipant = SmallElevatedButton(
         text: participant.name,
-        backgroundColor: isAlreadySelectParticipant(participant) ? MyColors().primaryColor : MyColors().lightPrimaryColor,
-        color: isAlreadySelectParticipant(participant) ? MyColors().whiteColor : MyColors().primaryColor,
+        backgroundColor: isAlreadySelectParticipant(participant)
+            ? MyColors().primaryColor
+            : MyColors().lightPrimaryColor,
+        color: isAlreadySelectParticipant(participant)
+            ? MyColors().whiteColor
+            : MyColors().primaryColor,
         onPress: () {
           setState(() {
             if (!isAlreadySelectParticipant(participant)) {
@@ -242,11 +257,13 @@ class UpdateBeverageViewState extends State<UpdateBeverageView> {
                 BeverageRating(participant: participant),
               );
             } else {
-              beverage.participants.removeWhere((Participant participantToBeRemove) {
+              beverage.participants
+                  .removeWhere((Participant participantToBeRemove) {
                 return participant.id == participantToBeRemove.id;
               });
 
-              final int index = beverage.beverageRatings.indexWhere((BeverageRating beverageRating) {
+              final int index = beverage.beverageRatings
+                  .indexWhere((BeverageRating beverageRating) {
                 return beverageRating.participant.id == participant.id;
               });
 
@@ -254,7 +271,8 @@ class UpdateBeverageViewState extends State<UpdateBeverageView> {
                 return;
               }
 
-              beverage.beverageRatings.remove(beverage.beverageRatings.elementAt(index));
+              beverage.beverageRatings
+                  .remove(beverage.beverageRatings.elementAt(index));
             }
           });
         },
@@ -276,11 +294,14 @@ class UpdateBeverageViewState extends State<UpdateBeverageView> {
   }
 
   bool isAlreadySelectParticipant(Participant participant) {
-    return beverage.participants.map((item) => item.id).contains(participant.id);
+    return beverage.participants
+        .map((item) => item.id)
+        .contains(participant.id);
   }
 
   void setRating(String rating, Participant participant) {
-    final int index = beverage.beverageRatings.indexWhere((BeverageRating beverageRating) {
+    final int index =
+        beverage.beverageRatings.indexWhere((BeverageRating beverageRating) {
       return beverageRating.participant.id == participant.id;
     });
 
@@ -288,7 +309,8 @@ class UpdateBeverageViewState extends State<UpdateBeverageView> {
       return;
     }
 
-    final BeverageRating beverageRating = beverage.beverageRatings.elementAt(index);
+    final BeverageRating beverageRating =
+        beverage.beverageRatings.elementAt(index);
 
     beverageRating.rate = rating;
 
@@ -298,7 +320,8 @@ class UpdateBeverageViewState extends State<UpdateBeverageView> {
   }
 
   void setComment(String value, Participant participant) {
-    final int index = beverage.beverageRatings.indexWhere((BeverageRating beverageRating) {
+    final int index =
+        beverage.beverageRatings.indexWhere((BeverageRating beverageRating) {
       return beverageRating.participant.id == participant.id;
     });
 
@@ -306,7 +329,8 @@ class UpdateBeverageViewState extends State<UpdateBeverageView> {
       return;
     }
 
-    final BeverageRating beverageRating = beverage.beverageRatings.elementAt(index);
+    final BeverageRating beverageRating =
+        beverage.beverageRatings.elementAt(index);
 
     setState(() {
       beverage.beverageRatings[index] = beverageRating;
@@ -320,15 +344,21 @@ class UpdateBeverageViewState extends State<UpdateBeverageView> {
   }
 
   void updateBeverage() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
     setState(() {
       isLoading = true;
       beverage.name = nameController.text;
     });
 
-    await BeverageRepository().put(
+    await BeverageRepository()
+        .put(
       beverage.iri,
       beverage,
-    ).then((value) {
+    )
+        .then((value) {
       Navigator.pop(context);
       setState(() {
         nameController.text = "";
