@@ -41,7 +41,8 @@ class TabGeneralViewState extends State<TabGeneralView> {
 
     tasting = widget.tasting;
     participants = widget.participants;
-    Map<Participant, TextEditingController> commentsByParticipantsInitialize = {};
+    Map<Participant, TextEditingController> commentsByParticipantsInitialize =
+        {};
 
     if (widget.generalRatings.length != widget.participants.length) {
       generalRatings = widget.generalRatings;
@@ -59,7 +60,8 @@ class TabGeneralViewState extends State<TabGeneralView> {
     }
 
     for (var element in widget.participants) {
-      commentsByParticipantsInitialize[element] = TextEditingController(text: widget.generalRatings[element]?.comment);
+      commentsByParticipantsInitialize[element] =
+          TextEditingController(text: widget.generalRatings[element]?.comment);
     }
 
     generalRatings = widget.generalRatings;
@@ -68,116 +70,117 @@ class TabGeneralViewState extends State<TabGeneralView> {
 
   @override
   Widget build(BuildContext context) {
-     return Column(
-         children: [
-           SizedBox(
-             height: MediaQuery.of(context).size.height > 680
-                 ? MediaQuery.of(context).size.height * 0.57
-                 : MediaQuery.of(context).size.height * 0.51,
-             child: ListView.builder(
-             scrollDirection: Axis.vertical,
-             itemCount: generalRatings.length,
-             itemBuilder: (context, index) {
-               var participant = participants[index];
-               final generalRating = generalRatings[participant];
+    return Column(
+      children: [
+        SizedBox(
+          height: MediaQuery.of(context).size.height > 680
+              ? MediaQuery.of(context).size.height > 736
+                  ? MediaQuery.of(context).size.height * 0.57
+                  : MediaQuery.of(context).size.height * 0.55
+              : MediaQuery.of(context).size.height * 0.51,
+          child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount: generalRatings.length,
+              itemBuilder: (context, index) {
+                var participant = participants[index];
+                final generalRating = generalRatings[participant];
 
-               return InkWell(
-                 child: Container(
-                   margin: const EdgeInsets.only(
-                     top: 20,
-                     left: 27,
-                     right: 27,
-                   ),
-                   padding: const EdgeInsets.all(20),
-                   decoration: BoxDecoration(
-                     color: Colors.white,
-                     borderRadius: BorderRadius.circular(10),
-                   ),
-                   child: Column(
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                     children: [
-                       TextDmSans(
-                         "Note de ${participant.name}",
-                         fontSize: 14,
-                         fontWeight: FontWeight.w500,
-                         letterSpacing: 0,
-                       ),
-                       const Padding(
-                           padding: EdgeInsets.only(
-                             top: 15,
-                           )
-                       ),
-                       Row(
-                         mainAxisSize: MainAxisSize.max,
-                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                         children: [
-                           RatingButton(
-                             onPress: () => setRating("--", participant),
-                             text: "--",
-                             isActive: generalRating?.rate == "--",
-                           ),
-                           RatingButton(
-                             onPress: () => setRating("-", participant),
-                             text: "-",
-                             isActive: generalRating?.rate == "-",
-                           ),
-                           RatingButton(
-                             onPress: () => setRating("=", participant),
-                             text: "=",
-                             isActive: generalRating?.rate == "=",
-                           ),
-                           RatingButton(
-                             onPress: () => setRating("+", participant),
-                             text: "+",
-                             isActive: generalRating?.rate == "+",
-                           ),
-                           RatingButton(
-                             onPress: () => setRating("++", participant),
-                             text: "++",
-                             isActive: generalRating?.rate == "++",
-                           ),
-                           RatingButton(
-                             onPress: () => setRating("xs", participant),
-                             text: "XS",
-                             isActive: generalRating?.rate == "xs",
-                           ),
-                         ],
-                       ),
-                       const Padding(
-                           padding: EdgeInsets.only(
-                             bottom: 20,
-                           )
-                       ),
-                       TextFieldCustom(
-                         placeholder: "Commentaire (optionnel)",
-                         controller: commentsByParticipants[participant],
-                         icon: Icons.mode_comment_outlined,
-                         iconColor: MyColors().primaryColor,
-                         onChanged: (value) => setComment(value, participant),
-                       ),
-                       Padding(
-                           padding: EdgeInsets.only(
-                             bottom: index + 1 == participants.length ? 0 : 20,
-                           )
-                       ),
-                     ],
-                   ),
-               ),
-             );
-             }
-         ),
-       ),
-       const Spacer(),
-       FloatingActionButtonCustom(
-         backgroundColor: !tasting.closed ? MyColors().primaryColor : MyColors().lightPrimaryColor,
-         textColor: !tasting.closed ? MyColors().whiteColor : MyColors().primaryColor,
-         elevation: 0,
-         onPressed: !tasting.closed ? saveGeneralRating : goToHome,
-         text: !tasting.closed ? "Enregistrer" : "Fermer",
-         isLoading: isLoading,
-       ),
-     ],
-      );
+                return InkWell(
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                      top: 20,
+                      left: 27,
+                      right: 27,
+                    ),
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextDmSans(
+                          "Note de ${participant.name}",
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 0,
+                        ),
+                        const Padding(
+                            padding: EdgeInsets.only(
+                          top: 15,
+                        )),
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            RatingButton(
+                              onPress: () => setRating("--", participant),
+                              text: "--",
+                              isActive: generalRating?.rate == "--",
+                            ),
+                            RatingButton(
+                              onPress: () => setRating("-", participant),
+                              text: "-",
+                              isActive: generalRating?.rate == "-",
+                            ),
+                            RatingButton(
+                              onPress: () => setRating("=", participant),
+                              text: "=",
+                              isActive: generalRating?.rate == "=",
+                            ),
+                            RatingButton(
+                              onPress: () => setRating("+", participant),
+                              text: "+",
+                              isActive: generalRating?.rate == "+",
+                            ),
+                            RatingButton(
+                              onPress: () => setRating("++", participant),
+                              text: "++",
+                              isActive: generalRating?.rate == "++",
+                            ),
+                            RatingButton(
+                              onPress: () => setRating("xs", participant),
+                              text: "XS",
+                              isActive: generalRating?.rate == "xs",
+                            ),
+                          ],
+                        ),
+                        const Padding(
+                            padding: EdgeInsets.only(
+                          bottom: 20,
+                        )),
+                        TextFieldCustom(
+                          placeholder: "Commentaire (optionnel)",
+                          controller: commentsByParticipants[participant],
+                          icon: Icons.mode_comment_outlined,
+                          iconColor: MyColors().primaryColor,
+                          onChanged: (value) => setComment(value, participant),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(
+                          bottom: index + 1 == participants.length ? 0 : 20,
+                        )),
+                      ],
+                    ),
+                  ),
+                );
+              }),
+        ),
+        const Spacer(),
+        FloatingActionButtonCustom(
+          backgroundColor: !tasting.closed
+              ? MyColors().primaryColor
+              : MyColors().lightPrimaryColor,
+          textColor:
+              !tasting.closed ? MyColors().whiteColor : MyColors().primaryColor,
+          elevation: 0,
+          onPressed: !tasting.closed ? saveGeneralRating : goToHome,
+          text: !tasting.closed ? "Enregistrer" : "Fermer",
+          isLoading: isLoading,
+        ),
+      ],
+    );
   }
 
   void saveGeneralRating() {
@@ -198,7 +201,10 @@ class TabGeneralViewState extends State<TabGeneralView> {
       numberGeneralRatingSubmitted++;
 
       if (generalRatingIri.isNotEmpty) {
-        GeneralRatingRepository().put(generalRatingIri, generalRating.rate ?? 'xs', commentsByParticipants[participant]?.text ?? "").then((value) {
+        GeneralRatingRepository()
+            .put(generalRatingIri, generalRating.rate ?? 'xs',
+                commentsByParticipants[participant]?.text ?? "")
+            .then((value) {
           i = i + 1;
 
           if (numberGeneralRatingSubmitted == i) {
@@ -206,26 +212,26 @@ class TabGeneralViewState extends State<TabGeneralView> {
               isLoading = false;
             });
           }
-        })
-        ;
+        });
 
         return;
       }
 
-      GeneralRatingRepository().post(tasting, participant, generalRating.rate ?? 'xs', commentsByParticipants[participant]?.text ?? "")
-        .then((value) {
-          i = i + 1;
+      GeneralRatingRepository()
+          .post(tasting, participant, generalRating.rate ?? 'xs',
+              commentsByParticipants[participant]?.text ?? "")
+          .then((value) {
+        i = i + 1;
 
-          generalRating.iri = value.iri;
+        generalRating.iri = value.iri;
 
-          if (numberGeneralRatingSubmitted == i) {
-            setState(() {
-              generalRatings.update(participant, (rating) => generalRating);
-              isLoading = false;
-            });
-          }
-        })
-      ;
+        if (numberGeneralRatingSubmitted == i) {
+          setState(() {
+            generalRatings.update(participant, (rating) => generalRating);
+            isLoading = false;
+          });
+        }
+      });
     });
   }
 
@@ -258,7 +264,8 @@ class TabGeneralViewState extends State<TabGeneralView> {
   }
 
   void goToHome() {
-    MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) {
+    MaterialPageRoute materialPageRoute =
+        MaterialPageRoute(builder: (BuildContext context) {
       return HomepageController();
     });
 

@@ -87,10 +87,14 @@ class TabBeveragesViewState extends State<TabBeveragesView> {
               SizedBox(
                 height: !tasting.closed
                     ? MediaQuery.of(context).size.height > 680
-                        ? MediaQuery.of(context).size.height * 0.60
+                        ? MediaQuery.of(context).size.height > 736
+                            ? MediaQuery.of(context).size.height * 0.60
+                            : MediaQuery.of(context).size.height * 0.58
                         : MediaQuery.of(context).size.height * 0.55
                     : MediaQuery.of(context).size.height > 680
-                        ? MediaQuery.of(context).size.height * 0.57
+                        ? MediaQuery.of(context).size.height > 736
+                            ? MediaQuery.of(context).size.height * 0.57
+                            : MediaQuery.of(context).size.height * 0.52
                         : MediaQuery.of(context).size.height * 0.49,
                 child: ListView.builder(
                     scrollDirection: Axis.vertical,

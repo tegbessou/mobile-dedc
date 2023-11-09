@@ -58,7 +58,9 @@ class AddDishViewState extends State<AddDishView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.80,
+      height: MediaQuery.of(context).size.height > 736
+          ? MediaQuery.of(context).size.height * 0.80
+          : MediaQuery.of(context).size.height * 0.85,
       padding: const EdgeInsets.only(
         left: 27,
         right: 27,

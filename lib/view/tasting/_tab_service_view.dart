@@ -83,7 +83,9 @@ class TabServiceViewState extends State<TabServiceView> {
       children: [
         SizedBox(
           height: MediaQuery.of(context).size.height > 680
-              ? MediaQuery.of(context).size.height * 0.57
+              ? MediaQuery.of(context).size.height > 736
+                  ? MediaQuery.of(context).size.height * 0.57
+                  : MediaQuery.of(context).size.height * 0.55
               : MediaQuery.of(context).size.height * 0.51,
           child: ListView.builder(
               scrollDirection: Axis.vertical,

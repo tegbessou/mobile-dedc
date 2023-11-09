@@ -81,7 +81,9 @@ class TastingControllerState extends State<TastingController> {
               tasting: loadedTasting,
             ),
             body: Container(
-              height: MediaQuery.of(context).size.height * 0.90,
+              height: MediaQuery.of(context).size.height > 736
+                  ? MediaQuery.of(context).size.height * 0.90
+                  : MediaQuery.of(context).size.height,
               padding: !loadedTasting.closed
                   ? const EdgeInsets.only(
                       top: 15,
