@@ -39,46 +39,45 @@ class HomepageViewState extends State<HomepageView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarView(),
-      body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height - 200,
-          padding: const EdgeInsets.only(
-            top: 15,
-            left: 27,
-            right: 27,
-          ),
-          child: Column(
-            children: [
-              TextFieldCustom(
-                placeholder: "Rechercher une dégustation",
-                icon: Icons.search,
-                onChanged: (value) => searchTastingByName(value),
-              ),
-              !isLoading ? SizedBox(
-                height: 570,
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: tastings.length,
-                  itemBuilder: (context, index) {
-                    return TastingCardView(
-                      tasting: tastings[index],
-                    );
-                  }
-                ),
-              ): Expanded(
-                child: LoadingAnimationWidget.inkDrop(
-                  color: MyColors().primaryColor,
-                  size: 50,
-                ),
-              ),
-            ]),
+      body: Container(
+        height: MediaQuery.of(context).size.height * 0.80,
+        padding: const EdgeInsets.only(
+          top: 15,
+          left: 27,
+          right: 27,
         ),
+        child: Column(children: [
+          TextFieldCustom(
+            placeholder: "Rechercher une dégustation",
+            icon: Icons.search,
+            onChanged: (value) => searchTastingByName(value),
+          ),
+          !isLoading
+              ? SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.68,
+                  child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: tastings.length,
+                      itemBuilder: (context, index) {
+                        return TastingCardView(
+                          tasting: tastings[index],
+                        );
+                      }),
+                )
+              : Expanded(
+                  child: LoadingAnimationWidget.inkDrop(
+                    color: MyColors().primaryColor,
+                    size: 50,
+                  ),
+                ),
+        ]),
       ),
       backgroundColor: MyColors().lightWhiteColor,
       bottomNavigationBar: const NavigationBarBottom(),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) {
+          MaterialPageRoute materialPageRoute =
+              MaterialPageRoute(builder: (BuildContext context) {
             return const CreateTastingController();
           });
 
@@ -94,8 +93,7 @@ class HomepageViewState extends State<HomepageView> {
         backgroundColor: MyColors().primaryColor,
         icon: const Icon(Icons.add),
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(15.0))
-        ),
+            borderRadius: BorderRadius.all(Radius.circular(15.0))),
       ),
     );
   }

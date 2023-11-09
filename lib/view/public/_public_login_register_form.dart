@@ -10,9 +10,11 @@ import 'package:flutter/material.dart';
 
 class PublicLoginRegisterForm extends StatefulWidget {
   final String buttonLabel;
-  final Future<void> Function(TextEditingValue email, TextEditingValue password) handleSubmit;
+  final Future<void> Function(TextEditingValue email, TextEditingValue password)
+      handleSubmit;
 
-  PublicLoginRegisterForm({super.key, required this.buttonLabel, required this.handleSubmit});
+  PublicLoginRegisterForm(
+      {super.key, required this.buttonLabel, required this.handleSubmit});
 
   @override
   State<StatefulWidget> createState() {
@@ -23,7 +25,8 @@ class PublicLoginRegisterForm extends StatefulWidget {
 class PublicLoginRegisterFormState extends State<PublicLoginRegisterForm> {
   late String buttonLabel;
   String errorMessage = "";
-  late Future<void> Function(TextEditingValue email, TextEditingValue password) handleSubmit;
+  late Future<void> Function(TextEditingValue email, TextEditingValue password)
+      handleSubmit;
   final TextEditingController controllerEmail = TextEditingController();
   final TextEditingController controllerPassword = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -39,7 +42,8 @@ class PublicLoginRegisterFormState extends State<PublicLoginRegisterForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 40, left: 25, right: 25),
+      height: MediaQuery.of(context).size.height * 0.40,
+      padding: const EdgeInsets.only(left: 25, right: 25),
       child: Form(
         key: _formKey,
         child: Column(
@@ -48,46 +52,52 @@ class PublicLoginRegisterFormState extends State<PublicLoginRegisterForm> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             TextFormFieldCustom(
-              controller: controllerEmail,
-              placeholder: "Adresse email",
-              icon: Icons.mail_outline_outlined,
-              iconColor: MyColors().primaryColor,
-              autocorrect: false,
-              keyboardType: TextInputType.emailAddress,
-              onValidate: (String? value) {
-                if (value == null || value.isEmpty) {
-                  return "L'adresse email est obligatoire";
-                }
+                controller: controllerEmail,
+                placeholder: "Adresse email",
+                icon: Icons.mail_outline_outlined,
+                iconColor: MyColors().primaryColor,
+                autocorrect: false,
+                keyboardType: TextInputType.emailAddress,
+                onValidate: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return "L'adresse email est obligatoire";
+                  }
 
-                if (!EmailValidator.validate(value)) {
-                  return "L'adresse email n'est pas valide";
-                }
+                  if (!EmailValidator.validate(value)) {
+                    return "L'adresse email n'est pas valide";
+                  }
 
-                return null;
-              }
-            ),
-            const Padding(
-              padding: EdgeInsets.only(
-                top: 17,
-              ),
-            ),
+                  return null;
+                }),
+            MediaQuery.of(context).size.height > 680
+                ? const Padding(
+                    padding: EdgeInsets.only(
+                      top: 17,
+                    ),
+                  )
+                : Spacer(),
             TextFormFieldCustom(
-              controller: controllerPassword,
-              placeholder: "Mot de passe",
-              icon: Icons.lock_outline_rounded,
-              iconColor: MyColors().primaryColor,
-              obscureText: true,
-              onValidate: (String? value) {
-                if (value == null || value.isEmpty) {
-                  return "Le mot de passe est obligatoire";
-                }
+                controller: controllerPassword,
+                placeholder: "Mot de passe",
+                icon: Icons.lock_outline_rounded,
+                iconColor: MyColors().primaryColor,
+                obscureText: true,
+                onValidate: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return "Le mot de passe est obligatoire";
+                  }
 
-                return null;
-              }
-            ),
+                  return null;
+                }),
+            MediaQuery.of(context).size.height > 680
+                ? const Padding(
+                    padding: EdgeInsets.only(
+                      top: 20,
+                    ),
+                  )
+                : Spacer(),
             Container(
-              padding: const EdgeInsets.all(20),
-              child:Text(
+              child: Text(
                 errorMessage,
                 style: const TextStyle(
                   color: Colors.red,
@@ -116,10 +126,8 @@ class PublicLoginRegisterFormState extends State<PublicLoginRegisterForm> {
       });
 
       try {
-        await handleSubmit(
-            controllerEmail.value,
-            controllerPassword.value
-        ).whenComplete(() {
+        await handleSubmit(controllerEmail.value, controllerPassword.value)
+            .whenComplete(() {
           setState(() {
             isLoading = false;
           });

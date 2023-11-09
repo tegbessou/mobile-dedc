@@ -17,33 +17,41 @@ class RatingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width / 8,
-      height: MediaQuery.of(context).size.width / 8,
+      width: MediaQuery.of(context).size.height > 680
+          ? MediaQuery.of(context).size.width / 8
+          : MediaQuery.of(context).size.width / 9,
+      height: MediaQuery.of(context).size.height > 680
+          ? MediaQuery.of(context).size.width / 8
+          : MediaQuery.of(context).size.width / 9,
       decoration: BoxDecoration(
-        border: Border.all(width: 1, color: isActive ? MyColors().primaryColor : MyColors().secondaryColor),
+        border: Border.all(
+            width: 1,
+            color:
+                isActive ? MyColors().primaryColor : MyColors().secondaryColor),
         shape: BoxShape.rectangle,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         color: isActive ? MyColors().lightPrimaryColor : Colors.transparent,
       ),
       child: ElevatedButton(
         style: ButtonStyle(
-            padding: MaterialStateProperty.resolveWith((states) => EdgeInsets.zero),
-            elevation: MaterialStateProperty.resolveWith((states) => 0),
-            backgroundColor: MaterialStateColor.resolveWith((states) => Colors.transparent),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
+          padding:
+              MaterialStateProperty.resolveWith((states) => EdgeInsets.zero),
+          elevation: MaterialStateProperty.resolveWith((states) => 0),
+          backgroundColor:
+              MaterialStateColor.resolveWith((states) => Colors.transparent),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
             ),
+          ),
         ),
         onPressed: onPress,
         child: TextDmSans(
           text,
           fontSize: 15,
-          color: isActive ? MyColors().primaryColor: MyColors().blackColor,
+          color: isActive ? MyColors().primaryColor : MyColors().blackColor,
         ),
       ),
     );
   }
-
 }

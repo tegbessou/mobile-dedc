@@ -71,7 +71,9 @@ class TabGeneralViewState extends State<TabGeneralView> {
      return Column(
          children: [
            SizedBox(
-             height: MediaQuery.of(context).size.height - 400,
+             height: MediaQuery.of(context).size.height > 680
+                 ? MediaQuery.of(context).size.height * 0.57
+                 : MediaQuery.of(context).size.height * 0.51,
              child: ListView.builder(
              scrollDirection: Axis.vertical,
              itemCount: generalRatings.length,
@@ -165,7 +167,7 @@ class TabGeneralViewState extends State<TabGeneralView> {
              }
          ),
        ),
-       !tasting.closed ? const Spacer() : Container(),
+       const Spacer(),
        FloatingActionButtonCustom(
          backgroundColor: !tasting.closed ? MyColors().primaryColor : MyColors().lightPrimaryColor,
          textColor: !tasting.closed ? MyColors().whiteColor : MyColors().primaryColor,

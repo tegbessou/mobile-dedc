@@ -31,7 +31,7 @@ class HomepageState extends State<HomepageController> {
           return Scaffold(
             appBar: AppBarView(),
             body: SizedBox(
-              height: MediaQuery.of(context).size.height - 150,
+              height: MediaQuery.of(context).size.height * 0.90,
               child: Container(
                 color: MyColors().lightGreyColor,
                 child: Center(

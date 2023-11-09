@@ -61,7 +61,7 @@ class TabBeveragesViewState extends State<TabBeveragesView> {
             //Put a loader here
             return Scaffold(
               body: SizedBox(
-                height: MediaQuery.of(context).size.height - 150,
+                height: MediaQuery.of(context).size.height * 0.80,
                 child: Container(
                   color: MyColors().lightGreyColor,
                   child: Center(
@@ -86,8 +86,12 @@ class TabBeveragesViewState extends State<TabBeveragesView> {
             children: [
               SizedBox(
                 height: !tasting.closed
-                    ? MediaQuery.of(context).size.height - 350
-                    : MediaQuery.of(context).size.height - 400,
+                    ? MediaQuery.of(context).size.height > 680
+                        ? MediaQuery.of(context).size.height * 0.60
+                        : MediaQuery.of(context).size.height * 0.55
+                    : MediaQuery.of(context).size.height > 680
+                        ? MediaQuery.of(context).size.height * 0.57
+                        : MediaQuery.of(context).size.height * 0.49,
                 child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     itemCount: loadedBeverages.length,
