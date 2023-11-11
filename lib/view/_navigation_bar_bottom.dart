@@ -1,9 +1,15 @@
+import 'package:degust_et_des_couleurs/controller/homepage_controller.dart';
+import 'package:degust_et_des_couleurs/controller/profile_controller.dart';
 import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class NavigationBarBottom extends StatefulWidget {
-  const NavigationBarBottom({super.key});
+  final String origin;
+
+  const NavigationBarBottom({
+    super.key,
+    required this.origin,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -12,6 +18,15 @@ class NavigationBarBottom extends StatefulWidget {
 }
 
 class NavigationBarBottomState extends State<NavigationBarBottom> {
+  late String origin;
+
+  @override
+  void initState() {
+    super.initState();
+
+    origin = widget.origin;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
@@ -43,26 +58,28 @@ class NavigationBarBottomState extends State<NavigationBarBottom> {
 
   onTapBottomNavigationBar(int index) {
     if (index == 3) {
-      context.goNamed('profile');
+      MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) {
+        return const ProfileController();
+      });
+
+      Navigator.of(context).push(materialPageRoute);
 
       return;
     }
 
-    context.goNamed('homepage');
+    MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) {
+      return const HomepageController();
+    });
+
+    Navigator.of(context).push(materialPageRoute);
   }
 
   int _calculateSelectedIndex(BuildContext context) {
-    final String? location = ModalRoute.of(context)?.settings.name;
-
-    if (location == null) {
+    if (origin == 'homepage') {
       return 0;
     }
 
-    if (location.startsWith('homepage')) {
-      return 0;
-    }
-
-    if (location.startsWith('profile')) {
+    if (origin == 'profile') {
       return 3;
     }
 

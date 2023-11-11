@@ -3,13 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TextDmSans extends StatelessWidget {
-  String value;
-  double fontSize;
-  FontWeight fontWeight;
-  double letterSpacing;
-  Color? color;
+  final String value;
+  final double fontSize;
+  final FontWeight fontWeight;
+  final double letterSpacing;
+  final Color? color;
 
-  TextDmSans(
+  const TextDmSans(
     this.value,
     {
       super.key,

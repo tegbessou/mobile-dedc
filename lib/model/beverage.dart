@@ -1,5 +1,4 @@
 import 'package:degust_et_des_couleurs/model/beverage_rating.dart';
-import 'package:degust_et_des_couleurs/model/dish_rating.dart';
 import 'package:degust_et_des_couleurs/model/participant.dart';
 
 class Beverage {
@@ -37,13 +36,13 @@ class Beverage {
     List participantsToMap = [];
     List beverageRatingsToMap = [];
 
-    participants.forEach((Participant participant) {
+    for (var participant in participants) {
       participantsToMap.add(participant.iri);
-    });
+    }
 
-    beverageRatings.forEach((BeverageRating beverageRating) {
+    for (var beverageRating in beverageRatings) {
       beverageRatingsToMap.add(beverageRating.toMap());
-    });
+    }
 
     return {
       "name": name,

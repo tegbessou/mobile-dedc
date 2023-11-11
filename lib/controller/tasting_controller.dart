@@ -156,12 +156,12 @@ class TastingControllerState extends State<TastingController> {
                                   TabDishesView(
                                     tasting: loadedTasting,
                                     participants: loadedTasting.participants,
-                                    dishRatings: {},
+                                    dishRatings: const {},
                                   ),
                                   TabBeveragesView(
                                       tasting: loadedTasting,
                                       participants: loadedTasting.participants,
-                                      beverageRatings: {}),
+                                      beverageRatings: const {}),
                                   TabServiceView(
                                       tasting: loadedTasting,
                                       participants: loadedTasting.participants,

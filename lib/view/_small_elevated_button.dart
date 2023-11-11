@@ -2,13 +2,13 @@ import 'package:degust_et_des_couleurs/view/_text_dm_sans.dart';
 import 'package:flutter/material.dart';
 
 class SmallElevatedButton extends StatelessWidget {
-  void Function()? onPress;
-  String text;
-  Color backgroundColor;
-  Color color;
-  Size? size;
+  final void Function()? onPress;
+  final String text;
+  final Color backgroundColor;
+  final Color color;
+  final Size? size;
 
-  SmallElevatedButton({
+  const SmallElevatedButton({
     super.key,
     required this.onPress,
     required this.text,

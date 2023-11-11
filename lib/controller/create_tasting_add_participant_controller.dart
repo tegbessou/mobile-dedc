@@ -45,7 +45,7 @@ class CreateTastingAddParticipantControllerState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarView(),
+      appBar: const AppBarView(),
       body: Container(
         padding: const EdgeInsets.only(
           top: 15,

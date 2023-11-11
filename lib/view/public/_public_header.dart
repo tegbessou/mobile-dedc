@@ -35,7 +35,7 @@ class PublicHeaderState extends State<PublicHeader> {
         children: [
           MediaQuery.of(context).size.height > 680
               ? Container()
-              : Spacer(),
+              : const Spacer(),
           Image.asset(
             "assets/images/logo.png",
             height: MediaQuery.of(context).size.height > 680
@@ -65,8 +65,8 @@ class PublicHeaderState extends State<PublicHeader> {
                           top: 17,
                         ),
                       )
-                    : Spacer(),
-                TextDmSans(
+                    : const Spacer(),
+                const TextDmSans(
                   "Bienvenue sur Dégust' et des couleurs !",
                   fontSize: 16,
                   letterSpacing: 0,

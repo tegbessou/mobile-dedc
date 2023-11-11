@@ -11,11 +11,11 @@ import 'package:degust_et_des_couleurs/view/_text_field_custom.dart';
 import 'package:flutter/material.dart';
 
 class TabSommelierView extends StatefulWidget {
-  Tasting tasting;
-  List<Participant> participants;
-  Map<Participant, SommelierRating> sommelierRatings;
+  final Tasting tasting;
+  final List<Participant> participants;
+  final Map<Participant, SommelierRating> sommelierRatings;
 
-  TabSommelierView({
+  const TabSommelierView({
     super.key,
     required this.tasting,
     required this.participants,
@@ -268,7 +268,7 @@ class TabSommelierViewState extends State<TabSommelierView> {
   void goToHome() {
     MaterialPageRoute materialPageRoute =
         MaterialPageRoute(builder: (BuildContext context) {
-      return HomepageController();
+      return const HomepageController();
     });
 
     Navigator.of(context).push(materialPageRoute);

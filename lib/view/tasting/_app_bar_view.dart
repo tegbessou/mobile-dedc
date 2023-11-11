@@ -5,9 +5,9 @@ import 'package:degust_et_des_couleurs/view/_text_dm_sans.dart';
 import 'package:flutter/material.dart';
 
 class AppBarView extends StatelessWidget implements PreferredSizeWidget {
-  Tasting? tasting;
+  final Tasting? tasting;
 
-  AppBarView({
+  const AppBarView({
     super.key,
     this.tasting,
   });
@@ -35,7 +35,7 @@ class AppBarView extends StatelessWidget implements PreferredSizeWidget {
         fontSize: 22,
         letterSpacing: 0,
         fontWeight: FontWeight.bold,
-      ) : TextDmSans(
+      ) : const TextDmSans(
         "Résumé de la dégustation",
         fontSize: 22,
         letterSpacing: 0,

@@ -8,19 +8,18 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TastingResumeCardView extends StatelessWidget {
-  List<String> pictures = [
+  final List<String> pictures = [
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTn0zPNJyKNwEkrd7jyPkwOC5JCZftn481CDCe0FCH0ywCW0gBCnDNqkVNn0MNXn8dZHMQ&usqp=CAU",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd44KAI5Y4fpWHvYo82UzjeuXpo0GhKUlg_ExSdZlYZKiR3eJ5J2_bYsTW4bt-q7OCNXY&usqp=CAU",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQR3DGbY0UcZw7CpHf0pcQ35K4Bs6LWkvplN3SmIoI4YAA5a_Uo1HLgVXcnZAPMD4EIRfE&usqp=CAU",
     "https://www.materiel-horeca.com/guide/wp-content/uploads/2020/12/dressage-table.jpeg",
   ];
+  final Tasting tasting;
 
   TastingResumeCardView({
     super.key,
     required this.tasting,
   });
-
-  Tasting tasting;
 
   @override
   Widget build(BuildContext context) {
@@ -90,8 +89,8 @@ class TastingResumeCardView extends StatelessWidget {
                           color: Colors.grey,
                         ),
                       ),
-                      Spacer(),
-                      !tasting.closed ? Container(
+                      const Spacer(),
+                      !tasting.closed ? SizedBox(
                         height: 25,
                         width: 85,
                         child: ElevatedButton(

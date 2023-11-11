@@ -6,13 +6,14 @@ import 'package:degust_et_des_couleurs/view/_text_dm_sans.dart';
 import 'package:flutter/material.dart';
 
 class BeverageCardView extends StatelessWidget {
-  List<String> dropDownMenuOptions = [
+  final List<String> dropDownMenuOptions = [
     'Modifier',
     'Supprimer',
   ];
-  Tasting tasting;
-  void Function(Beverage? beverage) remove;
-  void Function(Tasting tasting, Beverage? beverage) update;
+  final Tasting tasting;
+  final Beverage? beverage;
+  final void Function(Beverage? beverage) remove;
+  final void Function(Tasting tasting, Beverage? beverage) update;
 
   BeverageCardView({
     super.key,
@@ -21,8 +22,6 @@ class BeverageCardView extends StatelessWidget {
     required this.remove,
     required this.update,
   });
-
-  Beverage? beverage;
 
   @override
   Widget build(BuildContext context) {

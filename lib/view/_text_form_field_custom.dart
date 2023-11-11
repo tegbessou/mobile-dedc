@@ -2,17 +2,17 @@ import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:flutter/material.dart';
 
 class TextFormFieldCustom extends StatelessWidget {
-  String placeholder;
-  IconData icon;
-  Color? iconColor;
-  bool obscureText;
-  bool autocorrect;
-  TextInputType keyboardType;
-  TextEditingController? controller;
-  void Function(String value)? onChanged;
-  String? Function(String? value)? onValidate;
+  final String placeholder;
+  final IconData icon;
+  final Color? iconColor;
+  final bool obscureText;
+  final bool autocorrect;
+  final TextInputType keyboardType;
+  final TextEditingController? controller;
+  final void Function(String value)? onChanged;
+  final String? Function(String? value)? onValidate;
 
-  TextFormFieldCustom({
+  const TextFormFieldCustom({
     super.key,
     required this.placeholder,
     required this.icon,

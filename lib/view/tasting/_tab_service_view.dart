@@ -1,30 +1,21 @@
-import 'dart:ffi';
-import 'dart:io';
-
 import 'package:degust_et_des_couleurs/controller/homepage_controller.dart';
-import 'package:degust_et_des_couleurs/model/dish.dart';
-import 'package:degust_et_des_couleurs/model/dish_rating.dart';
 import 'package:degust_et_des_couleurs/model/participant.dart';
 import 'package:degust_et_des_couleurs/model/service_rating.dart';
 import 'package:degust_et_des_couleurs/model/tasting.dart';
-import 'package:degust_et_des_couleurs/repository/dish_repository.dart';
 import 'package:degust_et_des_couleurs/repository/service_rating_repository.dart';
 import 'package:degust_et_des_couleurs/view/_floating_action_button_custom.dart';
 import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:degust_et_des_couleurs/view/_rating_button.dart';
 import 'package:degust_et_des_couleurs/view/_text_dm_sans.dart';
 import 'package:degust_et_des_couleurs/view/_text_field_custom.dart';
-import 'package:degust_et_des_couleurs/view/tasting/_add_dish_view.dart';
-import 'package:degust_et_des_couleurs/view/tasting/_dish_card_view.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class TabServiceView extends StatefulWidget {
-  Tasting tasting;
-  List<Participant> participants;
-  Map<Participant, ServiceRating> serviceRatings;
+  final Tasting tasting;
+  final List<Participant> participants;
+  final Map<Participant, ServiceRating> serviceRatings;
 
-  TabServiceView({
+  const TabServiceView({
     super.key,
     required this.tasting,
     required this.participants,
@@ -275,7 +266,7 @@ class TabServiceViewState extends State<TabServiceView> {
   void goToHome() {
     MaterialPageRoute materialPageRoute =
         MaterialPageRoute(builder: (BuildContext context) {
-      return HomepageController();
+      return const HomepageController();
     });
 
     Navigator.of(context).push(materialPageRoute);

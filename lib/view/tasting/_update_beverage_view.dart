@@ -12,10 +12,10 @@ import 'package:degust_et_des_couleurs/view/_text_form_field_custom.dart';
 import 'package:flutter/material.dart';
 
 class UpdateBeverageView extends StatefulWidget {
-  List<Participant> tastingParticipants;
-  Beverage beverage;
+  final List<Participant> tastingParticipants;
+  final Beverage beverage;
 
-  UpdateBeverageView({
+  const UpdateBeverageView({
     super.key,
     required this.tastingParticipants,
     required this.beverage,
@@ -66,7 +66,7 @@ class UpdateBeverageViewState extends State<UpdateBeverageView> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextDmSans(
+                const TextDmSans(
                   "Modification",
                   fontSize: 28,
                   letterSpacing: 0,
@@ -110,7 +110,7 @@ class UpdateBeverageViewState extends State<UpdateBeverageView> {
                 padding: EdgeInsets.only(
               top: 20,
             )),
-            TextDmSans(
+            const TextDmSans(
               "Goûté par",
               fontSize: 18,
               letterSpacing: 0,
@@ -240,7 +240,7 @@ class UpdateBeverageViewState extends State<UpdateBeverageView> {
   List<Widget> getParticipants() {
     List<Widget> participantsWidget = [];
 
-    tastingParticipants.forEach((Participant participant) {
+    for (var participant in tastingParticipants) {
       SmallElevatedButton smallElevatedButtonParticipant = SmallElevatedButton(
         text: participant.name,
         backgroundColor: isAlreadySelectParticipant(participant)
@@ -288,7 +288,7 @@ class UpdateBeverageViewState extends State<UpdateBeverageView> {
       );
 
       participantsWidget.add(padding);
-    });
+    }
 
     return participantsWidget;
   }

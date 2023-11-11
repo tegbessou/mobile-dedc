@@ -2,12 +2,14 @@ import 'package:degust_et_des_couleurs/view/_text_dm_sans.dart';
 import 'package:flutter/material.dart';
 
 class AppBarView extends StatelessWidget implements PreferredSizeWidget {
+  const AppBarView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
-      title: Padding(
-        padding: const EdgeInsets.only(
+      title: const Padding(
+        padding: EdgeInsets.only(
           left: 10,
         ),
         child: TextDmSans("Dégustations", fontSize: 25),

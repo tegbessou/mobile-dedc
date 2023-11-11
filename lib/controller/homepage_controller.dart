@@ -29,7 +29,7 @@ class HomepageState extends State<HomepageController> {
         } else {
           //Put a loader here
           return Scaffold(
-            appBar: AppBarView(),
+            appBar: const AppBarView(),
             body: SizedBox(
               height: MediaQuery.of(context).size.height * 0.90,
               child: Container(
@@ -42,7 +42,9 @@ class HomepageState extends State<HomepageController> {
                 ),
               ),
             ),
-            bottomNavigationBar: const NavigationBarBottom(),
+            bottomNavigationBar: const NavigationBarBottom(
+              origin: "homepage",
+            ),
           );
         }
 

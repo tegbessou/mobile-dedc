@@ -11,9 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class HomepageView extends StatefulWidget {
-  List<Tasting>? tastings;
+  final List<Tasting>? tastings;
 
-  HomepageView({
+  const HomepageView({
     super.key,
     required this.tastings,
   });
@@ -38,7 +38,7 @@ class HomepageViewState extends State<HomepageView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarView(),
+      appBar: const AppBarView(),
       body: Container(
         height: MediaQuery.of(context).size.height * 0.80,
         padding: const EdgeInsets.only(
@@ -73,7 +73,9 @@ class HomepageViewState extends State<HomepageView> {
         ]),
       ),
       backgroundColor: MyColors().lightWhiteColor,
-      bottomNavigationBar: const NavigationBarBottom(),
+      bottomNavigationBar: const NavigationBarBottom(
+        origin: "homepage",
+      ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           MaterialPageRoute materialPageRoute =

@@ -2,9 +2,9 @@ import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:flutter/material.dart';
 
 class AddParticipantButton extends StatelessWidget {
-  void Function() displayAddParticipant;
+  final void Function() displayAddParticipant;
 
-  AddParticipantButton({
+  const AddParticipantButton({
     super.key,
     required this.displayAddParticipant,
   });

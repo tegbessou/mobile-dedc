@@ -1,14 +1,10 @@
-
 import 'dart:convert';
-
 import 'package:degust_et_des_couleurs/exception/username_already_used_exception.dart';
 import 'package:degust_et_des_couleurs/model/token.dart';
 import 'package:degust_et_des_couleurs/model/user.dart';
 import 'package:degust_et_des_couleurs/repository/token_repository.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 
 class UserRepository {
   Future<User> post(

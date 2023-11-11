@@ -4,19 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class FloatingActionButtonCustom extends StatelessWidget {
-  void Function() onPressed;
-  String text;
-  Color? backgroundColor;
-  Color? textColor;
-  double elevation;
-  double width;
-  double height;
-  double fontSize;
-  FontWeight? fontWeight;
-  EdgeInsets? margin;
-  bool isLoading;
+  final void Function() onPressed;
+  final String text;
+  final Color? backgroundColor;
+  final Color? textColor;
+  final double elevation;
+  final double width;
+  final double height;
+  final double fontSize;
+  final FontWeight? fontWeight;
+  final EdgeInsets? margin;
+  final bool isLoading;
 
-  FloatingActionButtonCustom({
+  const FloatingActionButtonCustom({
     super.key,
     required this.onPressed,
     required this.text,

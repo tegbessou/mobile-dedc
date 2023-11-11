@@ -1,5 +1,6 @@
 import 'dart:async';
-
+import 'package:degust_et_des_couleurs/controller/homepage_controller.dart';
+import 'package:degust_et_des_couleurs/controller/login_controller.dart';
 import 'package:degust_et_des_couleurs/exception/bad_credential_exception.dart';
 import 'package:degust_et_des_couleurs/exception/username_already_used_exception.dart';
 import 'package:degust_et_des_couleurs/view/_floating_action_button_custom.dart';
@@ -7,14 +8,19 @@ import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:degust_et_des_couleurs/view/_text_form_field_custom.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 class PublicLoginRegisterForm extends StatefulWidget {
   final String buttonLabel;
+  final String redirectToRouteName;
   final Future<void> Function(TextEditingValue email, TextEditingValue password)
       handleSubmit;
 
-  PublicLoginRegisterForm(
-      {super.key, required this.buttonLabel, required this.handleSubmit});
+  const PublicLoginRegisterForm(
+      {super.key,
+      required this.buttonLabel,
+      required this.handleSubmit,
+      required this.redirectToRouteName});
 
   @override
   State<StatefulWidget> createState() {
@@ -24,6 +30,7 @@ class PublicLoginRegisterForm extends StatefulWidget {
 
 class PublicLoginRegisterFormState extends State<PublicLoginRegisterForm> {
   late String buttonLabel;
+  late String redirectToRouteName;
   String errorMessage = "";
   late Future<void> Function(TextEditingValue email, TextEditingValue password)
       handleSubmit;
@@ -37,6 +44,7 @@ class PublicLoginRegisterFormState extends State<PublicLoginRegisterForm> {
     super.initState();
     buttonLabel = widget.buttonLabel;
     handleSubmit = widget.handleSubmit;
+    redirectToRouteName = widget.redirectToRouteName;
   }
 
   @override
@@ -75,7 +83,7 @@ class PublicLoginRegisterFormState extends State<PublicLoginRegisterForm> {
                       top: 17,
                     ),
                   )
-                : Spacer(),
+                : const Spacer(),
             TextFormFieldCustom(
                 controller: controllerPassword,
                 placeholder: "Mot de passe",
@@ -95,13 +103,11 @@ class PublicLoginRegisterFormState extends State<PublicLoginRegisterForm> {
                       top: 20,
                     ),
                   )
-                : Spacer(),
-            Container(
-              child: Text(
-                errorMessage,
-                style: const TextStyle(
-                  color: Colors.red,
-                ),
+                : const Spacer(),
+            Text(
+              errorMessage,
+              style: const TextStyle(
+                color: Colors.red,
               ),
             ),
             FloatingActionButtonCustom(
@@ -127,7 +133,16 @@ class PublicLoginRegisterFormState extends State<PublicLoginRegisterForm> {
 
       try {
         await handleSubmit(controllerEmail.value, controllerPassword.value)
-            .whenComplete(() {
+            .then((value) {
+          MaterialPageRoute materialPageRoute =
+              MaterialPageRoute(builder: (BuildContext context) {
+            return redirectToRouteName == 'homepage'
+                ? const HomepageController()
+                : const LoginController();
+          });
+
+          Navigator.of(context).push(materialPageRoute);
+        }).whenComplete(() {
           setState(() {
             isLoading = false;
           });
@@ -140,6 +155,12 @@ class PublicLoginRegisterFormState extends State<PublicLoginRegisterForm> {
       } on UsernameAlreadyUsedException {
         setState(() {
           errorMessage = "Cette adresse mail est déjà utilisée";
+          isLoading = false;
+        });
+      } on ClientException {
+        setState(() {
+          errorMessage =
+              "Une connexion à internet est requise pour utiliser l'application";
           isLoading = false;
         });
       }

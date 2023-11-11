@@ -8,11 +8,12 @@ import 'package:degust_et_des_couleurs/view/public/_public_login_register_form.d
 import 'package:flutter/material.dart';
 
 class RegisterController extends StatefulWidget {
+  const RegisterController({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return RegisterControllerState();
   }
-
 }
 
 class RegisterControllerState extends State<RegisterController> {
@@ -25,7 +26,7 @@ class RegisterControllerState extends State<RegisterController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.90,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,8 +39,9 @@ class RegisterControllerState extends State<RegisterController> {
               PublicLoginRegisterForm(
                 buttonLabel: "Inscription",
                 handleSubmit: register,
+                redirectToRouteName: "login",
               ),
-              Spacer(),
+              const Spacer(),
               PublicFooter(
                 firstSentence: "Vous avez déjà un compte ? ",
                 secondSentence: "Connexion",
@@ -64,7 +66,7 @@ class RegisterControllerState extends State<RegisterController> {
 
   void redirectToLogin() {
     MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) {
-      return LoginController();
+      return const LoginController();
     });
 
     Navigator.of(context).push(materialPageRoute);

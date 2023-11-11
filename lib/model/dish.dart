@@ -36,13 +36,13 @@ class Dish {
     List participantsToMap = [];
     List dishRatingsToMap = [];
 
-    participants.forEach((Participant participant) {
+    for (var participant in participants) {
       participantsToMap.add(participant.iri);
-    });
+    }
 
-    dishRatings.forEach((DishRating dishRating) {
+    for (var dishRating in dishRatings) {
       dishRatingsToMap.add(dishRating.toMap());
-    });
+    }
     
     return {
       "name": name,

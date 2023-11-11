@@ -13,11 +13,11 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class TabDishesView extends StatefulWidget {
-  Tasting tasting;
-  List<Participant> participants;
-  Map<Participant, DishRating> dishRatings;
+  final Tasting tasting;
+  final List<Participant> participants;
+  final Map<Participant, DishRating> dishRatings;
 
-  TabDishesView({
+  const TabDishesView({
     super.key,
     required this.tasting,
     required this.participants,
@@ -170,7 +170,7 @@ class TabDishesViewState extends State<TabDishesView> {
           return AddDishView(
               tasting: tasting,
               tastingParticipants: participants,
-              dishRatingParticipants: {});
+              dishRatingParticipants: const {});
         });
 
     futureShowModalBottomSheet.then((void value) => loadDishes());
@@ -179,7 +179,7 @@ class TabDishesViewState extends State<TabDishesView> {
   void goToHome() {
     MaterialPageRoute materialPageRoute =
         MaterialPageRoute(builder: (BuildContext context) {
-      return HomepageController();
+      return const HomepageController();
     });
 
     Navigator.of(context).push(materialPageRoute);

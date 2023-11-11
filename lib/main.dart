@@ -3,7 +3,6 @@ import 'package:degust_et_des_couleurs/controller/login_controller.dart';
 import 'package:degust_et_des_couleurs/controller/profile_controller.dart';
 import 'package:degust_et_des_couleurs/core/auth.dart';
 import 'package:degust_et_des_couleurs/firebase_options.dart';
-import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -20,7 +19,7 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  int primaryColor = const Color.fromRGBO(180, 20, 20, 1).value;
+  final int primaryColor = const Color.fromRGBO(180, 20, 20, 1).value;
 
   final _router = GoRouter(
     redirect: (BuildContext context, GoRouterState state) {
@@ -45,8 +44,8 @@ class MyApp extends StatelessWidget {
       GoRoute(
         name: 'login',
         path: '/login',
-        builder: (context, state) => LoginController(),
-        pageBuilder: (context, state) => MaterialPage<void>(
+        builder: (context, state) => const LoginController(),
+        pageBuilder: (context, state) => const MaterialPage<void>(
           child: LoginController(),
           name: 'login',
         ),

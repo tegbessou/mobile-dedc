@@ -11,11 +11,11 @@ import 'package:degust_et_des_couleurs/view/_text_field_custom.dart';
 import 'package:flutter/material.dart';
 
 class TabGeneralView extends StatefulWidget {
-  Tasting tasting;
-  List<Participant> participants;
-  Map<Participant, GeneralRating> generalRatings;
+  final Tasting tasting;
+  final List<Participant> participants;
+  final Map<Participant, GeneralRating> generalRatings;
 
-  TabGeneralView({
+  const TabGeneralView({
     super.key,
     required this.tasting,
     required this.participants,
@@ -266,7 +266,7 @@ class TabGeneralViewState extends State<TabGeneralView> {
   void goToHome() {
     MaterialPageRoute materialPageRoute =
         MaterialPageRoute(builder: (BuildContext context) {
-      return HomepageController();
+      return const HomepageController();
     });
 
     Navigator.of(context).push(materialPageRoute);

@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class TastingHeaderIconButton extends StatelessWidget {
-  void Function() onPress;
-  IconData icon;
-  bool isLoading;
+  final void Function() onPress;
+  final IconData icon;
+  final bool isLoading;
 
-  TastingHeaderIconButton({
+  const TastingHeaderIconButton({
     super.key,
     required this.onPress,
     required this.icon,

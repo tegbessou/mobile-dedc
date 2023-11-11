@@ -6,16 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class AutocompleteFieldCustom extends StatelessWidget {
-  TextEditingController controller;
-  String placeholder;
-  FutureOr<Iterable<dynamic>> Function(String) suggestionsCallback;
-  Widget Function(BuildContext, dynamic) itemBuilder;
-  void Function(dynamic) onSuggestionSelected;
-  IconData prefixIcon;
-  Color prefixIconColor;
-  String? Function(String? value)? onValidate;
+  final TextEditingController controller;
+  final String placeholder;
+  final FutureOr<Iterable<dynamic>> Function(String) suggestionsCallback;
+  final Widget Function(BuildContext, dynamic) itemBuilder;
+  final void Function(dynamic) onSuggestionSelected;
+  final IconData prefixIcon;
+  final Color prefixIconColor;
+  final String? Function(String? value)? onValidate;
 
-  AutocompleteFieldCustom({
+  const AutocompleteFieldCustom({
     super.key,
     required this.controller,
     required this.placeholder,
@@ -71,7 +71,7 @@ class AutocompleteFieldCustom extends StatelessWidget {
       ),
       noItemsFoundBuilder: (context) => Container(
         padding: const EdgeInsets.all(20),
-        child: TextDmSans("Aucun résultat trouvés", fontSize: 15),
+        child: const TextDmSans("Aucun résultat trouvés", fontSize: 15),
       ),
     );
   }

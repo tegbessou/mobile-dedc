@@ -10,9 +10,10 @@ import 'package:degust_et_des_couleurs/view/public/_public_header.dart';
 import 'package:degust_et_des_couleurs/view/public/_public_login_register_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:go_router/go_router.dart';
 
 class LoginController extends StatefulWidget {
+  const LoginController({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return LoginControllerState();
@@ -30,7 +31,7 @@ class LoginControllerState extends State<LoginController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.90,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,8 +44,9 @@ class LoginControllerState extends State<LoginController> {
               PublicLoginRegisterForm(
                 buttonLabel: "Connexion",
                 handleSubmit: signWithCustomToken,
+                redirectToRouteName: "homepage",
               ),
-              Spacer(),
+              const Spacer(),
               PublicFooter(
                 firstSentence: "Pas encore de compte ? ",
                 secondSentence: "Inscription",
@@ -71,8 +73,6 @@ class LoginControllerState extends State<LoginController> {
             const storage = FlutterSecureStorage();
 
             await storage.write(key: "user_id", value: value.id.toString());
-
-            context.goNamed("homepage");
           });
         }).catchError((error) {
           setState(() {
@@ -87,7 +87,7 @@ class LoginControllerState extends State<LoginController> {
 
   void redirectToRegister() {
     MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) {
-      return RegisterController();
+      return const RegisterController();
     });
 
     Navigator.of(context).push(materialPageRoute);

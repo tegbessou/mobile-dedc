@@ -116,9 +116,9 @@ class TastingRepository {
       "participants": [],
     };
 
-    participants.forEach((Participant participant) {
+    for (var participant in participants) {
       data["participants"].add(participant.iri);
-    });
+    }
 
     final clientResponse = await client.put(
         url,

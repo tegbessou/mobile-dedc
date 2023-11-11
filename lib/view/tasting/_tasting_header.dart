@@ -108,7 +108,7 @@ class TastingHeaderState extends State<TastingHeader> {
 
                   TastingRepository().closed(iri).then((value) {
                     MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) {
-                      return HomepageController();
+                      return const HomepageController();
                     });
 
                     Navigator.of(context).push(materialPageRoute);

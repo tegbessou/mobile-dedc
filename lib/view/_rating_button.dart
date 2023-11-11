@@ -3,11 +3,11 @@ import 'package:degust_et_des_couleurs/view/_text_dm_sans.dart';
 import 'package:flutter/material.dart';
 
 class RatingButton extends StatelessWidget {
-  void Function() onPress;
-  String text;
-  bool isActive;
+  final void Function() onPress;
+  final String text;
+  final bool isActive;
 
-  RatingButton({
+  const RatingButton({
     super.key,
     required this.onPress,
     required this.text,
