@@ -2,9 +2,7 @@ import 'dart:convert';
 import 'package:degust_et_des_couleurs/model/general_rating.dart';
 import 'package:degust_et_des_couleurs/model/participant.dart';
 import 'package:degust_et_des_couleurs/model/tasting.dart';
-import 'package:degust_et_des_couleurs/model/token.dart';
-import 'package:degust_et_des_couleurs/repository/token_repository.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:degust_et_des_couleurs/repository/http_repository.dart';
 import 'package:http/http.dart';
 
 class GeneralRatingRepository {
@@ -14,21 +12,6 @@ class GeneralRatingRepository {
     String rate,
     String? comment,
   ) async {
-    String? apiUrl = dotenv.env['API_URL'];
-
-    if (apiUrl == null) {
-      throw Exception();
-    }
-
-    Token? token = await TokenRepository().getToken();
-
-    if (token == null) {
-      throw Exception();
-    }
-
-    Uri url = Uri.https(apiUrl, 'general_ratings');
-    Client client = Client();
-
     final Map data = {
       "tasting": tasting.iri,
       "participant": participant.iri,
@@ -36,16 +19,12 @@ class GeneralRatingRepository {
       "comment": comment ?? "",
     };
 
-    final clientResponse = await client.post(
-      url,
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer ${token.token}",
-      },
-      body: json.encode(data),
+    final Response response = await HttpRepository().post(
+      'general_ratings',
+      data,
     );
 
-    final parsed = jsonDecode(clientResponse.body);
+    final parsed = jsonDecode(response.body);
 
     return GeneralRating.fromJson(parsed);
   }
@@ -55,36 +34,17 @@ class GeneralRatingRepository {
     String rate,
     String? comment,
   ) async {
-    String? apiUrl = dotenv.env['API_URL'];
-
-    if (apiUrl == null) {
-      throw Exception();
-    }
-
-    Token? token = await TokenRepository().getToken();
-
-    if (token == null) {
-      throw Exception();
-    }
-
-    Uri url = Uri.https(apiUrl, iri);
-    Client client = Client();
-
     final Map data = {
       "rate": rate,
       "comment": comment ?? "",
     };
 
-    final clientResponse = await client.put(
-      url,
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer ${token.token}",
-      },
-      body: json.encode(data),
+    final Response response = await HttpRepository().put(
+      iri,
+      data,
     );
 
-    final parsed = jsonDecode(clientResponse.body);
+    final parsed = jsonDecode(response.body);
 
     return GeneralRating.fromJson(parsed);
   }

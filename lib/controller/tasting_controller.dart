@@ -17,9 +17,9 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class TastingController extends StatefulWidget {
-  final int? id;
+  final int id;
 
-  const TastingController({super.key, this.id});
+  const TastingController({super.key, required this.id});
 
   @override
   State<StatefulWidget> createState() {
@@ -28,7 +28,7 @@ class TastingController extends StatefulWidget {
 }
 
 class TastingControllerState extends State<TastingController> {
-  late int? id;
+  late int id;
   late Future<Tasting> tasting;
   Restaurant? restaurantSelected;
 

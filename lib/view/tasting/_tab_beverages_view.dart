@@ -169,9 +169,9 @@ class TabBeveragesViewState extends State<TabBeveragesView> {
         ),
         builder: (context) {
           return AddBeverageView(
-              tasting: tasting,
-              tastingParticipants: participants,
-              beverageRatingParticipants: const {});
+            tasting: tasting,
+            tastingParticipants: participants,
+          );
         });
 
     futureShowModalBottomSheet.then((void value) => loadBeverage());

@@ -161,7 +161,7 @@ class CreateTastingAddParticipantControllerState
     });
 
     Tasting updatedTasting = await TastingRepository()
-        .addParticipants(tasting, participants)
+        .addParticipants(tasting!, participants)
         .whenComplete(() {
       setState(() {
         isLoading = false;

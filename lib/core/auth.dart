@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Auth {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -14,6 +15,8 @@ class Auth {
   }
 
   Future<void> signOut() async {
+    FlutterSecureStorage flutterSecureStorage = const FlutterSecureStorage();
     await firebaseAuth.signOut();
+    await flutterSecureStorage.delete(key: 'user_id');
   }
 }

@@ -111,20 +111,21 @@ class CreateTastingControllerState extends State<CreateTastingController> {
         isLoading = true;
       });
 
-      Tasting tasting = await TastingRepository()
-          .post(tastingNameController.text, restaurantSelected);
+      await TastingRepository()
+          .post(tastingNameController.text, restaurantSelected!)
+          .then((Tasting value) {
+        setState(() {
+          createdTasting = value;
+          isLoading = false;
+        });
 
-      setState(() {
-        createdTasting = tasting;
-        isLoading = false;
+        MaterialPageRoute materialPageRoute =
+            MaterialPageRoute(builder: (BuildContext context) {
+          return CreateTastingAddParticipantController(tasting: value);
+        });
+
+        Navigator.of(context).push(materialPageRoute);
       });
-
-      MaterialPageRoute materialPageRoute =
-          MaterialPageRoute(builder: (BuildContext context) {
-        return CreateTastingAddParticipantController(tasting: createdTasting);
-      });
-
-      Navigator.of(context).push(materialPageRoute);
     }
   }
 }

@@ -61,15 +61,15 @@ class LoginControllerState extends State<LoginController> {
 
   Future<void> signWithCustomToken(TextEditingValue email, TextEditingValue password) async {
     try {
-      await TokenRepository().createToken(email.text, password.text).then((value) {
+      await TokenRepository().createToken(email.text, password.text).then((value) async {
         String? token = value.token;
 
         if (token == null) {
           throw BadCredentialException();
         }
 
-        Auth().signInWitCustomToken(token: token).then((value) {
-          UserRepository().getByUsername(email.text).then((User value) async {
+        await Auth().signInWitCustomToken(token: token).then((value) async {
+          await UserRepository().getByUsername(email.text).then((User value) async {
             const storage = FlutterSecureStorage();
 
             await storage.write(key: "user_id", value: value.id.toString());

@@ -1,13 +1,9 @@
-
 import 'dart:convert';
 import 'package:degust_et_des_couleurs/model/dish.dart';
 import 'package:degust_et_des_couleurs/model/dish_rating.dart';
 import 'package:degust_et_des_couleurs/model/participant.dart';
 import 'package:degust_et_des_couleurs/model/tasting.dart';
-import 'package:degust_et_des_couleurs/model/token.dart';
-import 'package:degust_et_des_couleurs/repository/token_repository.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart';
+import 'package:degust_et_des_couleurs/repository/http_repository.dart';
 
 class DishRepository {
   Future<Dish> post(
@@ -15,21 +11,6 @@ class DishRepository {
     Tasting tasting,
     Map<Participant, DishRating> ratings,
   ) async {
-    String? apiUrl = dotenv.env['API_URL'];
-
-    if (apiUrl == null) {
-      throw Exception();
-    }
-
-    Token? token = await TokenRepository().getToken();
-
-    if (token == null) {
-      throw Exception();
-    }
-
-    Uri url = Uri.https(apiUrl, 'dishes');
-    Client client = Client();
-
     final Map data = {
       "name": name,
       "tasting": tasting.iri,
@@ -48,47 +29,23 @@ class DishRepository {
       data["dishRatings"].add(ratingObject);
     });
 
-    final clientResponse = await client.post(
-      url,
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer ${token.token}",
-      },
-      body: json.encode(data),
+    final response = await HttpRepository().post(
+      'dishes',
+      data,
     );
 
-    final parsed = jsonDecode(clientResponse.body);
+    final parsed = jsonDecode(response.body);
 
     return Dish.fromJson(parsed);
   }
 
   Future<List<Dish>> findByTasting(Tasting tasting) async {
-    List<Dish> dish = [];
-    String? apiUrl = dotenv.env['API_URL'];
-
-    if (apiUrl == null) {
-      return dish;
-    }
-
-    Token? token = await TokenRepository().getToken();
-
-    if (token == null) {
-      throw Exception();
-    }
-
-    Uri url = Uri.https(apiUrl, 'dishes', {
+    final clientResponse = await HttpRepository().get('dishes', queryParam: {
       "tasting.id": tasting.id.toString(),
     });
-    Client client = Client();
 
-    final clientResponse = await client.get(
-        url,
-        headers: {
-          "Authorization": "Bearer ${token.token}",
-        }
-    );
-
-    final parsed = jsonDecode(clientResponse.body)["hydra:member"].cast<Map<String, dynamic>>();
+    final parsed = jsonDecode(clientResponse.body)["hydra:member"]
+        .cast<Map<String, dynamic>>();
 
     return parsed.map<Dish>((json) => Dish.fromJson(json)).toList();
   }
@@ -96,27 +53,8 @@ class DishRepository {
   Future<void> delete(
     String iri,
   ) async {
-    String? apiUrl = dotenv.env['API_URL'];
-
-    if (apiUrl == null) {
-      throw Exception();
-    }
-
-    Token? token = await TokenRepository().getToken();
-
-    if (token == null) {
-      throw Exception();
-    }
-
-    Uri url = Uri.https(apiUrl, iri);
-    Client client = Client();
-
-    await client.delete(
-      url,
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer ${token.token}",
-      },
+    await HttpRepository().delete(
+      iri,
     );
   }
 
@@ -124,31 +62,12 @@ class DishRepository {
     String iri,
     Dish dish,
   ) async {
-    String? apiUrl = dotenv.env['API_URL'];
-
-    if (apiUrl == null) {
-      throw Exception();
-    }
-
-    Token? token = await TokenRepository().getToken();
-
-    if (token == null) {
-      throw Exception();
-    }
-
-    Uri url = Uri.https(apiUrl, iri);
-    Client client = Client();
-
-    final clientResponse = await client.put(
-      url,
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer ${token.token}",
-      },
-      body: json.encode(dish.toMap()),
+    final response = await HttpRepository().put(
+      iri,
+      dish.toMap(),
     );
 
-    final parsed = jsonDecode(clientResponse.body);
+    final parsed = jsonDecode(response.body);
 
     return Dish.fromJson(parsed);
   }

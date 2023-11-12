@@ -3,9 +3,7 @@ import 'package:degust_et_des_couleurs/model/beverage.dart';
 import 'package:degust_et_des_couleurs/model/beverage_rating.dart';
 import 'package:degust_et_des_couleurs/model/participant.dart';
 import 'package:degust_et_des_couleurs/model/tasting.dart';
-import 'package:degust_et_des_couleurs/model/token.dart';
-import 'package:degust_et_des_couleurs/repository/token_repository.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:degust_et_des_couleurs/repository/http_repository.dart';
 import 'package:http/http.dart';
 
 class BeverageRepository {
@@ -14,21 +12,6 @@ class BeverageRepository {
     Tasting tasting,
     Map<Participant, BeverageRating> ratings,
   ) async {
-    String? apiUrl = dotenv.env['API_URL'];
-
-    if (apiUrl == null) {
-      throw Exception();
-    }
-
-    Token? token = await TokenRepository().getToken();
-
-    if (token == null) {
-      throw Exception();
-    }
-
-    Uri url = Uri.https(apiUrl, 'beverages');
-    Client client = Client();
-
     final Map data = {
       "name": name,
       "tasting": tasting.iri,
@@ -47,75 +30,30 @@ class BeverageRepository {
       data["beverageRatings"].add(ratingObject);
     });
 
-    final clientResponse = await client.post(
-      url,
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer ${token.token}",
-      },
-      body: json.encode(data),
+    final Response response = await HttpRepository().post(
+      'beverages',
+      data,
     );
 
-    final parsed = jsonDecode(clientResponse.body);
+    final parsed = jsonDecode(response.body);
 
     return Beverage.fromJson(parsed);
   }
 
   Future<List<Beverage>> findByTasting(Tasting tasting) async {
-    List<Beverage> beverage = [];
-    String? apiUrl = dotenv.env['API_URL'];
-
-    if (apiUrl == null) {
-      return beverage;
-    }
-
-    Token? token = await TokenRepository().getToken();
-
-    if (token == null) {
-      throw Exception();
-    }
-
-    Uri url = Uri.https(apiUrl, 'beverages', {
+    final clientResponse = await HttpRepository().get('beverages', queryParam: {
       "tasting.id": tasting.id.toString(),
     });
-    Client client = Client();
 
-    final clientResponse = await client.get(
-        url,
-        headers: {
-          "Authorization": "Bearer ${token.token}",
-        }
-    );
-
-    final parsed = jsonDecode(clientResponse.body)["hydra:member"].cast<Map<String, dynamic>>();
+    final parsed = jsonDecode(clientResponse.body)["hydra:member"]
+        .cast<Map<String, dynamic>>();
 
     return parsed.map<Beverage>((json) => Beverage.fromJson(json)).toList();
   }
 
-  Future<void> delete(
-    String iri,
-  ) async {
-    String? apiUrl = dotenv.env['API_URL'];
-
-    if (apiUrl == null) {
-      throw Exception();
-    }
-
-    Token? token = await TokenRepository().getToken();
-
-    if (token == null) {
-      throw Exception();
-    }
-
-    Uri url = Uri.https(apiUrl, iri);
-    Client client = Client();
-
-    await client.delete(
-      url,
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer ${token.token}",
-      },
+  Future<void> delete(String iri) async {
+    await HttpRepository().delete(
+      iri,
     );
   }
 
@@ -123,31 +61,12 @@ class BeverageRepository {
     String iri,
     Beverage beverage,
   ) async {
-    String? apiUrl = dotenv.env['API_URL'];
-
-    if (apiUrl == null) {
-      throw Exception();
-    }
-
-    Token? token = await TokenRepository().getToken();
-
-    if (token == null) {
-      throw Exception();
-    }
-
-    Uri url = Uri.https(apiUrl, iri);
-    Client client = Client();
-
-    final clientResponse = await client.put(
-      url,
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer ${token.token}",
-      },
-      body: json.encode(beverage.toMap()),
+    final Response response = await HttpRepository().put(
+      iri,
+      beverage.toMap(),
     );
 
-    final parsed = jsonDecode(clientResponse.body);
+    final parsed = jsonDecode(response.body);
 
     return Beverage.fromJson(parsed);
   }

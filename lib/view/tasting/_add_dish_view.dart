@@ -14,13 +14,11 @@ import 'package:flutter/material.dart';
 class AddDishView extends StatefulWidget {
   final List<Participant> tastingParticipants;
   final Tasting tasting;
-  final Map<Participant, DishRating> dishRatingParticipants;
 
   const AddDishView({
     super.key,
     required this.tastingParticipants,
     required this.tasting,
-    required this.dishRatingParticipants,
   });
 
   @override
@@ -44,7 +42,6 @@ class AddDishViewState extends State<AddDishView> {
 
     tastingParticipants = widget.tastingParticipants;
     tasting = widget.tasting;
-    dishRatingParticipants = widget.dishRatingParticipants;
   }
 
   @override

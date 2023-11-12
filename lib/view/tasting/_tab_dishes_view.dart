@@ -168,9 +168,9 @@ class TabDishesViewState extends State<TabDishesView> {
         ),
         builder: (context) {
           return AddDishView(
-              tasting: tasting,
-              tastingParticipants: participants,
-              dishRatingParticipants: const {});
+            tasting: tasting,
+            tastingParticipants: participants,
+          );
         });
 
     futureShowModalBottomSheet.then((void value) => loadDishes());
