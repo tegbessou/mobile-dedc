@@ -36,11 +36,17 @@ class UserRepository {
       "email": username,
     });
 
-    final parsed = jsonDecode(response.body)["hydra:member"]
-        .cast<Map<String, dynamic>>();
+    final parsed =
+        jsonDecode(response.body)["hydra:member"].cast<Map<String, dynamic>>();
 
     final users = parsed.map<User>((json) => User.fromJson(json)).toList();
 
     return users[0];
+  }
+
+  Future<void> delete() async {
+    await HttpRepository().delete(
+      'users/${await HttpRepository().getUserId()}',
+    );
   }
 }

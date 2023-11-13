@@ -8,6 +8,7 @@ class TextDmSans extends StatelessWidget {
   final FontWeight fontWeight;
   final double letterSpacing;
   final Color? color;
+  final TextAlign align;
 
   const TextDmSans(
     this.value,
@@ -16,6 +17,7 @@ class TextDmSans extends StatelessWidget {
       required this.fontSize,
       this.fontWeight = FontWeight.normal,
       this.letterSpacing = 1,
+      this.align = TextAlign.start,
       this.color,
     }
   );
@@ -29,7 +31,8 @@ class TextDmSans extends StatelessWidget {
         fontWeight: fontWeight,
         letterSpacing: letterSpacing,
         color: color ?? MyColors().blackColor,
-      )
+      ),
+      textAlign: align,
     );
   }
 }
