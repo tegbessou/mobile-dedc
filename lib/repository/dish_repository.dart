@@ -29,7 +29,7 @@ class DishRepository {
       data["dishRatings"].add(ratingObject);
     });
 
-    final response = await HttpRepository().post(
+    final response = await HttpRepository().postMultiPart(
       'dishes',
       data,
     );

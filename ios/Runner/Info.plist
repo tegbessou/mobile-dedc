@@ -58,5 +58,7 @@
 	<array>
 	    <string>INSendMessageIntent</string>
     </array>
+    <key>NSCameraUsageDescription</key>
+    <string>We use camera to take picture of dish and beverage.</string>
 </dict>
 </plist>

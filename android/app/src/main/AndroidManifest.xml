@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.degust_et_des_couleurs">
+    package="com.tegcorp.degustetdescouleurs">
    <application
         android:label="degust_et_des_couleurs"
         android:name="${applicationName}"

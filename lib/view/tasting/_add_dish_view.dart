@@ -9,6 +9,7 @@ import 'package:degust_et_des_couleurs/view/_small_elevated_button.dart';
 import 'package:degust_et_des_couleurs/view/_text_dm_sans.dart';
 import 'package:degust_et_des_couleurs/view/_text_field_custom.dart';
 import 'package:degust_et_des_couleurs/view/_text_form_field_custom.dart';
+import 'package:degust_et_des_couleurs/view/tasting/_picture_button_view.dart';
 import 'package:flutter/material.dart';
 
 class AddDishView extends StatefulWidget {
@@ -104,18 +105,26 @@ class AddDishViewState extends State<AddDishView> {
                 top: 20,
               ),
             ),
-            TextFormFieldCustom(
-              placeholder: "Nom du plat",
-              icon: Icons.room_service_outlined,
-              iconColor: MyColors().primaryColor,
-              controller: nameController,
-              onValidate: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Le nom du plat est obligatoire';
-                }
+            Row(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.72,
+                  child: TextFormFieldCustom(
+                    placeholder: "Nom du plat",
+                    icon: Icons.room_service_outlined,
+                    iconColor: MyColors().primaryColor,
+                    controller: nameController,
+                    onValidate: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Le nom du plat est obligatoire';
+                      }
 
-                return null;
-              },
+                      return null;
+                    },
+                  ),
+                ),
+                const PictureButtonView(),
+              ],
             ),
             const Padding(
                 padding: EdgeInsets.only(

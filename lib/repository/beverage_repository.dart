@@ -30,7 +30,7 @@ class BeverageRepository {
       data["beverageRatings"].add(ratingObject);
     });
 
-    final Response response = await HttpRepository().post(
+    final Response response = await HttpRepository().postMultiPart(
       'beverages',
       data,
     );

@@ -14,6 +14,7 @@ class HttpRepository {
     Map data,
     {
       bool withoutAuthentication = false,
+      Map<String, String> headers = const {},
     }
   ) async {
     String? apiUrl = dotenv.env['API_URL'];
@@ -25,9 +26,9 @@ class HttpRepository {
     Uri url = Uri.https(apiUrl, uri);
     Client client = Client();
 
-    final headers = {
-      "Content-Type": "application/json",
-    };
+    if (headers.isEmpty) {
+      headers["Content-Type"] = "application/json";
+    }
 
     if (!withoutAuthentication) {
       headers["Authorization"] = "Bearer ${await getToken()}";
@@ -38,6 +39,29 @@ class HttpRepository {
       headers: headers,
       body: json.encode(data),
     );
+  }
+
+  Future<Response> postMultiPart(
+    String uri,
+    Map data,
+    {
+      bool withoutAuthentication = false,
+    }
+  ) async {
+    String? apiUrl = dotenv.env['API_URL'];
+
+    if (apiUrl == null) {
+      throw MissingApiUrlException();
+    }
+
+    Uri url = Uri.https(apiUrl, uri);
+    MultipartRequest multipartRequest = MultipartRequest("POST", url);
+
+    multipartRequest.headers.addAll({"Authorization": "Bearer ${await getToken()}"});
+
+    multipartRequest.fields["json"] = json.encode(data);
+
+    return Response.fromStream(await multipartRequest.send());
   }
 
   Future<Response> put(
