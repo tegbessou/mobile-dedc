@@ -1,4 +1,4 @@
-package com.example.degust_et_des_couleurs
+package com.example.login
 
 import io.flutter.embedding.android.FlutterActivity
 
