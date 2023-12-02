@@ -1,6 +1,5 @@
 import 'package:degust_et_des_couleurs/model/general_rating.dart';
 import 'package:degust_et_des_couleurs/model/participant.dart';
-import 'package:degust_et_des_couleurs/model/restaurant.dart';
 import 'package:degust_et_des_couleurs/model/service_rating.dart';
 import 'package:degust_et_des_couleurs/model/sommelier_rating.dart';
 import 'package:degust_et_des_couleurs/model/tasting.dart';
@@ -24,7 +23,6 @@ class TastingController extends StatefulWidget {
 class TastingControllerState extends State<TastingController> {
   late int id;
   late Future<Tasting> tasting;
-  Restaurant? restaurantSelected;
 
   @override
   void initState() {
