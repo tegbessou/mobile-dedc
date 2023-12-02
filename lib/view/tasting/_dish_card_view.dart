@@ -62,7 +62,7 @@ class DishCardView extends StatelessWidget {
                             right: 8,
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width - 180,
                           child: TextDmSans(
                             dish?.name ?? "",

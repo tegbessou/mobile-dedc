@@ -56,7 +56,7 @@ class AddDishViewState extends State<AddBeverageView> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
         color: MyColors().whiteColor,
       ),
       height: MediaQuery.of(context).size.height > 736

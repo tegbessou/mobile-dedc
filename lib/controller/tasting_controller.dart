@@ -5,11 +5,10 @@ import 'package:degust_et_des_couleurs/model/service_rating.dart';
 import 'package:degust_et_des_couleurs/model/sommelier_rating.dart';
 import 'package:degust_et_des_couleurs/model/tasting.dart';
 import 'package:degust_et_des_couleurs/repository/tasting_repository.dart';
-import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_app_bar_view.dart';
+import 'package:degust_et_des_couleurs/view/tasting/tasting_loading_view.dart';
 import 'package:degust_et_des_couleurs/view/tasting/tasting_view.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class TastingController extends StatefulWidget {
   final int id;
@@ -45,25 +44,10 @@ class TastingControllerState extends State<TastingController> {
           if (snapshot.hasData) {
             loadedTasting = snapshot.data;
           } else {
-            //Put a loader here
-            return Scaffold(
-              body: SizedBox(
-                height: MediaQuery.of(context).size.height,
-                child: Container(
-                  color: MyColors().lightGreyColor,
-                  child: Center(
-                    child: LoadingAnimationWidget.inkDrop(
-                      color: MyColors().primaryColor,
-                      size: 50,
-                    ),
-                  ),
-                ),
-              ),
-            );
+            return const TastingLoadingView();
           }
 
           if (loadedTasting == null) {
-            //Put a loader here
             return Scaffold(
               appBar: AppBarView(
                 tasting: loadedTasting,

@@ -5,10 +5,7 @@ import 'package:degust_et_des_couleurs/exception/bad_credential_exception.dart';
 import 'package:degust_et_des_couleurs/model/user.dart';
 import 'package:degust_et_des_couleurs/repository/token_repository.dart';
 import 'package:degust_et_des_couleurs/repository/user_repository.dart';
-import 'package:degust_et_des_couleurs/view/_my_colors.dart';
-import 'package:degust_et_des_couleurs/view/public/_public_footer.dart';
-import 'package:degust_et_des_couleurs/view/public/_public_header.dart';
-import 'package:degust_et_des_couleurs/view/public/_public_login_register_form.dart';
+import 'package:degust_et_des_couleurs/view/login/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -30,40 +27,17 @@ class LoginControllerState extends State<LoginController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: MyColors().whiteColor,
-      body: SingleChildScrollView(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.90,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const PublicHeader(
-                pageName: "Connexion",
-              ),
-              PublicLoginRegisterForm(
-                buttonLabel: "Connexion",
-                handleSubmit: signWithCustomToken,
-                redirectToRouteName: "homepage",
-              ),
-              const Spacer(),
-              PublicFooter(
-                firstSentence: "Pas encore de compte ? ",
-                secondSentence: "Inscription",
-                redirectTo: redirectToRegister,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+    return LoginView(
+        signWithCustomToken: signWithCustomToken,
+        redirectToRegister: redirectToRegister);
   }
 
-  Future<void> signWithCustomToken(TextEditingValue email, TextEditingValue password) async {
+  Future<void> signWithCustomToken(
+      TextEditingValue email, TextEditingValue password) async {
     try {
-      await TokenRepository().createToken(email.text, password.text).then((value) async {
+      await TokenRepository()
+          .createToken(email.text, password.text)
+          .then((value) async {
         String? token = value.token;
 
         if (token == null) {
@@ -71,7 +45,9 @@ class LoginControllerState extends State<LoginController> {
         }
 
         await Auth().signInWitCustomToken(token: token).then((value) async {
-          await UserRepository().getByUsername(email.text).then((User value) async {
+          await UserRepository()
+              .getByUsername(email.text)
+              .then((User value) async {
             const storage = FlutterSecureStorage();
 
             await storage.write(key: "user_id", value: value.id.toString());
@@ -88,7 +64,8 @@ class LoginControllerState extends State<LoginController> {
   }
 
   void redirectToRegister() {
-    MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) {
+    MaterialPageRoute materialPageRoute =
+        MaterialPageRoute(builder: (BuildContext context) {
       return const RegisterController();
     });
 
