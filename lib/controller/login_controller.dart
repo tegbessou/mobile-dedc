@@ -72,13 +72,14 @@ class LoginControllerState extends State<LoginController> {
 
         await Auth().signInWitCustomToken(token: token).then((value) async {
           await UserRepository().getByUsername(email.text).then((User value) async {
-            print("passe");
             const storage = FlutterSecureStorage();
 
             await storage.write(key: "user_id", value: value.id.toString());
           });
         }).catchError((error) {
-          print(error);
+          setState(() {
+            errorMessage = error.message;
+          });
         });
       });
     } catch (exception) {
