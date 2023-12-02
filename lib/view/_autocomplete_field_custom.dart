@@ -8,7 +8,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 class AutocompleteFieldCustom extends StatelessWidget {
   final TextEditingController controller;
   final String placeholder;
-  final FutureOr<Iterable<dynamic>> Function(String) suggestionsCallback;
+  final FutureOr<List<dynamic>> Function(String) suggestionsCallback;
   final Widget Function(BuildContext, dynamic) itemBuilder;
   final void Function(dynamic) onSuggestionSelected;
   final IconData prefixIcon;
@@ -29,47 +29,54 @@ class AutocompleteFieldCustom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TypeAheadFormField(
-      minCharsForSuggestions: 3,
-      validator: onValidate ?? (value) { return null; },
-      textFieldConfiguration: TextFieldConfiguration(
-        controller: controller,
-        decoration: InputDecoration(
-            filled: true,
-            fillColor: MyColors().whiteColor,
-            enabledBorder: OutlineInputBorder(
+    return TypeAheadField(
+      controller: controller,
+      hideOnEmpty: true,
+      builder: (context, controller, focusNode) {
+        return TextFormField(
+          controller: controller,
+          focusNode: focusNode,
+          autofocus: true,
+          decoration: InputDecoration(
+              filled: true,
+              fillColor: MyColors().whiteColor,
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide: BorderSide(
+                    color: MyColors().secondaryColor,
+                  )),
+              focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
                 borderSide: BorderSide(
                   color: MyColors().secondaryColor,
-                )),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-              borderSide: BorderSide(
-                color: MyColors().secondaryColor,
+                ),
               ),
-            ),
-            focusColor: MyColors().secondaryColor,
-            prefixIcon: Icon(prefixIcon),
-            prefixIconColor: prefixIconColor,
-            labelText: placeholder,
-            labelStyle: TextStyle(
-              color: MyColors().greyColor,
-            )),
-      ),
+              focusColor: MyColors().secondaryColor,
+              prefixIcon: Icon(prefixIcon),
+              prefixIconColor: prefixIconColor,
+              labelText: placeholder,
+              labelStyle: TextStyle(
+                color: MyColors().greyColor,
+              )),
+          validator: onValidate ??
+              (value) {
+                return null;
+              },
+        );
+      },
       suggestionsCallback: suggestionsCallback,
       itemBuilder: itemBuilder,
-      onSuggestionSelected: onSuggestionSelected,
-      suggestionsBoxDecoration: SuggestionsBoxDecoration(
-        color: MyColors().whiteColor,
-        elevation: 0,
-        shape: ContinuousRectangleBorder(
-          side: BorderSide(
-            color: MyColors().secondaryColor,
-          ),
-          borderRadius: const BorderRadius.all(Radius.circular(30)),
-        ),
-      ),
-      noItemsFoundBuilder: (context) => Container(
+      onSelected: onSuggestionSelected,
+      decorationBuilder: (context, child) {
+        return Material(
+          type: MaterialType.card,
+          elevation: 4,
+          borderRadius: BorderRadius.circular(8),
+          color: MyColors().whiteColor,
+          child: child,
+        );
+      },
+      emptyBuilder: (context) => Container(
         padding: const EdgeInsets.all(20),
         child: const TextDmSans("Aucun résultat trouvés", fontSize: 15),
       ),

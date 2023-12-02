@@ -111,6 +111,9 @@ class TastingControllerState extends State<TastingController> {
                               indicatorColor: MyColors().primaryColor,
                               unselectedLabelColor: MyColors().greyColor,
                               labelColor: MyColors().primaryColor,
+                              overlayColor: MaterialStateColor.resolveWith((states) {
+                                return MyColors().lightGreyColor;
+                              }),
                               isScrollable: true,
                               padding: const EdgeInsets.only(
                                 left: 27,

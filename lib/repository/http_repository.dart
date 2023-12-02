@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:degust_et_des_couleurs/exception/missing_api_url_exception.dart';
 import 'package:degust_et_des_couleurs/exception/unauthenticated_user_exception.dart';
 import 'package:degust_et_des_couleurs/model/token.dart';
 import 'package:degust_et_des_couleurs/repository/token_repository.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
@@ -11,12 +14,9 @@ import 'package:http/http.dart';
 class HttpRepository {
   Future<Response> post(
     String uri,
-    Map data,
-    {
-      bool withoutAuthentication = false,
-      Map<String, String> headers = const {},
-    }
-  ) async {
+    Map data, {
+    bool withoutAuthentication = false,
+  }) async {
     String? apiUrl = dotenv.env['API_URL'];
 
     if (apiUrl == null) {
@@ -25,6 +25,8 @@ class HttpRepository {
 
     Uri url = Uri.https(apiUrl, uri);
     Client client = Client();
+
+    Map<String, String> headers = {};
 
     if (headers.isEmpty) {
       headers["Content-Type"] = "application/json";
@@ -43,11 +45,9 @@ class HttpRepository {
 
   Future<Response> postMultiPart(
     String uri,
-    Map data,
-    {
-      bool withoutAuthentication = false,
-    }
-  ) async {
+    Map data, {
+    bool withoutAuthentication = false,
+  }) async {
     String? apiUrl = dotenv.env['API_URL'];
 
     if (apiUrl == null) {
@@ -57,7 +57,8 @@ class HttpRepository {
     Uri url = Uri.https(apiUrl, uri);
     MultipartRequest multipartRequest = MultipartRequest("POST", url);
 
-    multipartRequest.headers.addAll({"Authorization": "Bearer ${await getToken()}"});
+    multipartRequest.headers
+        .addAll({"Authorization": "Bearer ${await getToken()}"});
 
     multipartRequest.fields["json"] = json.encode(data);
 
@@ -89,9 +90,22 @@ class HttpRepository {
     );
   }
 
-  Future<Response> get(String uri,
-      {Map<String, dynamic> queryParam = const {}}) async {
+  Future<Response> get(
+    String uri,
+    CacheManager cacheManager,
+    String cacheKey, {
+    Map<String, dynamic> queryParam = const {},
+  }) async {
     String? apiUrl = dotenv.env['API_URL'];
+
+    final cachedData = await cacheManager.getFileFromMemory(cacheKey);
+
+    if (cachedData != null) {
+      return Response(cachedData.file.readAsStringSync(), 200,
+          headers: {
+        HttpHeaders.contentTypeHeader: 'application/ld+json; charset=utf-8',
+      });
+    }
 
     if (apiUrl == null) {
       throw MissingApiUrlException();
@@ -105,10 +119,17 @@ class HttpRepository {
       "Authorization": "Bearer ${await getToken()}",
     };
 
-    return client.get(
+    return client
+        .get(
       url,
       headers: headers,
-    );
+    )
+        .then((value) {
+      Uint8List fileBytes = Uint8List.fromList(value.bodyBytes);
+      cacheManager.putFile(cacheKey, fileBytes);
+
+      return value;
+    });
   }
 
   Future<Response> delete(String uri) async {

@@ -38,6 +38,7 @@ class CreateParticipantAlertDialogState
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: MyColors().whiteColor,
       elevation: 0,
       title: TextDmSans(
         "Créer un participant",

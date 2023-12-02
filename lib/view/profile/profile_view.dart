@@ -25,6 +25,7 @@ class ProfileViewState extends State<ProfileView> {
     getUsername();
 
     return Scaffold(
+      backgroundColor: MyColors().whiteColor,
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: Center(

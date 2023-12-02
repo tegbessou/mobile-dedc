@@ -46,6 +46,10 @@ class UpdateDishViewState extends State<UpdateDishView> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        color: MyColors().whiteColor,
+      ),
       height: MediaQuery.of(context).size.height * 0.80,
       padding: const EdgeInsets.only(
         left: 27,

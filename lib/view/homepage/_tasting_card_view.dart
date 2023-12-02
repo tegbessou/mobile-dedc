@@ -99,6 +99,10 @@ class TastingCardView extends StatelessWidget {
                             ),
                             backgroundColor: MyColors().lightPrimaryColor,
                             elevation: 0,
+                            padding: const EdgeInsets.only(
+                              left: 0,
+                              right: 0,
+                            ),
                           ),
                           onPressed: () {
                             MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) {

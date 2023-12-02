@@ -18,5 +18,7 @@ class Auth {
     FlutterSecureStorage flutterSecureStorage = const FlutterSecureStorage();
     await firebaseAuth.signOut();
     await flutterSecureStorage.delete(key: 'user_id');
+    await flutterSecureStorage.delete(key: 'username');
+    await flutterSecureStorage.delete(key: 'password');
   }
 }

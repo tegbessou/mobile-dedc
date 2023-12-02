@@ -62,14 +62,18 @@ class BeverageCardView extends StatelessWidget {
                           right: 8,
                         ),
                       ),
-                      TextDmSans(
-                        beverage?.name ?? "",
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 0,
+                      Container(
+                        width: MediaQuery.of(context).size.width - 180,
+                        child: TextDmSans(
+                          beverage?.name ?? "",
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 0,
+                        ),
                       ),
                       const Spacer(),
                       !tasting.closed ? PopupMenuButton<String>(
+                        color: MyColors().whiteColor,
                         padding: const EdgeInsets.only(
                           left: 15,
                         ),

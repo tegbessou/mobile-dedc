@@ -93,7 +93,10 @@ class HomepageViewState extends State<HomepageView> {
           color: MyColors().whiteColor,
         ),
         backgroundColor: MyColors().primaryColor,
-        icon: const Icon(Icons.add),
+        icon: Icon(
+          Icons.add,
+          color: MyColors().whiteColor,
+        ),
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(15.0))),
       ),

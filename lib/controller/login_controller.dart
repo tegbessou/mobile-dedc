@@ -5,6 +5,7 @@ import 'package:degust_et_des_couleurs/exception/bad_credential_exception.dart';
 import 'package:degust_et_des_couleurs/model/user.dart';
 import 'package:degust_et_des_couleurs/repository/token_repository.dart';
 import 'package:degust_et_des_couleurs/repository/user_repository.dart';
+import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:degust_et_des_couleurs/view/public/_public_footer.dart';
 import 'package:degust_et_des_couleurs/view/public/_public_header.dart';
 import 'package:degust_et_des_couleurs/view/public/_public_login_register_form.dart';
@@ -30,6 +31,7 @@ class LoginControllerState extends State<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: MyColors().whiteColor,
       body: SingleChildScrollView(
         child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.90,
@@ -70,14 +72,13 @@ class LoginControllerState extends State<LoginController> {
 
         await Auth().signInWitCustomToken(token: token).then((value) async {
           await UserRepository().getByUsername(email.text).then((User value) async {
+            print("passe");
             const storage = FlutterSecureStorage();
 
             await storage.write(key: "user_id", value: value.id.toString());
           });
         }).catchError((error) {
-          setState(() {
-            errorMessage = error.message ?? "";
-          });
+          print(error);
         });
       });
     } catch (exception) {

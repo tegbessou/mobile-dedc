@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:degust_et_des_couleurs/cache-manager/dish_cache_manager.dart';
 import 'package:degust_et_des_couleurs/model/dish.dart';
 import 'package:degust_et_des_couleurs/model/dish_rating.dart';
 import 'package:degust_et_des_couleurs/model/participant.dart';
@@ -32,7 +33,11 @@ class DishRepository {
     final response = await HttpRepository().postMultiPart(
       'dishes',
       data,
-    );
+    ).then((value) {
+      DishCacheManager.instance.emptyCache();
+
+      return value;
+    });
 
     final parsed = jsonDecode(response.body);
 
@@ -40,9 +45,13 @@ class DishRepository {
   }
 
   Future<List<Dish>> findByTasting(Tasting tasting) async {
-    final clientResponse = await HttpRepository().get('dishes', queryParam: {
+    final queryParam = {
       "tasting.id": tasting.id.toString(),
-    });
+    };
+
+    final clientResponse = await HttpRepository().get('dishes',
+        DishCacheManager.instance, "get_beverages_${queryParam.toString()}",
+        queryParam: queryParam);
 
     final parsed = jsonDecode(clientResponse.body)["hydra:member"]
         .cast<Map<String, dynamic>>();
@@ -55,7 +64,9 @@ class DishRepository {
   ) async {
     await HttpRepository().delete(
       iri,
-    );
+    ).then((value) {
+      DishCacheManager.instance.emptyCache();
+    });
   }
 
   Future<Dish> put(
@@ -65,7 +76,11 @@ class DishRepository {
     final response = await HttpRepository().put(
       iri,
       dish.toMap(),
-    );
+    ).then((value) {
+      DishCacheManager.instance.emptyCache();
+
+      return value;
+    });
 
     final parsed = jsonDecode(response.body);
 

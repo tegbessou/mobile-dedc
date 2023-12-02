@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:degust_et_des_couleurs/cache-manager/tasting_cache_manager.dart';
 import 'package:degust_et_des_couleurs/model/participant.dart';
 import 'package:degust_et_des_couleurs/model/restaurant.dart';
 import 'package:degust_et_des_couleurs/model/tasting.dart';
@@ -19,7 +20,11 @@ class TastingRepository {
     Response response = await HttpRepository().post(
       "tastings",
       data,
-    );
+    ).then((value) {
+      TastingCacheManager.instance.emptyCache();
+
+      return value;
+    });
 
     return Tasting.fromJson(json.decode(response.body));
   }
@@ -33,8 +38,9 @@ class TastingRepository {
       queryParam["name"] = name;
     }
 
-    Response response =
-        await HttpRepository().get("tastings", queryParam: queryParam);
+    Response response = await HttpRepository().get("tastings",
+        TastingCacheManager.instance, "get_tastings_${queryParam.toString()}",
+        queryParam: queryParam);
 
     final parsed =
         jsonDecode(response.body)["hydra:member"].cast<Map<String, dynamic>>();
@@ -60,7 +66,8 @@ class TastingRepository {
   }
 
   Future<Tasting> find(int id) async {
-    Response response = await HttpRepository().get('tastings/$id');
+    Response response = await HttpRepository()
+        .get('tastings/$id', TastingCacheManager.instance, "get_tasting_$id}");
 
     final parsed = jsonDecode(response.body);
 

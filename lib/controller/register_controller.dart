@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:degust_et_des_couleurs/controller/login_controller.dart';
 import 'package:degust_et_des_couleurs/repository/user_repository.dart';
+import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:degust_et_des_couleurs/view/public/_public_footer.dart';
 import 'package:degust_et_des_couleurs/view/public/_public_header.dart';
 import 'package:degust_et_des_couleurs/view/public/_public_login_register_form.dart';
@@ -25,6 +26,7 @@ class RegisterControllerState extends State<RegisterController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: MyColors().whiteColor,
       body: SingleChildScrollView(
         child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.90,

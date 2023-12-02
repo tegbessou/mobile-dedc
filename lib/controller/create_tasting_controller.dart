@@ -52,6 +52,10 @@ class CreateTastingControllerState extends State<CreateTastingController> {
               },
               placeholder: "Restaurant",
               suggestionsCallback: (pattern) async {
+                if (pattern.length < 3) {
+                  return [];
+                }
+
                 return await RestaurantRepository().findByName(pattern);
               },
               itemBuilder: (context, suggestion) {
@@ -60,6 +64,7 @@ class CreateTastingControllerState extends State<CreateTastingController> {
                 );
               },
               onSuggestionSelected: (selection) {
+                print(selection.name);
                 restaurantSelected = selection;
                 restaurantController.text = selection.name;
               },

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:degust_et_des_couleurs/cache-manager/user_cache_manager.dart';
 import 'package:degust_et_des_couleurs/exception/username_already_used_exception.dart';
 import 'package:degust_et_des_couleurs/model/user.dart';
 import 'package:degust_et_des_couleurs/repository/http_repository.dart';
@@ -32,9 +33,13 @@ class UserRepository {
   Future<User> getByUsername(
     String username,
   ) async {
-    final Response response = await HttpRepository().get('users', queryParam: {
+    final queryParam = {
       "email": username,
-    });
+    };
+
+    final Response response = await HttpRepository().get('users',
+        UserCacheManager.instance, "get_users_${queryParam.toString()}",
+        queryParam: queryParam);
 
     final parsed =
         jsonDecode(response.body)["hydra:member"].cast<Map<String, dynamic>>();
@@ -47,6 +52,8 @@ class UserRepository {
   Future<void> delete() async {
     await HttpRepository().delete(
       'users/${await HttpRepository().getUserId()}',
-    );
+    ).then((value) {
+      UserCacheManager.instance.emptyCache();
+    });
   }
 }
