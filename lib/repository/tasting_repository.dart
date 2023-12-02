@@ -79,6 +79,10 @@ class TastingRepository {
       "closed": true,
     };
 
-    await HttpRepository().put(iri, data);
+    await HttpRepository().put(iri, data).then((value) {
+      TastingCacheManager.instance.emptyCache();
+
+      return value;
+    });
   }
 }
