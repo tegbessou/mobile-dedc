@@ -32,6 +32,7 @@ class TastingRepository {
   Future<List<Tasting>> findByName(String name) async {
     final Map<String, dynamic> queryParam = {
       "user.id": await HttpRepository().getUserId(),
+      "groups[]": "read_light_tasting",
     };
 
     if (name != "") {
@@ -44,6 +45,8 @@ class TastingRepository {
 
     final parsed =
         jsonDecode(response.body)["hydra:member"].cast<Map<String, dynamic>>();
+
+    print(parsed.map<Tasting>((json) => Tasting.fromJson(json)).toList());
 
     return parsed.map<Tasting>((json) => Tasting.fromJson(json)).toList();
   }

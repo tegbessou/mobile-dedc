@@ -12,12 +12,12 @@ class Tasting {
   int id;
   String name;
   Restaurant restaurant;
-  List<Dish> dishes;
-  List<Beverage> beverages;
+  List<Dish> dishes = [];
+  List<Beverage> beverages = [];
   List<Participant> participants;
-  List<ServiceRating> serviceRatings;
-  List<SommelierRating> sommelierRatings;
-  List<GeneralRating> generalRatings;
+  List<ServiceRating> serviceRatings = [];
+  List<SommelierRating> sommelierRatings = [];
+  List<GeneralRating> generalRatings = [];
   DateTime createdAt;
   bool closed;
 
@@ -37,18 +37,40 @@ class Tasting {
   });
 
   factory Tasting.fromJson(Map<String, dynamic> json) {
+    print(json.containsKey('serviceRatings'));
+
     return Tasting(
       iri: json['@id'],
       id: json['id'],
       name: json['name'],
       restaurant: Restaurant.fromJson(json['restaurant']),
       createdAt: DateTime.tryParse(json['createdAt']) ?? DateTime.now(),
-      participants: json['participants'].map<Participant>((json) => Participant.fromJson(json)).toList(),
-      serviceRatings: json['serviceRatings'].map<ServiceRating>((json) => ServiceRating.fromJson(json)).toList(),
-      sommelierRatings: json['sommelierRatings'].map<SommelierRating>((json) => SommelierRating.fromJson(json)).toList(),
-      generalRatings: json['generalRatings'].map<GeneralRating>((json) => GeneralRating.fromJson(json)).toList(),
-      dishes: json['dishes'].map<Dish>((json) => Dish.fromJson(json)).toList(),
-      beverages: json['beverages'].map<Beverage>((json) => Beverage.fromJson(json)).toList(),
+      participants: json['participants']
+          .map<Participant>((json) => Participant.fromJson(json))
+          .toList(),
+      serviceRatings: !json.containsKey('serviceRatings')
+          ? []
+          : json['serviceRatings']
+              .map<ServiceRating>((json) => ServiceRating.fromJson(json))
+              .toList(),
+      sommelierRatings: !json.containsKey('sommelierRatings')
+          ? []
+          : json['sommelierRatings']
+              .map<SommelierRating>((json) => SommelierRating.fromJson(json))
+              .toList(),
+      generalRatings: !json.containsKey('generalRatings')
+          ? []
+          : json['generalRatings']
+              .map<GeneralRating>((json) => GeneralRating.fromJson(json))
+              .toList(),
+      dishes: !json.containsKey('dishes')
+          ? []
+          : json['dishes'].map<Dish>((json) => Dish.fromJson(json)).toList(),
+      beverages: !json.containsKey('beverages')
+          ? []
+          : json['beverages']
+              .map<Beverage>((json) => Beverage.fromJson(json))
+              .toList(),
       closed: json['closed'],
     );
   }

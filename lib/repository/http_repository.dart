@@ -101,8 +101,7 @@ class HttpRepository {
     final cachedData = await cacheManager.getFileFromMemory(cacheKey);
 
     if (cachedData != null) {
-      return Response(cachedData.file.readAsStringSync(), 200,
-          headers: {
+      return Response(cachedData.file.readAsStringSync(), 200, headers: {
         HttpHeaders.contentTypeHeader: 'application/ld+json; charset=utf-8',
       });
     }

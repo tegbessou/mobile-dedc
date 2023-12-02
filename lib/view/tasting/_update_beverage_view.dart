@@ -246,7 +246,7 @@ class UpdateBeverageViewState extends State<UpdateBeverageView> {
 
     for (var participant in tastingParticipants) {
       SmallElevatedButton smallElevatedButtonParticipant = SmallElevatedButton(
-        text: participant.name,
+        text: participant.name ?? "",
         backgroundColor: isAlreadySelectParticipant(participant)
             ? MyColors().primaryColor
             : MyColors().lightPrimaryColor,

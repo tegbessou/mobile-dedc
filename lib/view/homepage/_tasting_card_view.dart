@@ -8,10 +8,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 class TastingCardView extends StatelessWidget {
   final List<String> pictures = [
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTn0zPNJyKNwEkrd7jyPkwOC5JCZftn481CDCe0FCH0ywCW0gBCnDNqkVNn0MNXn8dZHMQ&usqp=CAU",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd44KAI5Y4fpWHvYo82UzjeuXpo0GhKUlg_ExSdZlYZKiR3eJ5J2_bYsTW4bt-q7OCNXY&usqp=CAU",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQR3DGbY0UcZw7CpHf0pcQ35K4Bs6LWkvplN3SmIoI4YAA5a_Uo1HLgVXcnZAPMD4EIRfE&usqp=CAU",
-    "https://www.materiel-horeca.com/guide/wp-content/uploads/2020/12/dressage-table.jpeg",
+    "assets/images/tasting_1.jpeg",
+    "assets/images/tasting_2.jpeg",
+    "assets/images/tasting_3.jpeg",
+    "assets/images/tasting_4.jpeg",
   ];
   final Tasting tasting;
 
@@ -46,7 +46,7 @@ class TastingCardView extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.network(
+              child: Image.asset(
                 pictures[random.nextInt(3) + 1],
                 fit: BoxFit.cover,
                 width: 92,

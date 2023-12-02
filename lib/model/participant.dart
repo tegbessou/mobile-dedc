@@ -1,19 +1,26 @@
 class Participant {
   String iri;
   int id;
-  String name;
+  String? name;
 
   Participant({
     required this.iri,
     required this.id,
-    required this.name,
+    this.name,
   });
 
   factory Participant.fromJson(Map<String, dynamic> json) {
-    return Participant(
+    final Participant participant = Participant(
       iri: json['@id'],
       id: json['id'] as int,
-      name: json['name'],
     );
+
+    if (json.containsKey("name")) {
+      participant.name = json["name"];
+    }
+
+    print(participant);
+
+    return participant;
   }
 }

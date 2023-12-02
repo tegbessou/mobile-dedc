@@ -20,6 +20,7 @@ class HomepageState extends State<HomepageController> {
       future: TastingRepository().findByName(""),
       builder: (context, snapshot) {
         List<Tasting>? tastings;
+        print(snapshot.hasData);
 
         if (snapshot.hasData) {
           tastings = snapshot.data;

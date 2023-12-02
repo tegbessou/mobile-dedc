@@ -118,7 +118,7 @@ class CreateTastingAddParticipantViewState extends State<CreateTastingAddPartici
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       TextDmSans(
-                        participant.name,
+                        participant.name ?? "",
                         fontSize: 16,
                         letterSpacing: 1,
                       ),

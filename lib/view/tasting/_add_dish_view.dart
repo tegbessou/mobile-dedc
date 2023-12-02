@@ -263,7 +263,7 @@ class AddDishViewState extends State<AddDishView> {
 
     for (var participant in tastingParticipants) {
       SmallElevatedButton smallElevatedButtonParticipant = SmallElevatedButton(
-        text: participant.name,
+        text: participant.name ?? "",
         backgroundColor: isAlreadySelectParticipant(participant)
             ? MyColors().primaryColor
             : MyColors().lightPrimaryColor,
