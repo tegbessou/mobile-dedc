@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:degust_et_des_couleurs/cache-manager/dish_cache_manager.dart';
 import 'package:degust_et_des_couleurs/model/dish.dart';
 import 'package:degust_et_des_couleurs/model/dish_rating.dart';
@@ -10,8 +11,9 @@ class DishRepository {
   Future<Dish> post(
     String name,
     Tasting tasting,
-    Map<Participant, DishRating> ratings,
-  ) async {
+    Map<Participant, DishRating> ratings, {
+    File? picture,
+  }) async {
     final Map data = {
       "name": name,
       "tasting": tasting.iri,
@@ -33,6 +35,7 @@ class DishRepository {
     final response = await HttpRepository().postMultiPart(
       'dishes',
       data,
+      file: picture,
     ).then((value) {
       DishCacheManager.instance.emptyCache();
 
@@ -85,5 +88,18 @@ class DishRepository {
     final parsed = jsonDecode(response.body);
 
     return Dish.fromJson(parsed);
+  }
+
+  Future<void> postPicture(
+    String iri,
+    File picture,
+  ) async {
+    await HttpRepository().postMultiPart(
+      "$iri/pictures",
+      {},
+      file: picture,
+    ).then((value) {
+      DishCacheManager.instance.emptyCache();
+    });
   }
 }

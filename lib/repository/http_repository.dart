@@ -48,6 +48,7 @@ class HttpRepository {
   Future<Response> postMultiPart(
     String uri,
     Map data, {
+    File? file,
     bool withoutAuthentication = false,
   }) async {
     String? apiUrl = dotenv.env['API_URL'];
@@ -58,6 +59,10 @@ class HttpRepository {
 
     Uri url = Uri.https(apiUrl, uri);
     MultipartRequest multipartRequest = MultipartRequest("POST", url);
+
+    if (file != null) {
+      multipartRequest.files.add(await MultipartFile.fromPath("picture", file.path));
+    }
 
     multipartRequest.headers
         .addAll({"Authorization": "Bearer ${await getToken()}"});

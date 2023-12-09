@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:degust_et_des_couleurs/model/beverage.dart';
 import 'package:degust_et_des_couleurs/model/beverage_rating.dart';
 import 'package:degust_et_des_couleurs/model/participant.dart';
@@ -9,6 +10,7 @@ import 'package:degust_et_des_couleurs/view/_small_elevated_button.dart';
 import 'package:degust_et_des_couleurs/view/_text_dm_sans.dart';
 import 'package:degust_et_des_couleurs/view/_text_field_custom.dart';
 import 'package:degust_et_des_couleurs/view/_text_form_field_custom.dart';
+import 'package:degust_et_des_couleurs/view/tasting/_image_picker_view.dart';
 import 'package:flutter/material.dart';
 
 class UpdateBeverageView extends StatefulWidget {
@@ -33,6 +35,7 @@ class UpdateBeverageViewState extends State<UpdateBeverageView> {
   late TextEditingController nameController;
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
+  File? beveragePicture;
 
   @override
   void initState() {
@@ -97,18 +100,29 @@ class UpdateBeverageViewState extends State<UpdateBeverageView> {
                 top: 20,
               ),
             ),
-            TextFormFieldCustom(
-              placeholder: "Nom du plat",
-              icon: Icons.room_service_outlined,
-              iconColor: MyColors().primaryColor,
-              controller: nameController,
-              onValidate: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Le nom du plat est obligatoire';
-                }
+            Row(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.73,
+                  child: TextFormFieldCustom(
+                    placeholder: "Nom de la boisson",
+                    icon: Icons.local_bar_outlined,
+                    iconColor: MyColors().primaryColor,
+                    controller: nameController,
+                    onValidate: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Le nom de la boisson est obligatoire';
+                      }
 
-                return null;
-              },
+                      return null;
+                    },
+                  ),
+                ),
+                ImagePickerView(
+                  file: beveragePicture,
+                  setFile: setFile,
+                ),
+              ],
             ),
             const Padding(
                 padding: EdgeInsets.only(
@@ -362,12 +376,22 @@ class UpdateBeverageViewState extends State<UpdateBeverageView> {
       beverage.iri,
       beverage,
     )
-        .then((value) {
+        .then((value) async {
+      if (beveragePicture != null) {
+        await BeverageRepository().postPicture(beverage.iri, beveragePicture!);
+      }
+
       Navigator.pop(context);
       setState(() {
         nameController.text = "";
         isLoading = false;
       });
+    });
+  }
+
+  void setFile(File file) {
+    setState(() {
+      beveragePicture = file;
     });
   }
 }

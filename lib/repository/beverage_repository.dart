@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:degust_et_des_couleurs/cache-manager/beverage_cache_manager.dart';
 import 'package:degust_et_des_couleurs/model/beverage.dart';
 import 'package:degust_et_des_couleurs/model/beverage_rating.dart';
@@ -11,8 +12,9 @@ class BeverageRepository {
   Future<Beverage> post(
     String name,
     Tasting tasting,
-    Map<Participant, BeverageRating> ratings,
-  ) async {
+    Map<Participant, BeverageRating> ratings, {
+    File? picture,
+  }) async {
     final Map data = {
       "name": name,
       "tasting": tasting.iri,
@@ -31,10 +33,13 @@ class BeverageRepository {
       data["beverageRatings"].add(ratingObject);
     });
 
-    final Response response = await HttpRepository().postMultiPart(
+    final Response response = await HttpRepository()
+        .postMultiPart(
       'beverages',
       data,
-    ).then((value) {
+      file: picture,
+    )
+        .then((value) {
       BeverageCacheManager.instance.emptyCache();
 
       return value;
@@ -61,9 +66,11 @@ class BeverageRepository {
   }
 
   Future<void> delete(String iri) async {
-    await HttpRepository().delete(
+    await HttpRepository()
+        .delete(
       iri,
-    ).then((value) {
+    )
+        .then((value) {
       BeverageCacheManager.instance.emptyCache();
     });
   }
@@ -72,10 +79,12 @@ class BeverageRepository {
     String iri,
     Beverage beverage,
   ) async {
-    final Response response = await HttpRepository().put(
+    final Response response = await HttpRepository()
+        .put(
       iri,
       beverage.toMap(),
-    ).then((value) {
+    )
+        .then((value) {
       BeverageCacheManager.instance.emptyCache();
 
       return value;
@@ -84,5 +93,20 @@ class BeverageRepository {
     final parsed = jsonDecode(response.body);
 
     return Beverage.fromJson(parsed);
+  }
+
+  Future<void> postPicture(
+    String iri,
+    File picture,
+  ) async {
+    await HttpRepository()
+        .postMultiPart(
+      "$iri/pictures",
+      {},
+      file: picture,
+    )
+        .then((value) {
+      BeverageCacheManager.instance.emptyCache();
+    });
   }
 }

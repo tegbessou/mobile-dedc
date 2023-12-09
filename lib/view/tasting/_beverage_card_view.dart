@@ -26,6 +26,7 @@ class BeverageCardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int numberOfRating = beverage?.beverageRatings.length ?? 1;
+    String? imagePath = beverage!.contentUrl;
 
     return InkWell(
       child: Container(
@@ -56,14 +57,16 @@ class BeverageCardView extends StatelessWidget {
                   Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      const Icon(Icons.room_service_outlined),
+                      const Icon(Icons.local_bar_outlined),
                       const Padding(
                         padding: EdgeInsets.only(
                           right: 8,
                         ),
                       ),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width - 180,
+                        width: (imagePath != null)
+                            ? MediaQuery.of(context).size.width - 230
+                            : MediaQuery.of(context).size.width - 180,
                         child: TextDmSans(
                           beverage?.name ?? "",
                           fontSize: 14,
@@ -71,7 +74,21 @@ class BeverageCardView extends StatelessWidget {
                           letterSpacing: 0,
                         ),
                       ),
-                      const Spacer(),
+                      (imagePath != null)
+                          ? IconButton(
+                        onPressed: () => showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) =>
+                              AlertDialog(
+                                contentPadding: EdgeInsets.zero,
+                                backgroundColor: MyColors().whiteColor,
+                                surfaceTintColor: MyColors().whiteColor,
+                                content: Image.network(imagePath, fit: BoxFit.fill,),
+                              ),
+                        ),
+                        icon: Icon(Icons.photo),
+                      )
+                          : Container(),
                       !tasting.closed ? PopupMenuButton<String>(
                         color: MyColors().whiteColor,
                         padding: const EdgeInsets.only(

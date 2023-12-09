@@ -5,6 +5,7 @@ class Dish {
   String iri;
   int id;
   String name;
+  String? contentUrl;
   List<Participant> participants = [];
   List<DishRating> dishRatings = [];
 
@@ -12,6 +13,7 @@ class Dish {
     required this.iri,
     required this.id,
     required this.name,
+    this.contentUrl,
     this.participants = const [],
     this.dishRatings = const [],
   });
@@ -23,13 +25,19 @@ class Dish {
       dishRatings = json['dishRatings'].map<DishRating>((json) => DishRating.fromJson(json)).toList();
     }
 
-    return Dish(
+    final Dish dish = Dish(
       iri: json['@id'],
       id: json['id'] as int,
       name: json['name'],
       participants: json['participants'].map<Participant>((json) => Participant.fromJson(json)).toList(),
       dishRatings: dishRatings,
     );
+
+    if (json['contentUrl'] != null) {
+      dish.contentUrl = json['contentUrl'];
+    }
+
+    return dish;
   }
 
   Map toMap() {

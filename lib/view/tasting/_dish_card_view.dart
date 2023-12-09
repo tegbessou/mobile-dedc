@@ -26,6 +26,7 @@ class DishCardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int numberOfRating = dish?.dishRatings.length ?? 1;
+    String? imagePath = dish!.contentUrl;
 
     return InkWell(
       child: Container(
@@ -63,7 +64,9 @@ class DishCardView extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                          width: MediaQuery.of(context).size.width - 180,
+                          width: (imagePath != null)
+                              ? MediaQuery.of(context).size.width - 230
+                              : MediaQuery.of(context).size.width - 180,
                           child: TextDmSans(
                             dish?.name ?? "",
                             fontSize: 14,
@@ -71,7 +74,21 @@ class DishCardView extends StatelessWidget {
                             letterSpacing: 0,
                           ),
                         ),
-                        const Spacer(),
+                        (imagePath != null)
+                            ? IconButton(
+                                onPressed: () => showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                    AlertDialog(
+                                      contentPadding: EdgeInsets.zero,
+                                      backgroundColor: MyColors().whiteColor,
+                                    surfaceTintColor: MyColors().whiteColor,
+                                    content: Image.network(imagePath, fit: BoxFit.fill,),
+                                  ),
+                                ),
+                                icon: Icon(Icons.photo),
+                              )
+                            : Container(),
                         !tasting.closed
                             ? PopupMenuButton<String>(
                                 color: MyColors().whiteColor,
