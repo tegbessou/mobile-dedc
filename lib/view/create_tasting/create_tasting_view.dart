@@ -12,7 +12,7 @@ class CreateTastingView extends StatefulWidget {
   final TextEditingController tastingNameController;
   final Restaurant? restaurantSelected;
   final bool isLoading;
-  final void Function() createTasting;
+  final void Function(Restaurant restaurant) createTasting;
   final GlobalKey formKey;
 
   const CreateTastingView({
@@ -35,7 +35,7 @@ class CreateTastingViewState extends State<CreateTastingView> {
   late TextEditingController tastingNameController;
   late Restaurant? restaurantSelected;
   late bool isLoading;
-  late void Function() createTasting;
+  late void Function(Restaurant restaurant) createTasting;
   late GlobalKey formKey;
 
   @override
@@ -113,7 +113,7 @@ class CreateTastingViewState extends State<CreateTastingView> {
       backgroundColor: MyColors().whiteColor,
       floatingActionButton: FloatingActionButtonCustom(
         text: "Continuer",
-        onPressed: createTasting,
+        onPressed: () => createTasting(restaurantSelected!),
         isLoading: isLoading,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

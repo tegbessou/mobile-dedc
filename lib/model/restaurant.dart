@@ -28,8 +28,6 @@ class Restaurant {
       restaurant.starNumber = json["starNumber"];
     }
 
-    print(restaurant);
-
     return restaurant;
   }
 }

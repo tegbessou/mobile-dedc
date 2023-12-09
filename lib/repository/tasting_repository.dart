@@ -46,8 +46,6 @@ class TastingRepository {
     final parsed =
         jsonDecode(response.body)["hydra:member"].cast<Map<String, dynamic>>();
 
-    print(parsed.map<Tasting>((json) => Tasting.fromJson(json)).toList());
-
     return parsed.map<Tasting>((json) => Tasting.fromJson(json)).toList();
   }
 

@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:degust_et_des_couleurs/core/auth.dart';
+import 'package:degust_et_des_couleurs/exception/bad_credential_exception.dart';
 import 'package:degust_et_des_couleurs/exception/missing_api_url_exception.dart';
 import 'package:degust_et_des_couleurs/exception/unauthenticated_user_exception.dart';
 import 'package:degust_et_des_couleurs/model/token.dart';
@@ -113,22 +115,28 @@ class HttpRepository {
     Uri url = Uri.https(apiUrl, uri, queryParam);
     Client client = Client();
 
-    final headers = {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer ${await getToken()}",
-    };
+    try {
+      final headers = {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer ${await getToken()}",
+      };
 
-    return client
-        .get(
-      url,
-      headers: headers,
-    )
-        .then((value) {
-      Uint8List fileBytes = Uint8List.fromList(value.bodyBytes);
-      cacheManager.putFile(cacheKey, fileBytes);
+      return client
+          .get(
+        url,
+        headers: headers,
+      )
+          .then((value) {
+        Uint8List fileBytes = Uint8List.fromList(value.bodyBytes);
+        cacheManager.putFile(cacheKey, fileBytes);
 
-      return value;
-    });
+        return value;
+      });
+    } on BadCredentialException catch (exception) {
+      Auth().signOut();
+
+      throw exception;
+    }
   }
 
   Future<Response> delete(String uri) async {

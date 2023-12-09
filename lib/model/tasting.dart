@@ -37,8 +37,6 @@ class Tasting {
   });
 
   factory Tasting.fromJson(Map<String, dynamic> json) {
-    print(json.containsKey('serviceRatings'));
-
     return Tasting(
       iri: json['@id'],
       id: json['id'],

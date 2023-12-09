@@ -19,8 +19,6 @@ class Participant {
       participant.name = json["name"];
     }
 
-    print(participant);
-
     return participant;
   }
 }

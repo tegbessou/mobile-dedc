@@ -40,14 +40,6 @@ class NavigationBarBottomState extends State<NavigationBarBottom> {
           label: ""
           ),
         BottomNavigationBarItem(
-          icon: getIconContainer(Icons.restaurant_outlined),
-          label: "",
-        ),
-        BottomNavigationBarItem(
-          icon: getIconContainer(Icons.map_outlined),
-          label: "",
-        ),
-        BottomNavigationBarItem(
           icon: getIconContainer(Icons.person_outline),
           label: "",
         ),
@@ -57,7 +49,7 @@ class NavigationBarBottomState extends State<NavigationBarBottom> {
   }
 
   onTapBottomNavigationBar(int index) {
-    if (index == 3) {
+    if (index == 1) {
       MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) {
         return const ProfileController();
       });
@@ -80,7 +72,7 @@ class NavigationBarBottomState extends State<NavigationBarBottom> {
     }
 
     if (origin == 'profile') {
-      return 3;
+      return 1;
     }
 
     return 0;

@@ -34,7 +34,7 @@ class CreateTastingControllerState extends State<CreateTastingController> {
     );
   }
 
-  void createTasting() async {
+  void createTasting(Restaurant restaurant) async {
     if (createdTasting != null) {
       MaterialPageRoute materialPageRoute =
           MaterialPageRoute(builder: (BuildContext context) {
@@ -52,7 +52,7 @@ class CreateTastingControllerState extends State<CreateTastingController> {
       });
 
       await TastingRepository()
-          .post(tastingNameController.text, restaurantSelected!)
+          .post(tastingNameController.text, restaurant)
           .then((Tasting value) {
         setState(() {
           createdTasting = value;

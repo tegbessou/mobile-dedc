@@ -1,3 +1,5 @@
+import 'package:degust_et_des_couleurs/controller/login_controller.dart';
+import 'package:degust_et_des_couleurs/exception/bad_credential_exception.dart';
 import 'package:degust_et_des_couleurs/model/general_rating.dart';
 import 'package:degust_et_des_couleurs/model/participant.dart';
 import 'package:degust_et_des_couleurs/model/service_rating.dart';
@@ -32,10 +34,17 @@ class TastingControllerState extends State<TastingController> {
 
   @override
   Widget build(BuildContext context) {
-    tasting = TastingRepository().find(id);
-
     return FutureBuilder(
-        future: tasting,
+        future: TastingRepository().find(id).onError((error, stackTrace) {
+          MaterialPageRoute materialPageRoute =
+          MaterialPageRoute(builder: (BuildContext context) {
+            return const LoginController();
+          });
+
+          Navigator.of(context).push(materialPageRoute);
+
+          throw BadCredentialException();
+        }),
         builder: (BuildContext context, AsyncSnapshot<Tasting> snapshot) {
           Tasting? loadedTasting;
 

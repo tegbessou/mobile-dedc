@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 
+import 'package:degust_et_des_couleurs/exception/bad_credential_exception.dart';
 import 'package:degust_et_des_couleurs/model/token.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -68,7 +69,13 @@ class TokenRepository {
       url,
       headers: {"Content-Type": "application/json"},
       body: json.encode(data),
-    );
+    ).then((value) {
+      if (value.statusCode == 401) {
+        throw BadCredentialException();
+      }
+
+      return value;
+    });
 
     final parsed = jsonDecode(clientResponse.body);
 
