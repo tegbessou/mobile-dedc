@@ -1,0 +1,3 @@
+class NoPictureException implements Exception {
+
+}

@@ -74,7 +74,7 @@ class DishCardView extends StatelessWidget {
                             letterSpacing: 0,
                           ),
                         ),
-                        (imagePath != null)
+                        (imagePath != null && !tasting.closed)
                             ? IconButton(
                                 onPressed: () => showDialog<String>(
                                   context: context,

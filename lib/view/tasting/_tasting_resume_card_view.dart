@@ -4,6 +4,7 @@ import 'package:degust_et_des_couleurs/controller/tasting_controller.dart';
 import 'package:degust_et_des_couleurs/model/tasting.dart';
 import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:degust_et_des_couleurs/view/_text_dm_sans.dart';
+import 'package:degust_et_des_couleurs/view/tasting/_tasting_resume_card_carousel_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -27,7 +28,8 @@ class TastingResumeCardView extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) {
+        MaterialPageRoute materialPageRoute =
+            MaterialPageRoute(builder: (BuildContext context) {
           return TastingController(id: tasting.id);
         });
 
@@ -56,73 +58,101 @@ class TastingResumeCardView extends StatelessWidget {
             ),
             const Padding(padding: EdgeInsets.only(right: 15)),
             Container(
-              padding: const EdgeInsets.only(
-                top: 7,
-                bottom: 7,
-              ),
-              width: MediaQuery.of(context).size.width - 190,
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    tasting.restaurant.name,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  Text(
-                    "${tasting.getFormattedDate()} - ${tasting.name}",
-                    style: GoogleFonts.dmSans(
-                      fontSize: 11,
-                    ),
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Text(
-                        "${tasting.participants.length} participants",
-                        style: GoogleFonts.dmSans(
-                          fontSize: 11,
-                          color: Colors.grey,
-                        ),
+                padding: const EdgeInsets.only(
+                  top: 7,
+                  bottom: 7,
+                ),
+                width: MediaQuery.of(context).size.width - 190,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      tasting.restaurant.name,
+                      style: GoogleFonts.dmSans(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
                       ),
-                      const Spacer(),
-                      !tasting.closed ? SizedBox(
-                        height: 25,
-                        width: 85,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)
-                            ),
-                            backgroundColor: MyColors().lightPrimaryColor,
-                            elevation: 0,
-                          ),
-                          onPressed: () {
-                            MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) {
-                              return TastingController(id: tasting.id);
-                            });
-
-                            Navigator.of(context).push(materialPageRoute);
-                          },
-                          child: Center(
-                            child: TextDmSans(
-                              "Reprendre",
-                              fontSize: 11,
-                              letterSpacing: 0,
-                              color: MyColors().primaryColor,
-                            ),
-                          ),
+                    ),
+                    Text(
+                      "${tasting.getFormattedDate()} - ${tasting.name}",
+                      style: GoogleFonts.dmSans(
+                        fontSize: 11,
+                      ),
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        TextDmSans(
+                          "${tasting.participants.length} participants",
+                          fontSize: 11,
+                          letterSpacing: 0,
+                          color: MyColors().greyColor,
                         ),
-                      ): Container(),
-                    ],
-                  ),
-                ],
-              )
-            ),
+                        const Spacer(),
+                        !tasting.closed
+                            ? SizedBox(
+                                height: 25,
+                                width: 85,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    backgroundColor:
+                                        MyColors().lightPrimaryColor,
+                                    elevation: 0,
+                                  ),
+                                  onPressed: () {
+                                    MaterialPageRoute materialPageRoute =
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) {
+                                      return TastingController(id: tasting.id);
+                                    });
+
+                                    Navigator.of(context)
+                                        .push(materialPageRoute);
+                                  },
+                                  child: Center(
+                                    child: TextDmSans(
+                                      "Reprendre",
+                                      fontSize: 11,
+                                      letterSpacing: 0,
+                                      color: MyColors().primaryColor,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : TextButton(
+                                style: TextButton.styleFrom(
+                                    foregroundColor: MyColors().greyColor,
+                                    padding: EdgeInsets.zero,
+                                    minimumSize: const Size(30, 10),
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                    alignment: Alignment.centerLeft),
+                                onPressed: () => showDialog<String>(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AlertDialog(
+                                        contentPadding: EdgeInsets.zero,
+                                        backgroundColor: Colors.transparent,
+                                        content: TastingResumeCardCarouselView(
+                                          tasting: tasting,
+                                        ),
+                                      ),
+                                    ),
+                                child: TextDmSans(
+                                  "Voir photos",
+                                  fontSize: 11,
+                                  letterSpacing: 0,
+                                  color: MyColors().greyColor,
+                                )),
+                      ],
+                    ),
+                  ],
+                )),
           ],
         ),
       ),
