@@ -30,8 +30,7 @@ class RestaurantRepository {
       "user": "/users/${await HttpRepository().getUserId()}",
     };
 
-    final Response response = await HttpRepository()
-        .post(
+    final Response response = await HttpRepository().post(
       'restaurants',
       data,
     );

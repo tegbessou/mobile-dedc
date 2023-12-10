@@ -112,13 +112,11 @@ class AddDishViewState extends State<AddBeverageView> {
                 top: 20,
               ),
             ),
-
             Row(
               children: [
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.73,
-                  child:
-                  TextFormFieldCustom(
+                  child: TextFormFieldCustom(
                     placeholder: "Nom de la boisson",
                     icon: Icons.local_bar_outlined,
                     iconColor: MyColors().primaryColor,

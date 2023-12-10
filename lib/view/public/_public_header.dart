@@ -24,7 +24,8 @@ class PublicHeaderState extends State<PublicHeader> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height > 680 ? 70 : 0),
+      margin: EdgeInsets.only(
+          top: MediaQuery.of(context).size.height > 680 ? 70 : 0),
       height: MediaQuery.of(context).size.height > 680
           ? MediaQuery.of(context).size.height * 0.33
           : MediaQuery.of(context).size.height * 0.33,

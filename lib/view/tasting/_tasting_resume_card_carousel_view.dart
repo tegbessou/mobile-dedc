@@ -49,17 +49,17 @@ class TastingResumeCardCarouselViewState
           } else {
             //Put a loader here
             return SizedBox(
-                height: MediaQuery.of(context).size.height * 0.50,
-                child: Container(
-                  color: MyColors().lightGreyColor,
-                  child: Center(
-                    child: LoadingAnimationWidget.inkDrop(
-                      color: MyColors().primaryColor,
-                      size: 50,
-                    ),
+              height: MediaQuery.of(context).size.height * 0.50,
+              child: Container(
+                color: MyColors().lightGreyColor,
+                child: Center(
+                  child: LoadingAnimationWidget.inkDrop(
+                    color: MyColors().primaryColor,
+                    size: 50,
                   ),
                 ),
-              );
+              ),
+            );
           }
 
           return SizedBox(
@@ -80,8 +80,7 @@ class TastingResumeCardCarouselViewState
     return await loadPictures().then((value) {
       final List<Widget> widgets = [];
 
-      value
-          .forEach((key, value) {
+      value.forEach((key, value) {
         final widget = Container(
           margin: const EdgeInsets.all(5.0),
           child: ClipRRect(

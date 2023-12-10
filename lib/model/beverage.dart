@@ -22,14 +22,18 @@ class Beverage {
     List<BeverageRating> beverageRatings = [];
 
     if (json['beverageRatings'] != null) {
-      beverageRatings = json['beverageRatings'].map<BeverageRating>((json) => BeverageRating.fromJson(json)).toList();
+      beverageRatings = json['beverageRatings']
+          .map<BeverageRating>((json) => BeverageRating.fromJson(json))
+          .toList();
     }
 
     final Beverage beverage = Beverage(
       iri: json['@id'],
       id: json['id'] as int,
       name: json['name'],
-      participants: json['participants'].map<Participant>((json) => Participant.fromJson(json)).toList(),
+      participants: json['participants']
+          .map<Participant>((json) => Participant.fromJson(json))
+          .toList(),
       beverageRatings: beverageRatings,
     );
 

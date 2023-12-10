@@ -7,7 +7,11 @@ class PublicFooter extends StatefulWidget {
   final String secondSentence;
   final void Function() redirectTo;
 
-  const PublicFooter({super.key, required this.firstSentence, required this.secondSentence, required this.redirectTo });
+  const PublicFooter(
+      {super.key,
+      required this.firstSentence,
+      required this.secondSentence,
+      required this.redirectTo});
 
   @override
   State<StatefulWidget> createState() {
@@ -36,24 +40,23 @@ class PublicFooterState extends State<PublicFooter> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         TextButton(
-          onPressed: redirectTo,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextDmSans(
-                firstSentence,
-                fontSize: 16,
-                letterSpacing: 0,
-              ),
-              TextDmSans(
-                secondSentence,
-                fontSize: 16,
-                letterSpacing: 0,
-                color: MyColors().primaryColor,
-              ),
-            ],
-          )
-        )
+            onPressed: redirectTo,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextDmSans(
+                  firstSentence,
+                  fontSize: 16,
+                  letterSpacing: 0,
+                ),
+                TextDmSans(
+                  secondSentence,
+                  fontSize: 16,
+                  letterSpacing: 0,
+                  color: MyColors().primaryColor,
+                ),
+              ],
+            ))
       ],
     );
   }

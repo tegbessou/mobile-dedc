@@ -30,7 +30,8 @@ class CreateTastingAddParticipantView extends StatefulWidget {
   }
 }
 
-class CreateTastingAddParticipantViewState extends State<CreateTastingAddParticipantView> {
+class CreateTastingAddParticipantViewState
+    extends State<CreateTastingAddParticipantView> {
   late List<Participant> participants;
   late TextEditingController participantController;
   late void Function() displayAddParticipant;

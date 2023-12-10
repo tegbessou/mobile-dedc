@@ -20,27 +20,32 @@ class AppBarView extends StatelessWidget implements PreferredSizeWidget {
       leading: IconButton(
         icon: Icon(Icons.arrow_back, color: MyColors().blackColor),
         onPressed: () {
-          MaterialPageRoute materialPageRoute = MaterialPageRoute(
-              builder: (BuildContext context) {
-                return const HomepageController();
-              });
+          MaterialPageRoute materialPageRoute =
+              MaterialPageRoute(builder: (BuildContext context) {
+            return const HomepageController();
+          });
 
           Navigator.of(context).push(materialPageRoute);
         },
       ),
       titleSpacing: 0,
-      backgroundColor: !isClosed ? MyColors().whiteColor : MyColors().lightGreyColor,
-      title: !isClosed ? TextDmSans(
-        tasting?.name == null ? "Dégustation" : "Dégustation ${tasting?.name}",
-        fontSize: 22,
-        letterSpacing: 0,
-        fontWeight: FontWeight.bold,
-      ) : const TextDmSans(
-        "Résumé de la dégustation",
-        fontSize: 22,
-        letterSpacing: 0,
-        fontWeight: FontWeight.bold,
-      ),
+      backgroundColor:
+          !isClosed ? MyColors().whiteColor : MyColors().lightGreyColor,
+      title: !isClosed
+          ? TextDmSans(
+              tasting?.name == null
+                  ? "Dégustation"
+                  : "Dégustation ${tasting?.name}",
+              fontSize: 22,
+              letterSpacing: 0,
+              fontWeight: FontWeight.bold,
+            )
+          : const TextDmSans(
+              "Résumé de la dégustation",
+              fontSize: 22,
+              letterSpacing: 0,
+              fontWeight: FontWeight.bold,
+            ),
       centerTitle: false,
       titleTextStyle: const TextStyle(
         letterSpacing: 1,

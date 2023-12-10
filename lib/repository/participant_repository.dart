@@ -13,10 +13,12 @@ class ParticipantRepository {
       "user": "/users/${await HttpRepository().getUserId()}",
     };
 
-    final Response response = await HttpRepository().post(
+    final Response response = await HttpRepository()
+        .post(
       'participants',
       data,
-    ).then((value) {
+    )
+        .then((value) {
       ParticipantCacheManager.instance.emptyCache();
 
       return value;

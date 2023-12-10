@@ -1,3 +1,1 @@
-class MissingApiUrlException implements Exception {
-
-}
+class MissingApiUrlException implements Exception {}

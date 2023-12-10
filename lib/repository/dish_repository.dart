@@ -32,11 +32,13 @@ class DishRepository {
       data["dishRatings"].add(ratingObject);
     });
 
-    final response = await HttpRepository().postMultiPart(
+    final response = await HttpRepository()
+        .postMultiPart(
       'dishes',
       data,
       file: picture,
-    ).then((value) {
+    )
+        .then((value) {
       DishCacheManager.instance.emptyCache();
 
       return value;
@@ -65,9 +67,11 @@ class DishRepository {
   Future<void> delete(
     String iri,
   ) async {
-    await HttpRepository().delete(
+    await HttpRepository()
+        .delete(
       iri,
-    ).then((value) {
+    )
+        .then((value) {
       DishCacheManager.instance.emptyCache();
     });
   }
@@ -76,10 +80,12 @@ class DishRepository {
     String iri,
     Dish dish,
   ) async {
-    final response = await HttpRepository().put(
+    final response = await HttpRepository()
+        .put(
       iri,
       dish.toMap(),
-    ).then((value) {
+    )
+        .then((value) {
       DishCacheManager.instance.emptyCache();
 
       return value;
@@ -94,11 +100,13 @@ class DishRepository {
     String iri,
     File picture,
   ) async {
-    await HttpRepository().postMultiPart(
+    await HttpRepository()
+        .postMultiPart(
       "$iri/pictures",
       {},
       file: picture,
-    ).then((value) {
+    )
+        .then((value) {
       DishCacheManager.instance.emptyCache();
     });
   }

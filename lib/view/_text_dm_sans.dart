@@ -11,16 +11,14 @@ class TextDmSans extends StatelessWidget {
   final TextAlign align;
 
   const TextDmSans(
-    this.value,
-    {
-      super.key,
-      required this.fontSize,
-      this.fontWeight = FontWeight.normal,
-      this.letterSpacing = 1,
-      this.align = TextAlign.start,
-      this.color,
-    }
-  );
+    this.value, {
+    super.key,
+    required this.fontSize,
+    this.fontWeight = FontWeight.normal,
+    this.letterSpacing = 1,
+    this.align = TextAlign.start,
+    this.color,
+  });
 
   @override
   Widget build(BuildContext context) {

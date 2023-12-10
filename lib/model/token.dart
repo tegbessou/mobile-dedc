@@ -11,7 +11,7 @@ class Token {
   }
 
   factory Token.fromJson(
-      Map<String, dynamic> json,
+    Map<String, dynamic> json,
   ) {
     return Token(
       token: json['token'],

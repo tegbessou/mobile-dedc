@@ -31,7 +31,10 @@ class TextFormFieldCustom extends StatelessWidget {
       controller: controller,
       onChanged: onChanged ?? (value) => {},
       obscureText: obscureText,
-      validator: onValidate ?? (value) { return null; },
+      validator: onValidate ??
+          (value) {
+            return null;
+          },
       autocorrect: autocorrect,
       keyboardType: keyboardType,
       decoration: InputDecoration(
@@ -41,8 +44,7 @@ class TextFormFieldCustom extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
             borderSide: BorderSide(
               color: MyColors().secondaryColor,
-            )
-        ),
+            )),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
           borderSide: BorderSide(

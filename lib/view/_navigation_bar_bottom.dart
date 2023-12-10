@@ -36,9 +36,7 @@ class NavigationBarBottomState extends State<NavigationBarBottom> {
       selectedItemColor: MyColors().primaryColor,
       items: [
         BottomNavigationBarItem(
-          icon: getIconContainer(Icons.home_filled),
-          label: ""
-          ),
+            icon: getIconContainer(Icons.home_filled), label: ""),
         BottomNavigationBarItem(
           icon: getIconContainer(Icons.person_outline),
           label: "",
@@ -50,7 +48,8 @@ class NavigationBarBottomState extends State<NavigationBarBottom> {
 
   onTapBottomNavigationBar(int index) {
     if (index == 1) {
-      MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) {
+      MaterialPageRoute materialPageRoute =
+          MaterialPageRoute(builder: (BuildContext context) {
         return const ProfileController();
       });
 
@@ -59,7 +58,8 @@ class NavigationBarBottomState extends State<NavigationBarBottom> {
       return;
     }
 
-    MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) {
+    MaterialPageRoute materialPageRoute =
+        MaterialPageRoute(builder: (BuildContext context) {
       return const HomepageController();
     });
 

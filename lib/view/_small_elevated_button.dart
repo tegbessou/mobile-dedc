@@ -21,16 +21,18 @@ class SmallElevatedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
-        padding: MaterialStateProperty.resolveWith((states) => EdgeInsets.zero),
-        elevation: MaterialStateProperty.resolveWith((states) => 0),
-        backgroundColor: MaterialStateColor.resolveWith((states) => backgroundColor),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+          padding:
+              MaterialStateProperty.resolveWith((states) => EdgeInsets.zero),
+          elevation: MaterialStateProperty.resolveWith((states) => 0),
+          backgroundColor:
+              MaterialStateColor.resolveWith((states) => backgroundColor),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
-        ),
-        minimumSize: MaterialStateProperty.resolveWith((states) => size ?? const Size(62, 25))
-      ),
+          minimumSize: MaterialStateProperty.resolveWith(
+              (states) => size ?? const Size(62, 25))),
       onPressed: onPress,
       child: TextDmSans(
         text,

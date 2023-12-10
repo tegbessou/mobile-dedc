@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:degust_et_des_couleurs/exception/bad_credential_exception.dart';
@@ -27,8 +26,9 @@ class TokenRepository {
 
     Map<String, dynamic> decodedToken = JwtDecoder.decode(value);
 
-    DateTime expiredAt = DateTime.fromMillisecondsSinceEpoch(decodedToken['exp'] * 1000);
-    DateTime now  = DateTime.now();
+    DateTime expiredAt =
+        DateTime.fromMillisecondsSinceEpoch(decodedToken['exp'] * 1000);
+    DateTime now = DateTime.now();
 
     if (now.compareTo(expiredAt) > 0) {
       Token token = await createToken(
@@ -65,11 +65,13 @@ class TokenRepository {
       "password": password,
     };
 
-    final clientResponse = await client.post(
+    final clientResponse = await client
+        .post(
       url,
       headers: {"Content-Type": "application/json"},
       body: json.encode(data),
-    ).then((value) {
+    )
+        .then((value) {
       if (value.statusCode == 401) {
         throw BadCredentialException();
       }

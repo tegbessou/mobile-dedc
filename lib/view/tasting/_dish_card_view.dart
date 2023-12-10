@@ -79,14 +79,17 @@ class DishCardView extends StatelessWidget {
                                 onPressed: () => showDialog<String>(
                                   context: context,
                                   builder: (BuildContext context) =>
-                                    AlertDialog(
-                                      contentPadding: EdgeInsets.zero,
-                                      backgroundColor: MyColors().whiteColor,
+                                      AlertDialog(
+                                    contentPadding: EdgeInsets.zero,
+                                    backgroundColor: MyColors().whiteColor,
                                     surfaceTintColor: MyColors().whiteColor,
-                                    content: Image.network(imagePath, fit: BoxFit.fill,),
+                                    content: Image.network(
+                                      imagePath,
+                                      fit: BoxFit.fill,
+                                    ),
                                   ),
                                 ),
-                                icon: Icon(Icons.photo),
+                                icon: const Icon(Icons.photo),
                               )
                             : Container(),
                         !tasting.closed

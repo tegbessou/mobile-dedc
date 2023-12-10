@@ -1,6 +1,6 @@
 class Date {
   String getFrenchMonth(int month) {
-    switch(month) {
+    switch (month) {
       case 1:
         return 'Janvier';
 

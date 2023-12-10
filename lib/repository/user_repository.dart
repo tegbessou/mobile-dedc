@@ -50,9 +50,11 @@ class UserRepository {
   }
 
   Future<void> delete() async {
-    await HttpRepository().delete(
+    await HttpRepository()
+        .delete(
       'users/${await HttpRepository().getUserId()}',
-    ).then((value) {
+    )
+        .then((value) {
       UserCacheManager.instance.emptyCache();
     });
   }

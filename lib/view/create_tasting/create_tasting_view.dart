@@ -15,7 +15,8 @@ class CreateTastingView extends StatefulWidget {
   final Restaurant? restaurantSelected;
   final bool isLoading;
   final bool isCustomRestaurant;
-  final void Function(Restaurant? restaurant, bool isCustomRestaurant) createTasting;
+  final void Function(Restaurant? restaurant, bool isCustomRestaurant)
+      createTasting;
   final GlobalKey formKey;
 
   const CreateTastingView({
@@ -43,7 +44,8 @@ class CreateTastingViewState extends State<CreateTastingView> {
   late Restaurant? restaurantSelected;
   late bool isLoading;
   late bool isCustomRestaurant;
-  late void Function(Restaurant? restaurant, bool isCustomRestaurant) createTasting;
+  late void Function(Restaurant? restaurant, bool isCustomRestaurant)
+      createTasting;
   late GlobalKey formKey;
 
   @override

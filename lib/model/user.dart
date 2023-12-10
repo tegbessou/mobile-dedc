@@ -10,7 +10,7 @@ class User {
   });
 
   factory User.fromJson(
-      Map<String, dynamic> json,
+    Map<String, dynamic> json,
   ) {
     return User(
       iri: json['@id'],

@@ -1,3 +1,1 @@
-class NoPictureException implements Exception {
-
-}
+class NoPictureException implements Exception {}

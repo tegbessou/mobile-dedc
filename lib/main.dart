@@ -67,12 +67,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: Auth().authStateChanges,
-      builder: (context, snapshot) {
-        return MaterialApp.router(
-          routerConfig: _router,
-        );
-      }
-    );
+        stream: Auth().authStateChanges,
+        builder: (context, snapshot) {
+          return MaterialApp.router(
+            routerConfig: _router,
+          );
+        });
   }
 }

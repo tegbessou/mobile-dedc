@@ -61,7 +61,8 @@ class HttpRepository {
     MultipartRequest multipartRequest = MultipartRequest("POST", url);
 
     if (file != null) {
-      multipartRequest.files.add(await MultipartFile.fromPath("picture", file.path));
+      multipartRequest.files
+          .add(await MultipartFile.fromPath("picture", file.path));
     }
 
     multipartRequest.headers
@@ -137,10 +138,10 @@ class HttpRepository {
 
         return value;
       });
-    } on BadCredentialException catch (exception) {
+    } on BadCredentialException {
       Auth().signOut();
 
-      throw exception;
+      rethrow;
     }
   }
 

@@ -22,14 +22,18 @@ class Dish {
     List<DishRating> dishRatings = [];
 
     if (json['dishRatings'] != null) {
-      dishRatings = json['dishRatings'].map<DishRating>((json) => DishRating.fromJson(json)).toList();
+      dishRatings = json['dishRatings']
+          .map<DishRating>((json) => DishRating.fromJson(json))
+          .toList();
     }
 
     final Dish dish = Dish(
       iri: json['@id'],
       id: json['id'] as int,
       name: json['name'],
-      participants: json['participants'].map<Participant>((json) => Participant.fromJson(json)).toList(),
+      participants: json['participants']
+          .map<Participant>((json) => Participant.fromJson(json))
+          .toList(),
       dishRatings: dishRatings,
     );
 
@@ -51,7 +55,7 @@ class Dish {
     for (var dishRating in dishRatings) {
       dishRatingsToMap.add(dishRating.toMap());
     }
-    
+
     return {
       "name": name,
       "participants": participantsToMap,

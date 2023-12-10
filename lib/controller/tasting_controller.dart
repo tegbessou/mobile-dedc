@@ -37,7 +37,7 @@ class TastingControllerState extends State<TastingController> {
     return FutureBuilder(
         future: TastingRepository().find(id).onError((error, stackTrace) {
           MaterialPageRoute materialPageRoute =
-          MaterialPageRoute(builder: (BuildContext context) {
+              MaterialPageRoute(builder: (BuildContext context) {
             return const LoginController();
           });
 

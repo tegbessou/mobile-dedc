@@ -1,3 +1,1 @@
-class UnauthenticatedUserException implements Exception {
-
-}
+class UnauthenticatedUserException implements Exception {}

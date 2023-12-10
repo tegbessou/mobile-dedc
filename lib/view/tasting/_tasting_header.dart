@@ -51,99 +51,102 @@ class TastingHeaderState extends State<TastingHeader> {
         left: 27,
         right: 27,
       ),
-      child: !isClosed ? Column(
-        children: [
-          Row(
-            children: [
-              const Padding(
+      child: !isClosed
+          ? Column(
+              children: [
+                Row(
+                  children: [
+                    const Padding(
+                        padding: EdgeInsets.only(
+                      left: 8,
+                      bottom: 40,
+                    )),
+                    TextDmSans(
+                      tasting?.restaurant.name ?? "",
+                      fontSize: 20,
+                      letterSpacing: 0,
+                    ),
+                    const Padding(padding: EdgeInsets.all(6)),
+                    Icon(
+                      Icons.groups_2_outlined,
+                      color: MyColors().greyColor,
+                    ),
+                    const Padding(padding: EdgeInsets.all(2)),
+                    TextDmSans(
+                      "${tasting?.participants.length}",
+                      fontSize: 12,
+                      color: MyColors().greyColor,
+                      letterSpacing: 0,
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    tasting?.restaurant.city != null
+                        ? Icon(
+                            Icons.location_on_outlined,
+                            color: MyColors().greyColor,
+                          )
+                        : Container(),
+                    const Padding(padding: EdgeInsets.all(2)),
+                    TextDmSans(
+                      tasting?.restaurant.city ?? "",
+                      fontSize: 12,
+                      color: MyColors().greyColor,
+                      letterSpacing: 0,
+                    ),
+                    const Spacer(),
+                    TastingHeaderIconButton(
+                      onPress: () {
+                        setState(() {
+                          isLoading = true;
+                        });
+
+                        final String? iri = tasting?.iri;
+
+                        if (iri == null) {
+                          return;
+                        }
+
+                        TastingRepository().closed(iri).then((value) {
+                          MaterialPageRoute materialPageRoute =
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                            return const HomepageController();
+                          });
+
+                          Navigator.of(context).push(materialPageRoute);
+
+                          setState(() {
+                            isLoading = false;
+                          });
+                        });
+                      },
+                      icon: Icons.check,
+                      isLoading: isLoading,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 10),
+                    ),
+                    TastingHeaderIconButton(
+                      onPress: () {},
+                      icon: Icons.file_download_outlined,
+                      isLoading: false,
+                    ),
+                  ],
+                ),
+              ],
+            )
+          : Column(
+              children: [
+                TastingResumeCardView(tasting: loadedTasting),
+                const Padding(
                   padding: EdgeInsets.only(
-                    left: 8,
-                    bottom: 40,
-                  )
-              ),
-              TextDmSans(
-                tasting?.restaurant.name ?? "",
-                fontSize: 20,
-                letterSpacing: 0,
-              ),
-              const Padding(padding: EdgeInsets.all(6)),
-              Icon(
-                Icons.groups_2_outlined,
-                color: MyColors().greyColor,
-              ),
-              const Padding(padding: EdgeInsets.all(2)),
-              TextDmSans(
-                "${tasting?.participants.length}",
-                fontSize: 12,
-                color: MyColors().greyColor,
-                letterSpacing: 0,
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              tasting?.restaurant.city != null ? Icon(
-                Icons.location_on_outlined,
-                color: MyColors().greyColor,
-              ): Container(),
-              const Padding(padding: EdgeInsets.all(2)),
-              TextDmSans(
-                tasting?.restaurant.city ?? "",
-                fontSize: 12,
-                color: MyColors().greyColor,
-                letterSpacing: 0,
-              ),
-              const Spacer(),
-              TastingHeaderIconButton(
-                onPress: () {
-                  setState(() {
-                    isLoading = true;
-                  });
-
-                  final String? iri = tasting?.iri;
-
-                  if (iri == null) {
-                    return;
-                  }
-
-                  TastingRepository().closed(iri).then((value) {
-                    MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) {
-                      return const HomepageController();
-                    });
-
-                    Navigator.of(context).push(materialPageRoute);
-
-                    setState(() {
-                      isLoading = false;
-                    });
-                  });
-                },
-                icon: Icons.check,
-                isLoading: isLoading,
-              ),
-              const Padding(
-                padding: EdgeInsets.only(left: 10),
-              ),
-              TastingHeaderIconButton(
-                onPress: () {
-
-                },
-                icon: Icons.file_download_outlined,
-                isLoading: false,
-              ),
-            ],
-          ),
-        ],
-      ) : Column(
-        children: [
-          TastingResumeCardView(tasting: loadedTasting),
-          const Padding(
-            padding: EdgeInsets.only(
-              top: 15,
+                    top: 15,
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }

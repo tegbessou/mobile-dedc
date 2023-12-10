@@ -39,9 +39,8 @@ class FloatingActionButtonCustom extends StatelessWidget {
       margin: margin ?? const EdgeInsets.all(10),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20)
-          ),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           backgroundColor: backgroundColor ?? MyColors().primaryColor,
           elevation: elevation,
         ),

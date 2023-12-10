@@ -17,10 +17,12 @@ class TastingRepository {
       "user": "/users/${await HttpRepository().getUserId()}",
     };
 
-    Response response = await HttpRepository().post(
+    Response response = await HttpRepository()
+        .post(
       "tastings",
       data,
-    ).then((value) {
+    )
+        .then((value) {
       TastingCacheManager.instance.emptyCache();
 
       return value;

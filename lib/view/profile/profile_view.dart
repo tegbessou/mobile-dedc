@@ -91,7 +91,8 @@ class ProfileViewState extends State<ProfileView> {
     UserRepository().delete().then((value) {
       Auth().signOut();
 
-      MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) {
+      MaterialPageRoute materialPageRoute =
+          MaterialPageRoute(builder: (BuildContext context) {
         return const LoginController();
       });
 
