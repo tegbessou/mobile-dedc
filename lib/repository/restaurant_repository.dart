@@ -8,6 +8,7 @@ class RestaurantRepository {
   Future<List<Restaurant>> findByName(String name) async {
     final queryParam = {
       "name": name,
+      "exists[user]": "false",
     };
 
     final Response response = await HttpRepository().get(
