@@ -67,6 +67,10 @@ class CreateTastingAddParticipantViewState extends State<CreateTastingAddPartici
                   child: AutocompleteFieldCustom(
                     controller: participantController,
                     suggestionsCallback: (pattern) async {
+                      if (pattern.length < 3) {
+                        return [];
+                      }
+
                       return await ParticipantRepository().findByName(pattern);
                     },
                     itemBuilder: (context, suggestion) {

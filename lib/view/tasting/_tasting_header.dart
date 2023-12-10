@@ -82,10 +82,10 @@ class TastingHeaderState extends State<TastingHeader> {
           ),
           Row(
             children: [
-              Icon(
+              tasting?.restaurant.city != null ? Icon(
                 Icons.location_on_outlined,
                 color: MyColors().greyColor,
-              ),
+              ): Container(),
               const Padding(padding: EdgeInsets.all(2)),
               TextDmSans(
                 tasting?.restaurant.city ?? "",

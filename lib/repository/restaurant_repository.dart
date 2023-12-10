@@ -21,4 +21,23 @@ class RestaurantRepository {
 
     return parsed.map<Restaurant>((json) => Restaurant.fromJson(json)).toList();
   }
+
+  Future<Restaurant> post(
+    String name,
+  ) async {
+    final Map data = {
+      "name": name,
+      "user": "/users/${await HttpRepository().getUserId()}",
+    };
+
+    final Response response = await HttpRepository()
+        .post(
+      'restaurants',
+      data,
+    );
+
+    final parsed = jsonDecode(response.body);
+
+    return Restaurant.fromJson(parsed);
+  }
 }

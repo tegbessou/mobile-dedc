@@ -1,6 +1,4 @@
 import 'dart:math';
-
-import 'package:degust_et_des_couleurs/controller/tasting_controller.dart';
 import 'package:degust_et_des_couleurs/model/tasting.dart';
 import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:degust_et_des_couleurs/view/_text_dm_sans.dart';
@@ -27,14 +25,6 @@ class TastingResumeCardView extends StatelessWidget {
     Random random = Random();
 
     return InkWell(
-      onTap: () {
-        MaterialPageRoute materialPageRoute =
-            MaterialPageRoute(builder: (BuildContext context) {
-          return TastingController(id: tasting.id);
-        });
-
-        Navigator.of(context).push(materialPageRoute);
-      },
       child: Container(
         height: 95,
         padding: const EdgeInsets.all(10),
@@ -91,64 +81,30 @@ class TastingResumeCardView extends StatelessWidget {
                           color: MyColors().greyColor,
                         ),
                         const Spacer(),
-                        !tasting.closed
-                            ? SizedBox(
-                                height: 25,
-                                width: 85,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    backgroundColor:
-                                        MyColors().lightPrimaryColor,
-                                    elevation: 0,
-                                  ),
-                                  onPressed: () {
-                                    MaterialPageRoute materialPageRoute =
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) {
-                                      return TastingController(id: tasting.id);
-                                    });
-
-                                    Navigator.of(context)
-                                        .push(materialPageRoute);
-                                  },
-                                  child: Center(
-                                    child: TextDmSans(
-                                      "Reprendre",
-                                      fontSize: 11,
-                                      letterSpacing: 0,
-                                      color: MyColors().primaryColor,
+                        TextButton(
+                            style: TextButton.styleFrom(
+                                foregroundColor: MyColors().greyColor,
+                                padding: EdgeInsets.zero,
+                                minimumSize: const Size(30, 10),
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                alignment: Alignment.centerLeft),
+                            onPressed: () => showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialog(
+                                    contentPadding: EdgeInsets.zero,
+                                    backgroundColor: Colors.transparent,
+                                    content: TastingResumeCardCarouselView(
+                                      tasting: tasting,
                                     ),
                                   ),
                                 ),
-                              )
-                            : TextButton(
-                                style: TextButton.styleFrom(
-                                    foregroundColor: MyColors().greyColor,
-                                    padding: EdgeInsets.zero,
-                                    minimumSize: const Size(30, 10),
-                                    tapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    alignment: Alignment.centerLeft),
-                                onPressed: () => showDialog<String>(
-                                      context: context,
-                                      builder: (BuildContext context) =>
-                                          AlertDialog(
-                                        contentPadding: EdgeInsets.zero,
-                                        backgroundColor: Colors.transparent,
-                                        content: TastingResumeCardCarouselView(
-                                          tasting: tasting,
-                                        ),
-                                      ),
-                                    ),
-                                child: TextDmSans(
-                                  "Voir photos",
-                                  fontSize: 11,
-                                  letterSpacing: 0,
-                                  color: MyColors().greyColor,
-                                )),
+                            child: TextDmSans(
+                              "Voir photos",
+                              fontSize: 11,
+                              letterSpacing: 0,
+                              color: MyColors().greyColor,
+                            )),
                       ],
                     ),
                   ],
