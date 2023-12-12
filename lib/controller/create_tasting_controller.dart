@@ -52,9 +52,6 @@ class CreateTastingControllerState extends State<CreateTastingController> {
       return;
     }
 
-    print(isCustomRestaurant);
-    print(customRestaurantController.value);
-
     if (_formKey.currentState!.validate()) {
       setState(() {
         isLoading = true;

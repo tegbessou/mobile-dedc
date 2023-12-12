@@ -34,7 +34,7 @@ class TastingCardView extends StatelessWidget {
         Navigator.of(context).push(materialPageRoute);
       },
       child: Container(
-        height: 110,
+        height: 120,
         padding: const EdgeInsets.all(10),
         margin: const EdgeInsets.only(
           top: 20,

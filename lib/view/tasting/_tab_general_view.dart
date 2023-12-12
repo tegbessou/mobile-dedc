@@ -51,7 +51,8 @@ class TabGeneralViewState extends State<TabGeneralView> {
           continue;
         }
 
-        generalRatings[element] = GeneralRating(participant: element);
+        generalRatings[element] =
+            GeneralRating(participant: element, rate: "=");
         commentsByParticipantsInitialize[element] = TextEditingController();
       }
       commentsByParticipants = commentsByParticipantsInitialize;

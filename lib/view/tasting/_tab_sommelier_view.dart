@@ -51,7 +51,8 @@ class TabSommelierViewState extends State<TabSommelierView> {
           continue;
         }
 
-        sommelierRatings[element] = SommelierRating(participant: element);
+        sommelierRatings[element] =
+            SommelierRating(participant: element, rate: "=");
         commentsByParticipantsInitialize[element] = TextEditingController();
       }
       commentsByParticipants = commentsByParticipantsInitialize;

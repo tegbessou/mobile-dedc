@@ -38,6 +38,7 @@ class AddDishViewState extends State<AddBeverageView> {
   List<Participant> beverageParticipants = [];
   Map<Participant, BeverageRating> beverageRatingParticipants = {};
   bool isLoading = false;
+  bool hasNoParticipantsError = false;
   File? beveragePicture;
 
   @override
@@ -146,6 +147,19 @@ class AddDishViewState extends State<AddBeverageView> {
               letterSpacing: 0,
               fontWeight: FontWeight.w600,
             ),
+            Padding(
+                padding: EdgeInsets.only(
+              top: (hasNoParticipantsError) ? 10 : 0,
+            )),
+            (hasNoParticipantsError)
+                ? TextDmSans(
+                    "Vous devez sélectionner au moins un participant.",
+                    fontSize: 14,
+                    color: MyColors().primaryColor,
+                    letterSpacing: 0,
+                    align: TextAlign.start,
+                  )
+                : Container(),
             const Padding(
                 padding: EdgeInsets.only(
               top: 5,
@@ -289,11 +303,12 @@ class AddDishViewState extends State<AddBeverageView> {
             : MyColors().primaryColor,
         onPress: () {
           setState(() {
+            hasNoParticipantsError = false;
             if (!beverageRatingParticipants.containsKey(participant)) {
               beverageParticipants.add(participant);
               beverageRatingParticipants.putIfAbsent(
                 participant,
-                () => BeverageRating(participant: participant),
+                () => BeverageRating(participant: participant, rate: "="),
               );
             } else {
               beverageParticipants.remove(participant);
@@ -358,6 +373,14 @@ class AddDishViewState extends State<AddBeverageView> {
     bool withRedirection,
   ) async {
     if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    if (beverageParticipants.isEmpty) {
+      setState(() {
+        hasNoParticipantsError = true;
+      });
+
       return;
     }
 

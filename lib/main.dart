@@ -70,6 +70,7 @@ class MyApp extends StatelessWidget {
         stream: Auth().authStateChanges,
         builder: (context, snapshot) {
           return MaterialApp.router(
+            debugShowCheckedModeBanner: false,
             routerConfig: _router,
           );
         });

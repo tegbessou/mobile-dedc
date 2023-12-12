@@ -38,6 +38,7 @@ class AddDishViewState extends State<AddDishView> {
   List<Participant> dishParticipants = [];
   Map<Participant, DishRating> dishRatingParticipants = {};
   bool isLoading = false;
+  bool hasNoParticipantsError = false;
   File? dishPicture;
 
   @override
@@ -146,6 +147,19 @@ class AddDishViewState extends State<AddDishView> {
               letterSpacing: 0,
               fontWeight: FontWeight.w600,
             ),
+            Padding(
+                padding: EdgeInsets.only(
+              top: (hasNoParticipantsError) ? 10 : 0,
+            )),
+            (hasNoParticipantsError)
+                ? TextDmSans(
+                    "Vous devez sélectionner au moins un participant.",
+                    fontSize: 14,
+                    color: MyColors().primaryColor,
+                    letterSpacing: 0,
+                    align: TextAlign.start,
+                  )
+                : Container(),
             const Padding(
                 padding: EdgeInsets.only(
               top: 5,
@@ -287,11 +301,12 @@ class AddDishViewState extends State<AddDishView> {
             : MyColors().primaryColor,
         onPress: () {
           setState(() {
+            hasNoParticipantsError = false;
             if (!dishRatingParticipants.containsKey(participant)) {
               dishParticipants.add(participant);
               dishRatingParticipants.putIfAbsent(
                 participant,
-                () => DishRating(participant: participant),
+                () => DishRating(participant: participant, rate: "="),
               );
             } else {
               dishParticipants.remove(participant);
@@ -354,6 +369,14 @@ class AddDishViewState extends State<AddDishView> {
     bool withRedirection,
   ) async {
     if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    if (dishParticipants.isEmpty) {
+      setState(() {
+        hasNoParticipantsError = true;
+      });
+
       return;
     }
 

@@ -1,0 +1,1 @@
+class TastingShouldHaveParticipantsException implements Exception {}

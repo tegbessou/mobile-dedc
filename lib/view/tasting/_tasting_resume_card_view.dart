@@ -61,7 +61,7 @@ class TastingResumeCardView extends StatelessWidget {
                     Text(
                       tasting.restaurant.name,
                       style: GoogleFonts.dmSans(
-                        fontSize: 14,
+                        fontSize: 12,
                         fontWeight: FontWeight.w500,
                       ),
                     ),

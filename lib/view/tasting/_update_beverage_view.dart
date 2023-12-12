@@ -35,6 +35,7 @@ class UpdateBeverageViewState extends State<UpdateBeverageView> {
   late TextEditingController nameController;
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
+  bool hasNoParticipantsError = false;
   File? beveragePicture;
 
   @override
@@ -134,6 +135,23 @@ class UpdateBeverageViewState extends State<UpdateBeverageView> {
               letterSpacing: 0,
               fontWeight: FontWeight.w600,
             ),
+            Padding(
+                padding: EdgeInsets.only(
+              top: (hasNoParticipantsError) ? 10 : 0,
+            )),
+            (hasNoParticipantsError)
+                ? TextDmSans(
+                    "Vous devez sélectionner au moins un participant.",
+                    fontSize: 14,
+                    color: MyColors().primaryColor,
+                    letterSpacing: 0,
+                    align: TextAlign.start,
+                  )
+                : Container(),
+            const Padding(
+                padding: EdgeInsets.only(
+              top: 5,
+            )),
             const Padding(
                 padding: EdgeInsets.only(
               top: 5,
@@ -269,10 +287,11 @@ class UpdateBeverageViewState extends State<UpdateBeverageView> {
             : MyColors().primaryColor,
         onPress: () {
           setState(() {
+            hasNoParticipantsError = false;
             if (!isAlreadySelectParticipant(participant)) {
               beverage.participants.add(participant);
               beverage.beverageRatings.add(
-                BeverageRating(participant: participant),
+                BeverageRating(participant: participant, rate: "="),
               );
             } else {
               beverage.participants
@@ -363,6 +382,14 @@ class UpdateBeverageViewState extends State<UpdateBeverageView> {
 
   void updateBeverage() async {
     if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    if (beverage.participants.isEmpty) {
+      setState(() {
+        hasNoParticipantsError = true;
+      });
+
       return;
     }
 

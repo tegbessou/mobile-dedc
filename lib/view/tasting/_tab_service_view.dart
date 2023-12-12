@@ -51,7 +51,8 @@ class TabServiceViewState extends State<TabServiceView> {
           continue;
         }
 
-        serviceRatings[element] = ServiceRating(participant: element);
+        serviceRatings[element] =
+            ServiceRating(participant: element, rate: "=");
         commentsByParticipantsInitialize[element] = TextEditingController();
       }
       commentsByParticipants = commentsByParticipantsInitialize;

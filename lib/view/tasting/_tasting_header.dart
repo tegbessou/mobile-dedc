@@ -61,10 +61,13 @@ class TastingHeaderState extends State<TastingHeader> {
                       left: 8,
                       bottom: 40,
                     )),
-                    TextDmSans(
-                      tasting?.restaurant.name ?? "",
-                      fontSize: 20,
-                      letterSpacing: 0,
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width - 120,
+                      child: TextDmSans(
+                        tasting?.restaurant.name ?? "",
+                        fontSize: 20,
+                        letterSpacing: 0,
+                      ),
                     ),
                     const Padding(padding: EdgeInsets.all(6)),
                     Icon(

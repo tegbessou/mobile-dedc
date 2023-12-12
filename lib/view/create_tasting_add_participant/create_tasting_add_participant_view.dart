@@ -1,3 +1,4 @@
+import 'package:degust_et_des_couleurs/exception/tasting_should_have_participants_exception.dart';
 import 'package:degust_et_des_couleurs/model/participant.dart';
 import 'package:degust_et_des_couleurs/repository/participant_repository.dart';
 import 'package:degust_et_des_couleurs/view/_autocomplete_field_custom.dart';
@@ -37,6 +38,7 @@ class CreateTastingAddParticipantViewState
   late void Function() displayAddParticipant;
   late void Function() addParticipants;
   late bool isLoading;
+  late bool hasError = false;
 
   @override
   void initState() {
@@ -60,6 +62,8 @@ class CreateTastingAddParticipantViewState
           right: 27,
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisSize: MainAxisSize.max,
@@ -92,6 +96,7 @@ class CreateTastingAddParticipantViewState
                             .contains(selection.id)) {
                           participants.add(selection);
                         }
+                        hasError = false;
                       });
                       participantController.text = '';
                     },
@@ -106,6 +111,19 @@ class CreateTastingAddParticipantViewState
                 ),
               ],
             ),
+            Padding(
+                padding: EdgeInsets.only(
+              top: (hasError) ? 10 : 0,
+            )),
+            (hasError)
+                ? TextDmSans(
+                    "Vous devez ajouter au moins un participant.",
+                    fontSize: 14,
+                    color: MyColors().primaryColor,
+                    letterSpacing: 0,
+                    align: TextAlign.start,
+                  )
+                : Container(),
             const Padding(
                 padding: EdgeInsets.only(
               top: 20,
@@ -147,11 +165,25 @@ class CreateTastingAddParticipantViewState
       ),
       backgroundColor: MyColors().whiteColor,
       floatingActionButton: FloatingActionButtonCustom(
-        onPressed: addParticipants,
+        onPressed: addParticipantsToTasting,
         text: "Ajouter ${participants.length} participants",
         isLoading: isLoading,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+  }
+
+  void addParticipantsToTasting() {
+    try {
+      if (participants.isEmpty) {
+        throw TastingShouldHaveParticipantsException();
+      }
+
+      addParticipants();
+    } on TastingShouldHaveParticipantsException {
+      setState(() {
+        hasError = true;
+      });
+    }
   }
 }

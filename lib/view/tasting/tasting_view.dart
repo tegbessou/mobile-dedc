@@ -112,8 +112,8 @@ class TastingViewState extends State<TastingView> {
                       width: MediaQuery.of(context).size.width,
                       height: !loadedTasting.closed
                           ? MediaQuery.of(context).size.height > 680
-                              ? MediaQuery.of(context).size.height * 0.70
-                              : MediaQuery.of(context).size.height * 0.67
+                              ? MediaQuery.of(context).size.height * 0.68
+                              : MediaQuery.of(context).size.height * 0.5
                           : MediaQuery.of(context).size.height > 680
                               ? MediaQuery.of(context).size.height * 0.67
                               : MediaQuery.of(context).size.height * 0.63,
@@ -125,8 +125,8 @@ class TastingViewState extends State<TastingView> {
                       child: SizedBox(
                         height: !loadedTasting.closed
                             ? MediaQuery.of(context).size.height > 680
-                                ? MediaQuery.of(context).size.height * 0.70
-                                : MediaQuery.of(context).size.height * 0.67
+                                ? MediaQuery.of(context).size.height * 0.68
+                                : MediaQuery.of(context).size.height * 0.65
                             : MediaQuery.of(context).size.height > 680
                                 ? MediaQuery.of(context).size.height * 0.67
                                 : MediaQuery.of(context).size.height * 0.63,

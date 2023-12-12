@@ -35,6 +35,7 @@ class UpdateDishViewState extends State<UpdateDishView> {
   late TextEditingController nameController;
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
+  bool hasNoParticipantsError = false;
   File? dishPicture;
 
   @override
@@ -134,6 +135,23 @@ class UpdateDishViewState extends State<UpdateDishView> {
               letterSpacing: 0,
               fontWeight: FontWeight.w600,
             ),
+            Padding(
+                padding: EdgeInsets.only(
+              top: (hasNoParticipantsError) ? 10 : 0,
+            )),
+            (hasNoParticipantsError)
+                ? TextDmSans(
+                    "Vous devez sélectionner au moins un participant.",
+                    fontSize: 14,
+                    color: MyColors().primaryColor,
+                    letterSpacing: 0,
+                    align: TextAlign.start,
+                  )
+                : Container(),
+            const Padding(
+                padding: EdgeInsets.only(
+              top: 5,
+            )),
             const Padding(
                 padding: EdgeInsets.only(
               top: 5,
@@ -268,10 +286,11 @@ class UpdateDishViewState extends State<UpdateDishView> {
             : MyColors().primaryColor,
         onPress: () {
           setState(() {
+            hasNoParticipantsError = false;
             if (!isAlreadySelectParticipant(participant)) {
               dish.participants.add(participant);
               dish.dishRatings.add(
-                DishRating(participant: participant),
+                DishRating(participant: participant, rate: "="),
               );
             } else {
               dish.participants
@@ -355,6 +374,14 @@ class UpdateDishViewState extends State<UpdateDishView> {
 
   void updateDish() async {
     if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    if (dish.participants.isEmpty) {
+      setState(() {
+        hasNoParticipantsError = true;
+      });
+
       return;
     }
 
