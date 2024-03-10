@@ -25,10 +25,12 @@ class RegisterControllerState extends State<RegisterController> {
     return RegisterView(register: register, redirectToLogin: redirectToLogin);
   }
 
-  Future<void> register(
-      TextEditingValue email, TextEditingValue password) async {
+  Future<void> register(TextEditingValue email, TextEditingValue password,
+      TextEditingValue firstName) async {
     try {
-      await UserRepository().post(email.text, password.text).then((value) {
+      await UserRepository()
+          .post(email.text, password.text, firstName.text)
+          .then((value) {
         redirectToLogin();
       });
     } catch (exception) {

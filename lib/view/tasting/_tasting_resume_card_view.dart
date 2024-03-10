@@ -26,10 +26,10 @@ class TastingResumeCardView extends StatelessWidget {
 
     return InkWell(
       child: Container(
-        height: 95,
+        height: 100,
         padding: const EdgeInsets.all(10),
         margin: const EdgeInsets.only(
-          top: 20,
+          top: 15,
         ),
         decoration: BoxDecoration(
           color: Colors.white,

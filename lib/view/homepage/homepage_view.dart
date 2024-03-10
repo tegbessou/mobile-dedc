@@ -39,7 +39,8 @@ class HomepageViewState extends State<HomepageView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppBarView(),
-      body: Container(
+      body: SingleChildScrollView(
+          child: Container(
         height: MediaQuery.of(context).size.height * 0.80,
         padding: const EdgeInsets.only(
           top: 15,
@@ -71,7 +72,7 @@ class HomepageViewState extends State<HomepageView> {
                   ),
                 ),
         ]),
-      ),
+      )),
       backgroundColor: MyColors().lightWhiteColor,
       bottomNavigationBar: const NavigationBarBottom(
         origin: "homepage",

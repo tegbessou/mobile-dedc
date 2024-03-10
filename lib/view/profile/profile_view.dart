@@ -1,15 +1,18 @@
 import 'package:degust_et_des_couleurs/controller/login_controller.dart';
 import 'package:degust_et_des_couleurs/core/auth.dart';
+import 'package:degust_et_des_couleurs/model/user.dart';
 import 'package:degust_et_des_couleurs/repository/user_repository.dart';
 import 'package:degust_et_des_couleurs/view/_floating_action_button_custom.dart';
 import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:degust_et_des_couleurs/view/_navigation_bar_bottom.dart';
 import 'package:degust_et_des_couleurs/view/_text_dm_sans.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter/services.dart';
 
 class ProfileView extends StatefulWidget {
-  const ProfileView({super.key});
+  final User user;
+
+  const ProfileView({super.key, required this.user});
 
   @override
   State<StatefulWidget> createState() {
@@ -18,12 +21,16 @@ class ProfileView extends StatefulWidget {
 }
 
 class ProfileViewState extends State<ProfileView> {
-  String? email;
+  late User user;
+
+  @override
+  void initState() {
+    super.initState();
+    user = widget.user;
+  }
 
   @override
   Widget build(BuildContext context) {
-    getUsername();
-
     return Scaffold(
       backgroundColor: MyColors().whiteColor,
       body: SizedBox(
@@ -34,16 +41,56 @@ class ProfileViewState extends State<ProfileView> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const TextDmSans('Profil', fontSize: 20),
+              TextDmSans('Bienvenue ${user.firstName},', fontSize: 20),
+              const Padding(
+                padding: EdgeInsets.only(
+                  top: 10,
+                ),
+              ),
+              const TextDmSans(
+                'Voici les informations de ton profil.',
+                fontSize: 14,
+                letterSpacing: 0,
+              ),
               const Padding(
                 padding: EdgeInsets.only(
                   top: 20,
                 ),
               ),
               TextDmSans(
-                email ?? "",
+                user.username,
                 fontSize: 16,
                 color: MyColors().primaryColor,
+              ),
+              const Padding(
+                padding: EdgeInsets.only(
+                  top: 10,
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  TextButton.icon(
+                    label: Icon(
+                      Icons.copy,
+                      size: 14,
+                      color: MyColors().greyColor,
+                    ),
+                    icon: TextDmSans(
+                      user.pseudo,
+                      fontSize: 14,
+                      color: MyColors().blackColor,
+                    ),
+                    onPressed: () async {
+                      await Clipboard.setData(ClipboardData(text: user.pseudo));
+                    },
+                    style: ButtonStyle(
+                      overlayColor: MaterialStateColor.resolveWith(
+                          (states) => MyColors().lightGreyColor),
+                    ),
+                  ),
+                ],
               ),
               TextButton(
                 onPressed: delete,
@@ -75,16 +122,6 @@ class ProfileViewState extends State<ProfileView> {
         origin: "profile",
       ),
     );
-  }
-
-  Future<void> getUsername() async {
-    const storage = FlutterSecureStorage();
-
-    await storage.read(key: "username").then((value) {
-      setState(() {
-        email = value;
-      });
-    });
   }
 
   Future<void> delete() async {

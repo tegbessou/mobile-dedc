@@ -1,0 +1,1 @@
+class FriendRequestAlreadyFriend implements Exception {}

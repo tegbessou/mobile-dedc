@@ -1,12 +1,12 @@
 import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:degust_et_des_couleurs/view/public/_public_footer.dart';
 import 'package:degust_et_des_couleurs/view/public/_public_header.dart';
-import 'package:degust_et_des_couleurs/view/public/_public_login_register_form.dart';
+import 'package:degust_et_des_couleurs/view/register/_register_form.dart';
 import 'package:flutter/material.dart';
 
 class RegisterView extends StatefulWidget {
-  final Future<void> Function(
-      TextEditingValue username, TextEditingValue password) register;
+  final Future<void> Function(TextEditingValue username,
+      TextEditingValue password, TextEditingValue firstName) register;
   final void Function() redirectToLogin;
 
   const RegisterView(
@@ -19,8 +19,8 @@ class RegisterView extends StatefulWidget {
 }
 
 class RegisterViewState extends State<RegisterView> {
-  late Future<void> Function(
-      TextEditingValue username, TextEditingValue password) register;
+  late Future<void> Function(TextEditingValue username,
+      TextEditingValue password, TextEditingValue firstName) register;
   late void Function() redirectToLogin;
 
   @override
@@ -46,10 +46,8 @@ class RegisterViewState extends State<RegisterView> {
               const PublicHeader(
                 pageName: "Inscription",
               ),
-              PublicLoginRegisterForm(
-                buttonLabel: "Inscription",
+              RegisterForm(
                 handleSubmit: register,
-                redirectToRouteName: "login",
               ),
               const Spacer(),
               PublicFooter(

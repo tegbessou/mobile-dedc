@@ -9,10 +9,12 @@ class UserRepository {
   Future<User> post(
     String username,
     String password,
+    String firstName,
   ) async {
     Map data = {
       "email": username,
       "plainPassword": password,
+      "firstName": firstName,
     };
 
     Response response = await HttpRepository().post(
@@ -49,6 +51,17 @@ class UserRepository {
     return users[0];
   }
 
+  Future<User> find(
+    int id,
+  ) async {
+    Response response = await HttpRepository()
+        .get('users/$id', UserCacheManager.instance, "get_user_$id}");
+
+    final parsed = jsonDecode(response.body);
+
+    return User.fromJson(parsed);
+  }
+
   Future<void> delete() async {
     await HttpRepository()
         .delete(
@@ -57,5 +70,38 @@ class UserRepository {
         .then((value) {
       UserCacheManager.instance.emptyCache();
     });
+  }
+
+  Future<List<User>> findByPseudo(String pseudo) async {
+    final Map<String, dynamic> queryParam = {
+      "pseudo": pseudo,
+    };
+
+    Response response = await HttpRepository().get(
+        "users",
+        UserCacheManager.instance,
+        "get_users_by_pseudo_${queryParam.toString()}",
+        queryParam: queryParam);
+
+    final parsed =
+        jsonDecode(response.body)["hydra:member"].cast<Map<String, dynamic>>();
+
+    return parsed.map<User>((json) => User.fromJson(json)).toList();
+  }
+
+  Future<void> removeFriend(
+    User user,
+  ) async {
+    final Map data = {
+      "user": '/users/${await HttpRepository().getUserId()}',
+      "friend": user.iri,
+    };
+
+    await HttpRepository().post(
+      '/remove_friends',
+      data,
+    );
+
+    UserCacheManager.instance.emptyCache();
   }
 }

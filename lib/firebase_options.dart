@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDGs89lOISN2sXZhptCbC3rt_iapIsP-rY',
-    appId: '1:773907137368:android:9dbcfbcba84bcc131d5b2d',
+    appId: '1:773907137368:android:23e28f626f60cc031d5b2d',
     messagingSenderId: '773907137368',
     projectId: 'degust-et-des-couleurs',
     storageBucket: 'degust-et-des-couleurs.appspot.com',

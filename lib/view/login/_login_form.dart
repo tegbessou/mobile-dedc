@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:degust_et_des_couleurs/controller/homepage_controller.dart';
-import 'package:degust_et_des_couleurs/controller/login_controller.dart';
 import 'package:degust_et_des_couleurs/exception/bad_credential_exception.dart';
 import 'package:degust_et_des_couleurs/exception/username_already_used_exception.dart';
 import 'package:degust_et_des_couleurs/view/_floating_action_button_custom.dart';
@@ -10,41 +9,36 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
-class PublicLoginRegisterForm extends StatefulWidget {
-  final String buttonLabel;
-  final String redirectToRouteName;
+class LoginForm extends StatefulWidget {
   final Future<void> Function(TextEditingValue email, TextEditingValue password)
       handleSubmit;
 
-  const PublicLoginRegisterForm(
-      {super.key,
-      required this.buttonLabel,
-      required this.handleSubmit,
-      required this.redirectToRouteName});
+  const LoginForm({
+    super.key,
+    required this.handleSubmit,
+  });
 
   @override
   State<StatefulWidget> createState() {
-    return PublicLoginRegisterFormState();
+    return LoginFormState();
   }
 }
 
-class PublicLoginRegisterFormState extends State<PublicLoginRegisterForm> {
+class LoginFormState extends State<LoginForm> {
   late String buttonLabel;
-  late String redirectToRouteName;
   String errorMessage = "";
   late Future<void> Function(TextEditingValue email, TextEditingValue password)
       handleSubmit;
   final TextEditingController controllerEmail = TextEditingController();
   final TextEditingController controllerPassword = TextEditingController();
+  final TextEditingController controllerFirstName = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    buttonLabel = widget.buttonLabel;
     handleSubmit = widget.handleSubmit;
-    redirectToRouteName = widget.redirectToRouteName;
   }
 
   @override
@@ -111,7 +105,7 @@ class PublicLoginRegisterFormState extends State<PublicLoginRegisterForm> {
               ),
             ),
             FloatingActionButtonCustom(
-              text: buttonLabel,
+              text: 'Connexion',
               onPressed: onSubmitForm,
               isLoading: isLoading,
             ),
@@ -136,9 +130,7 @@ class PublicLoginRegisterFormState extends State<PublicLoginRegisterForm> {
             .then((value) {
           MaterialPageRoute materialPageRoute =
               MaterialPageRoute(builder: (BuildContext context) {
-            return redirectToRouteName == 'homepage'
-                ? const HomepageController()
-                : const LoginController();
+            return const HomepageController();
           });
 
           Navigator.of(context).push(materialPageRoute);

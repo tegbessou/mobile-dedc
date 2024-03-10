@@ -145,6 +145,40 @@ class HttpRepository {
     }
   }
 
+  Future<Response> getWithOutCache(
+    String uri, {
+    Map<String, dynamic> queryParam = const {},
+  }) async {
+    String? apiUrl = dotenv.env['API_URL'];
+
+    if (apiUrl == null) {
+      throw MissingApiUrlException();
+    }
+
+    Uri url = Uri.https(apiUrl, uri, queryParam);
+    Client client = Client();
+
+    try {
+      final headers = {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer ${await getToken()}",
+      };
+
+      return client
+          .get(
+        url,
+        headers: headers,
+      )
+          .then((value) {
+        return value;
+      });
+    } on BadCredentialException {
+      Auth().signOut();
+
+      rethrow;
+    }
+  }
+
   Future<Response> delete(String uri) async {
     String? apiUrl = dotenv.env['API_URL'];
 

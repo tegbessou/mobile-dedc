@@ -26,15 +26,20 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>On utilise l'appareil photo pour garder un souvenir de plat et de boisson.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>On utilise l'appareil photo pour garder un souvenir de plat et de boisson.</string>
 	<key>NSUserActivityTypes</key>
 	<array>
-		<string></string>
-		<string>com.example.myapp.create-shape</string>
-		<string>com.example.myapp.edit-shape</string>
-		<string>com.example.myapp.edit-document-properties</string>
+		<string>INSendMessageIntent</string>
 	</array>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen.storyboard</string>
 	<key>UIMainStoryboardFile</key>
@@ -54,13 +59,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSUserActivityTypes</key>
-	<array>
-	    <string>INSendMessageIntent</string>
-    </array>
-    <key>NSCameraUsageDescription</key>
-    <string>On utilise l'appareil photo pour garder un souvenir de plat et de boisson.</string>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>On utilise l'appareil photo pour garder un souvenir de plat et de boisson.</string>
 </dict>
 </plist>

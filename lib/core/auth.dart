@@ -1,4 +1,6 @@
+import 'package:degust_et_des_couleurs/repository/http_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Auth {
@@ -16,6 +18,8 @@ class Auth {
 
   Future<void> signOut() async {
     FlutterSecureStorage flutterSecureStorage = const FlutterSecureStorage();
+    FirebaseMessaging.instance.subscribeToTopic(
+        "friend_request_${await HttpRepository().getUserId()}");
     await firebaseAuth.signOut();
     await flutterSecureStorage.delete(key: 'user_id');
     await flutterSecureStorage.delete(key: 'username');

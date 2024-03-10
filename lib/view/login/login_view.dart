@@ -1,7 +1,7 @@
 import 'package:degust_et_des_couleurs/view/_my_colors.dart';
+import 'package:degust_et_des_couleurs/view/login/_login_form.dart';
 import 'package:degust_et_des_couleurs/view/public/_public_footer.dart';
 import 'package:degust_et_des_couleurs/view/public/_public_header.dart';
-import 'package:degust_et_des_couleurs/view/public/_public_login_register_form.dart';
 import 'package:flutter/material.dart';
 
 class LoginView extends StatefulWidget {
@@ -48,10 +48,8 @@ class LoginViewState extends State<LoginView> {
               const PublicHeader(
                 pageName: "Connexion",
               ),
-              PublicLoginRegisterForm(
-                buttonLabel: "Connexion",
+              LoginForm(
                 handleSubmit: signWithCustomToken,
-                redirectToRouteName: "homepage",
               ),
               const Spacer(),
               PublicFooter(

@@ -14,6 +14,7 @@ class AutocompleteFieldCustom extends StatelessWidget {
   final IconData prefixIcon;
   final Color prefixIconColor;
   final String? Function(String? value)? onValidate;
+  final bool autofocus;
 
   const AutocompleteFieldCustom({
     super.key,
@@ -24,6 +25,7 @@ class AutocompleteFieldCustom extends StatelessWidget {
     required this.onSuggestionSelected,
     required this.prefixIcon,
     required this.prefixIconColor,
+    this.autofocus = true,
     this.onValidate,
   });
 
@@ -36,7 +38,7 @@ class AutocompleteFieldCustom extends StatelessWidget {
         return TextFormField(
           controller: controller,
           focusNode: focusNode,
-          autofocus: true,
+          autofocus: autofocus,
           decoration: InputDecoration(
               filled: true,
               fillColor: MyColors().whiteColor,
