@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 
 class TastingView extends StatefulWidget {
   final Tasting loadedTasting;
+  final int userId;
   final Map<Participant, ServiceRating> Function(Tasting loadedTasting)
       initializeServiceRatings;
   final Map<Participant, SommelierRating> Function(Tasting loadedTasting)
@@ -25,6 +26,7 @@ class TastingView extends StatefulWidget {
   const TastingView(
       {super.key,
       required this.loadedTasting,
+      required this.userId,
       required this.initializeServiceRatings,
       required this.initializeSommelierRatings,
       required this.initializeGeneralRatings});
@@ -37,6 +39,7 @@ class TastingView extends StatefulWidget {
 
 class TastingViewState extends State<TastingView> {
   late Tasting loadedTasting;
+  late int userId;
   late Map<Participant, ServiceRating> Function(Tasting loadedTasting)
       initializeServiceRatings;
   late Map<Participant, SommelierRating> Function(Tasting loadedTasting)
@@ -49,6 +52,7 @@ class TastingViewState extends State<TastingView> {
     super.initState();
 
     loadedTasting = widget.loadedTasting;
+    userId = widget.userId;
     initializeServiceRatings = widget.initializeServiceRatings;
     initializeSommelierRatings = widget.initializeSommelierRatings;
     initializeGeneralRatings = widget.initializeGeneralRatings;
@@ -75,6 +79,7 @@ class TastingViewState extends State<TastingView> {
           children: [
             TastingHeader(
               tasting: loadedTasting,
+              userId: userId,
             ),
             DefaultTabController(
               initialIndex: 0,

@@ -20,6 +20,8 @@ class Auth {
     FlutterSecureStorage flutterSecureStorage = const FlutterSecureStorage();
     FirebaseMessaging.instance.subscribeToTopic(
         "friend_request_${await HttpRepository().getUserId()}");
+    FirebaseMessaging.instance.subscribeToTopic(
+        "shared_tasting_with_${await HttpRepository().getUserId()}");
     await firebaseAuth.signOut();
     await flutterSecureStorage.delete(key: 'user_id');
     await flutterSecureStorage.delete(key: 'username');

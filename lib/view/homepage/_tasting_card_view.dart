@@ -4,7 +4,6 @@ import 'package:degust_et_des_couleurs/model/tasting.dart';
 import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:degust_et_des_couleurs/view/_text_dm_sans.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class TastingCardView extends StatelessWidget {
   final List<String> pictures = [
@@ -14,10 +13,14 @@ class TastingCardView extends StatelessWidget {
     "assets/images/tasting_4.jpeg",
   ];
   final Tasting tasting;
+  final int userId;
+  final Future<void> Function(Tasting tasting) delete;
 
   TastingCardView({
     super.key,
     required this.tasting,
+    required this.userId,
+    required this.delete,
   });
 
   @override
@@ -28,7 +31,7 @@ class TastingCardView extends StatelessWidget {
       onTap: () {
         MaterialPageRoute materialPageRoute =
             MaterialPageRoute(builder: (BuildContext context) {
-          return TastingController(id: tasting.id);
+          return TastingController(id: tasting.id, userId: userId);
         });
 
         Navigator.of(context).push(materialPageRoute);
@@ -50,44 +53,93 @@ class TastingCardView extends StatelessWidget {
               child: Image.asset(
                 pictures[random.nextInt(3) + 1],
                 fit: BoxFit.cover,
-                width: 92,
-                height: 92,
+                width: 72,
+                height: 72,
               ),
             ),
-            const Padding(padding: EdgeInsets.only(right: 15)),
+            const Padding(padding: EdgeInsets.only(right: 10)),
             Container(
                 padding: const EdgeInsets.only(
                   top: 7,
                   bottom: 7,
                 ),
-                width: MediaQuery.of(context).size.width - 190,
+                width: MediaQuery.of(context).size.width - 160,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      tasting.restaurant.name,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width - 210,
+                          child: TextDmSans(
+                            tasting.restaurant.name,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 0,
+                          ),
+                        ),
+                        tasting.closed && canShare()
+                            ? PopupMenuButton<String>(
+                                color: MyColors().whiteColor,
+                                padding: const EdgeInsets.only(
+                                  left: 15,
+                                ),
+                                offset: const Offset(0, 0),
+                                position: PopupMenuPosition.under,
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(15.0)),
+                                  side: BorderSide(
+                                    width: 1,
+                                    color: MyColors().secondaryColor,
+                                  ),
+                                ),
+                                itemBuilder: (BuildContext context) =>
+                                    <PopupMenuEntry<String>>[
+                                  PopupMenuItem<String>(
+                                    value: "Supprimer",
+                                    onTap: () => delete(tasting),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.delete_outline,
+                                          size: 16,
+                                          color: MyColors().blackColor,
+                                        ),
+                                        const Padding(
+                                            padding: EdgeInsets.only(
+                                          right: 10,
+                                        )),
+                                        TextDmSans(
+                                          "Supprimer",
+                                          fontSize: 16,
+                                          letterSpacing: 0,
+                                          color: MyColors().blackColor,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Container(),
+                      ],
                     ),
-                    Text(
+                    TextDmSans(
                       "${tasting.getFormattedDate()} - ${tasting.name}",
-                      style: GoogleFonts.dmSans(
-                        fontSize: 11,
-                      ),
+                      fontSize: 11,
+                      letterSpacing: 0,
                     ),
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Text(
+                        TextDmSans(
                           "${tasting.participants.length} participants",
-                          style: GoogleFonts.dmSans(
-                            fontSize: 11,
-                            color: Colors.grey,
-                          ),
+                          fontSize: 11,
+                          color: MyColors().greyColor,
+                          letterSpacing: 0,
                         ),
                         const Spacer(),
                         !tasting.closed
@@ -111,7 +163,8 @@ class TastingCardView extends StatelessWidget {
                                     MaterialPageRoute materialPageRoute =
                                         MaterialPageRoute(
                                             builder: (BuildContext context) {
-                                      return TastingController(id: tasting.id);
+                                      return TastingController(
+                                          id: tasting.id, userId: userId);
                                     });
 
                                     Navigator.of(context)
@@ -136,5 +189,9 @@ class TastingCardView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  bool canShare() {
+    return tasting.user == "/users/$userId";
   }
 }

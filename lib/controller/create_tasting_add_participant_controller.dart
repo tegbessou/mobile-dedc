@@ -2,6 +2,7 @@ import 'package:degust_et_des_couleurs/controller/tasting_controller.dart';
 import 'package:degust_et_des_couleurs/model/participant.dart';
 import 'package:degust_et_des_couleurs/model/restaurant.dart';
 import 'package:degust_et_des_couleurs/model/tasting.dart';
+import 'package:degust_et_des_couleurs/repository/http_repository.dart';
 import 'package:degust_et_des_couleurs/repository/participant_repository.dart';
 import 'package:degust_et_des_couleurs/repository/tasting_repository.dart';
 import 'package:degust_et_des_couleurs/view/create_tasting_add_participant/_create_participant_alert_dialog.dart';
@@ -77,9 +78,11 @@ class CreateTastingAddParticipantControllerState
       });
     });
 
+    int userId = int.parse(await HttpRepository().getUserId());
+
     MaterialPageRoute materialPageRoute =
         MaterialPageRoute(builder: (BuildContext context) {
-      return TastingController(id: updatedTasting.id);
+      return TastingController(id: updatedTasting.id, userId: userId);
     });
 
     Navigator.of(context).push(materialPageRoute);

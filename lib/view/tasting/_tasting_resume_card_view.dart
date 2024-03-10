@@ -2,23 +2,44 @@ import 'dart:math';
 import 'package:degust_et_des_couleurs/model/tasting.dart';
 import 'package:degust_et_des_couleurs/view/_my_colors.dart';
 import 'package:degust_et_des_couleurs/view/_text_dm_sans.dart';
+import 'package:degust_et_des_couleurs/view/tasting/_share_tasting_view.dart';
 import 'package:degust_et_des_couleurs/view/tasting/_tasting_resume_card_carousel_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class TastingResumeCardView extends StatelessWidget {
+class TastingResumeCardView extends StatefulWidget {
+  final Tasting tasting;
+  final int userId;
+
+  const TastingResumeCardView({
+    super.key,
+    required this.tasting,
+    required this.userId,
+  });
+
+  @override
+  State<StatefulWidget> createState() {
+    return TastingResumeCardViewState();
+  }
+}
+
+class TastingResumeCardViewState extends State<TastingResumeCardView> {
   final List<String> pictures = [
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTn0zPNJyKNwEkrd7jyPkwOC5JCZftn481CDCe0FCH0ywCW0gBCnDNqkVNn0MNXn8dZHMQ&usqp=CAU",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd44KAI5Y4fpWHvYo82UzjeuXpo0GhKUlg_ExSdZlYZKiR3eJ5J2_bYsTW4bt-q7OCNXY&usqp=CAU",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQR3DGbY0UcZw7CpHf0pcQ35K4Bs6LWkvplN3SmIoI4YAA5a_Uo1HLgVXcnZAPMD4EIRfE&usqp=CAU",
     "https://www.materiel-horeca.com/guide/wp-content/uploads/2020/12/dressage-table.jpeg",
   ];
-  final Tasting tasting;
+  late Tasting tasting;
+  late int userId;
 
-  TastingResumeCardView({
-    super.key,
-    required this.tasting,
-  });
+  @override
+  void initState() {
+    super.initState();
+
+    tasting = widget.tasting;
+    userId = widget.userId;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,23 +68,34 @@ class TastingResumeCardView extends StatelessWidget {
               ),
             ),
             const Padding(padding: EdgeInsets.only(right: 15)),
-            Container(
-                padding: const EdgeInsets.only(
-                  top: 7,
-                  bottom: 7,
-                ),
-                width: MediaQuery.of(context).size.width - 190,
+            SizedBox(
+                width: MediaQuery.of(context).size.width - 165,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      tasting.restaurant.name,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width - 215,
+                          child: TextDmSans(
+                            tasting.restaurant.name,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        canShare()
+                            ? IconButton(
+                                onPressed: shareDish,
+                                icon: const Icon(
+                                  Icons.file_download_outlined,
+                                  size: 20,
+                                ),
+                              )
+                            : Container(),
+                      ],
                     ),
                     Text(
                       "${tasting.getFormattedDate()} - ${tasting.name}",
@@ -113,5 +145,23 @@ class TastingResumeCardView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void shareDish() {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        builder: (context) {
+          return ShareTastingView(
+            tasting: tasting,
+          );
+        });
+  }
+
+  bool canShare() {
+    return tasting.user == "/users/$userId";
   }
 }

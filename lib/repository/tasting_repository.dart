@@ -3,6 +3,7 @@ import 'package:degust_et_des_couleurs/cache-manager/tasting_cache_manager.dart'
 import 'package:degust_et_des_couleurs/model/participant.dart';
 import 'package:degust_et_des_couleurs/model/restaurant.dart';
 import 'package:degust_et_des_couleurs/model/tasting.dart';
+import 'package:degust_et_des_couleurs/model/user.dart';
 import 'package:degust_et_des_couleurs/repository/http_repository.dart';
 import 'package:http/http.dart';
 
@@ -31,7 +32,7 @@ class TastingRepository {
     return Tasting.fromJson(json.decode(response.body));
   }
 
-  Future<List<Tasting>> findByName(String name) async {
+  Future<List<Tasting>> findByName(String name, bool seeShared) async {
     final Map<String, dynamic> queryParam = {
       "user.id": await HttpRepository().getUserId(),
       "groups[]": "read_light_tasting",
@@ -39,6 +40,11 @@ class TastingRepository {
 
     if (name != "") {
       queryParam["name"] = name;
+    }
+
+    if (seeShared) {
+      queryParam["sharedWithUser"] = await HttpRepository().getUserId();
+      queryParam.remove("user.id");
     }
 
     Response response = await HttpRepository().get("tastings",
@@ -86,6 +92,29 @@ class TastingRepository {
       TastingCacheManager.instance.emptyCache();
 
       return value;
+    });
+  }
+
+  Future<void> delete(Tasting tasting) async {
+    await HttpRepository()
+        .delete(
+      tasting.iri,
+    )
+        .then((value) {
+      TastingCacheManager.instance.emptyCache();
+    });
+  }
+
+  Future<void> share(
+    Tasting tasting,
+    User user,
+  ) async {
+    await HttpRepository().post('/tastings/${tasting.id}/shared', {
+      'users': [
+        user.iri,
+      ],
+    }).then((value) {
+      TastingCacheManager.instance.emptyCache();
     });
   }
 }

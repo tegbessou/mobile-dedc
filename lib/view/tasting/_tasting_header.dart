@@ -9,10 +9,12 @@ import 'package:flutter/material.dart';
 
 class TastingHeader extends StatefulWidget implements PreferredSizeWidget {
   final Tasting? tasting;
+  final int userId;
 
   const TastingHeader({
     super.key,
     required this.tasting,
+    required this.userId,
   });
 
   @override
@@ -28,12 +30,15 @@ class TastingHeader extends StatefulWidget implements PreferredSizeWidget {
 
 class TastingHeaderState extends State<TastingHeader> {
   late Tasting? tasting;
+  late int userId;
   bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
+
     tasting = widget.tasting;
+    userId = widget.userId;
   }
 
   @override
@@ -128,21 +133,16 @@ class TastingHeaderState extends State<TastingHeader> {
                       icon: Icons.check,
                       isLoading: isLoading,
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 10),
-                    ),
-                    TastingHeaderIconButton(
-                      onPress: () {},
-                      icon: Icons.file_download_outlined,
-                      isLoading: false,
-                    ),
                   ],
                 ),
               ],
             )
           : Column(
               children: [
-                TastingResumeCardView(tasting: loadedTasting),
+                TastingResumeCardView(
+                  tasting: loadedTasting,
+                  userId: userId,
+                ),
                 const Padding(
                   padding: EdgeInsets.only(
                     top: 15,

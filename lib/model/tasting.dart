@@ -20,6 +20,8 @@ class Tasting {
   List<GeneralRating> generalRatings = [];
   DateTime createdAt;
   bool closed;
+  String? user;
+  List<dynamic> sharedWithUsers = [];
 
   Tasting({
     required this.iri,
@@ -33,11 +35,12 @@ class Tasting {
     required this.generalRatings,
     required this.dishes,
     required this.beverages,
+    required this.user,
     required this.closed,
   });
 
   factory Tasting.fromJson(Map<String, dynamic> json) {
-    return Tasting(
+    Tasting tasting = Tasting(
       iri: json['@id'],
       id: json['id'],
       name: json['name'],
@@ -69,8 +72,17 @@ class Tasting {
           : json['beverages']
               .map<Beverage>((json) => Beverage.fromJson(json))
               .toList(),
+      user: json.containsKey('user') ? json['user'] : null,
       closed: json['closed'],
     );
+
+    if (json['sharedWithUsers'] is List && !json['sharedWithUsers'].isEmpty) {
+      tasting.sharedWithUsers = json['sharedWithUsers'].map<String>((json) {
+        return json.toString();
+      }).toList();
+    }
+
+    return tasting;
   }
 
   String getFormattedDate() {

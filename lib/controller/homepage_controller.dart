@@ -1,5 +1,6 @@
 import 'package:degust_et_des_couleurs/controller/friend_controller.dart';
 import 'package:degust_et_des_couleurs/controller/login_controller.dart';
+import 'package:degust_et_des_couleurs/controller/tasting_controller.dart';
 import 'package:degust_et_des_couleurs/exception/bad_credential_exception.dart';
 import 'package:degust_et_des_couleurs/model/tasting.dart';
 import 'package:degust_et_des_couleurs/repository/http_repository.dart';
@@ -42,18 +43,26 @@ class HomepageState extends State<HomepageController> {
     if (initialMessage != null) {
       MaterialPageRoute materialPageRoute =
           MaterialPageRoute(builder: (BuildContext context) {
-        return FriendController(userId: userId);
+        return initialMessage.data['type'] == 'shared_tasting'
+            ? TastingController(
+                id: int.parse(initialMessage.data['tasting_id']),
+                userId: userId)
+            : FriendController(userId: userId);
       });
 
       Navigator.of(context).push(materialPageRoute);
     }
 
     FirebaseMessaging.instance.subscribeToTopic("friend_request_$userId");
+    FirebaseMessaging.instance.subscribeToTopic("shared_tasting_with_$userId");
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
       MaterialPageRoute materialPageRoute =
           MaterialPageRoute(builder: (BuildContext context) {
-        return FriendController(userId: userId);
+        return message.data['type'] == 'shared_tasting'
+            ? TastingController(
+                id: int.parse(message.data['tasting_id']), userId: userId)
+            : FriendController(userId: userId);
       });
 
       Navigator.of(context).push(materialPageRoute);
@@ -63,7 +72,9 @@ class HomepageState extends State<HomepageController> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Tasting>>(
-      future: TastingRepository().findByName("").onError((error, stackTrace) {
+      future: TastingRepository()
+          .findByName("", false)
+          .onError((error, stackTrace) {
         MaterialPageRoute materialPageRoute =
             MaterialPageRoute(builder: (BuildContext context) {
           return const LoginController();

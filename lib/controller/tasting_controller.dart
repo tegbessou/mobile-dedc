@@ -13,8 +13,9 @@ import 'package:flutter/material.dart';
 
 class TastingController extends StatefulWidget {
   final int id;
+  final int userId;
 
-  const TastingController({super.key, required this.id});
+  const TastingController({super.key, required this.id, required this.userId});
 
   @override
   State<StatefulWidget> createState() {
@@ -25,11 +26,13 @@ class TastingController extends StatefulWidget {
 class TastingControllerState extends State<TastingController> {
   late int id;
   late Future<Tasting> tasting;
+  late int userId;
 
   @override
   void initState() {
     super.initState();
     id = widget.id;
+    userId = widget.userId;
   }
 
   @override
@@ -64,6 +67,7 @@ class TastingControllerState extends State<TastingController> {
 
           return TastingView(
               loadedTasting: loadedTasting,
+              userId: userId,
               initializeServiceRatings: initializeServiceRatings,
               initializeSommelierRatings: initializeSommelierRatings,
               initializeGeneralRatings: initializeGeneralRatings);

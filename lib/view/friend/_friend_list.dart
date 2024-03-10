@@ -35,7 +35,9 @@ class FriendListState extends State<FriendList> {
   }
 
   Future<User> fetchData() {
-    return UserRepository().find(userId, noCache: true).onError((error, stackTrace) {
+    return UserRepository()
+        .find(userId, noCache: true)
+        .onError((error, stackTrace) {
       MaterialPageRoute materialPageRoute =
           MaterialPageRoute(builder: (BuildContext context) {
         return const LoginController();
