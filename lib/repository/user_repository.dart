@@ -52,10 +52,13 @@ class UserRepository {
   }
 
   Future<User> find(
-    int id,
-  ) async {
-    Response response = await HttpRepository()
-        .get('users/$id', UserCacheManager.instance, "get_user_$id}");
+    int id, {
+    bool noCache = false,
+  }) async {
+    Response response = noCache
+        ? await HttpRepository().getWithOutCache('users/$id')
+        : await HttpRepository()
+            .get('users/$id', UserCacheManager.instance, "get_user_$id}");
 
     final parsed = jsonDecode(response.body);
 
