@@ -3,7 +3,7 @@ description: Appli de dégustation de restaurant.
 
 publish_to: 'none'
 
-version: 1.4.0+6
+version: 2.0.0+1
 
 environment:
   sdk: '>=2.18.6 <3.0.0'
