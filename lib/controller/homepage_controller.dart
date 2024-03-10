@@ -34,14 +34,19 @@ class HomepageState extends State<HomepageController> {
       return;
     }
 
+    int userId = int.parse(await HttpRepository().getUserId());
+
     RemoteMessage? initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();
 
     if (initialMessage != null) {
-      print('Handle later!');
-    }
+      MaterialPageRoute materialPageRoute =
+          MaterialPageRoute(builder: (BuildContext context) {
+        return FriendController(userId: userId);
+      });
 
-    int userId = int.parse(await HttpRepository().getUserId());
+      Navigator.of(context).push(materialPageRoute);
+    }
 
     FirebaseMessaging.instance.subscribeToTopic("friend_request_$userId");
 

@@ -38,12 +38,6 @@ void initFirebaseMessaging() async {
     badge: true,
     sound: true,
   );
-
-  FirebaseMessaging.instance.getInitialMessage().then((message) {
-    if (message != null) {
-      print('pedro');
-    }
-  });
 }
 
 class MyApp extends StatefulWidget {
