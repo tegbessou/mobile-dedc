@@ -8,6 +8,7 @@ import 'package:degust_et_des_couleurs/view/_text_dm_sans.dart';
 import 'package:degust_et_des_couleurs/view/_text_field_custom.dart';
 import 'package:degust_et_des_couleurs/view/homepage/_app_bar_view.dart';
 import 'package:degust_et_des_couleurs/view/homepage/_tasting_card_view.dart';
+import 'package:degust_et_des_couleurs/view/homepage/homepage_loading_view.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
@@ -30,23 +31,31 @@ class HomepageViewState extends State<HomepageView> {
   TextEditingController nameController = TextEditingController();
   bool isLoading = false;
   bool seeOnlyShared = false;
-  late int userId;
+  int? userId;
 
   @override
   void initState() {
     super.initState();
 
     tastings = widget.tastings ?? [];
-    setUserId();
+    HttpRepository().getUserId().then((value) {
+      setState(() {
+        userId = int.parse(value);
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    if (userId == null) {
+      return const HomePageLoadingView();
+    }
+
     return Scaffold(
       appBar: const AppBarView(),
       body: SingleChildScrollView(
           child: Container(
-        height: MediaQuery.of(context).size.height * 0.85,
+        height: MediaQuery.of(context).size.height * 0.87,
         padding: const EdgeInsets.only(
           top: 15,
           left: 27,
@@ -89,7 +98,7 @@ class HomepageViewState extends State<HomepageView> {
                       itemBuilder: (context, index) {
                         return TastingCardView(
                           tasting: tastings[index],
-                          userId: userId,
+                          userId: userId!,
                           delete: delete,
                         );
                       }),
@@ -166,14 +175,6 @@ class HomepageViewState extends State<HomepageView> {
       setState(() {
         isLoading = false;
       });
-    });
-  }
-
-  void setUserId() async {
-    int userIdLoaded = int.parse(await HttpRepository().getUserId());
-
-    setState(() {
-      userId = userIdLoaded;
     });
   }
 }
